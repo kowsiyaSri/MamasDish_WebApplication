@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet"
+	type="text/css">
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+<script data-require="jquery@1.12.4" data-semver="1.12.4"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+	<header>
+		<nav class="homeNav">
+			<div class="nav-wrapper">
+				<a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="about.html">About</a></li>
+					<li><a href="profile.html">Profile</a></li>
+					<li><a href="recipe.html">Recipe</a></li>
+					<li><a href="myrecipe.html">My Recipe</a></li>
+					<li><a href="logout.html">Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<main>
+		<ul id="slide-out" class="sidenav sidenav-fixed recipeNav">
+			<li><a href="#!">Recipe Details</a></li>
+			<li><a href="#!">Ingredient</a></li>
+			<li><a href="#!">Instruction</a></li>
+		</ul>
+		<a href="#" data-target="slide-out" class="sidenav-trigger"><i
+			class="material-icons">menu</i></a>
+		<div class="formDiv">
+			<form method="POST" th:object="${recipe}" th:action="@{/addRecipe}">
+				<div class="row">
+					<div class="input-field col s5">
+						<input id="title" type="text" th:field="*{title}"> <label
+							for="title">Title</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s5">
+						<textarea th:field="*{description}" id="textarea1"
+							class="materialize-textarea"></textarea>
+						<label for="textarea1">Summary</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s1">
+						<input id="serving" type="number" th:field="*{servingSize}"
+							min="1"> <label for="serving">Serving Size</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2">
+						<input id="prepTime" class="timepicker" placeholder="HH:MM"
+							name="prep" /> <label for="prepTime">Prep Time</label>
+					</div>
+					<div class="col s2">
+						<input id="cookTime" class="timepicker" placeholder="HH:MM"
+							name="cook" /> <label for="cookTime">Cook Time</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s5">
+						<label>Country</label> <br>
+						<br> <select class="browser-default" th:field="*{country}"
+							required>
+							<option th:each="c : ${countries}" th:value="${c.id}"
+								th:text="${c.name}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s5">
+						<label>Cuisine</label> <br>
+						<br> <select class="browser-default" th:field="*{cuisine}">
+							<option th:each="c : ${cuisines}" th:value="${c.id}"
+								th:text="${c.cuisineName}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s5">
+						<label>Meal Type</label> <br>
+						<br> <select class="browser-default" th:field="*{mealtype}">
+							<option th:each="m : ${meals}" th:value="${m.id}"
+								th:text="${m.mealName}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s5">
+						<label>Diet Type</label> <br>
+						<br> <select class="browser-default" th:field="*{diet}">
+							<option th:each="d : ${diets}" th:value="${d.id}"
+								th:text="${d.dietType}"></option>
+						</select>
+					</div>
+				</div>
+				<button class="btn waves-effect waves-light" type="submit"
+					name="action">
+					Save <i class="material-icons right">send</i>
+				</button>
+			</form>
+		</div>
+	</main>
+</body>
+</html>

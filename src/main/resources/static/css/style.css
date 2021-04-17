@@ -1,0 +1,24 @@
+@charset "ISO-8859-1";
+
+body{
+	background-color:#F7F9FB;
+}
+
+.homeNav{
+	background-color:#5085A5;
+	height: 75px;
+}
+
+.logo{
+	width:70px;
+	height:70px;
+	padding:10px;
+}
+
+.recipeNav{
+	top:75px;
+}
+
+.formDiv{
+	margin-left:20%;
+}

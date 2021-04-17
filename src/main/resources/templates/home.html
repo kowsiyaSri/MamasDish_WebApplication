@@ -2,17 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+<title>Mama's Dish</title>
 </head>
 <body>
-<div th:each="r : ${recipes}">
-	<div th:text="${r.title}"></div>
-	<div th:each="i :${r.ingredients}">
-		<div th:text="${i.ingredient.ingredient_name}"></div>
-	</div>
-		<div th:each="i :${r.instructions}">
-		<div th:text="${i.stepNumber} + ') ' + ${i.description}"></div>
-	</div>
-</div>
+<header>
+  <nav class="homeNav">
+    <div class="nav-wrapper">
+      <a th:href="@{/}" class="brand-logo"><img class="logo" src="/images/logo.png"/></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="about.html">About</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a th:href="@{/uploadRecipe}">New Recipe</a></li>
+        <li><a href="myrecipe.html">My Recipe</a></li>
+        <li><a href="logout.html">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<main>
+	<h1>Upload a recipe</h1>
+	<a class="waves-effect waves-light btn-large" th:href="@{/uploadRecipe}"><i class="material-icons left">cloud</i>Upload A Recipe</a>
+</main>   
 </body>
 </html>
