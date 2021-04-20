@@ -46,56 +46,84 @@
 		<a href="#" data-target="slide-out" class="sidenav-trigger"><i
 			class="material-icons">menu</i></a>
 		<div id="ingredientDiv">
-		<div style="display:none" id="recipeId" th:text="${recipeId}"></div>
-		
+			<div style="display: none" id="recipeId"  th:text="${recipeId}"></div>
+
 			<div class="row" id="ingredientBox1">
 				<div class="col s12 m6">
-					<div class="card" style="border-radius:15px">
+					<div class="card" style="border-radius: 15px">
 						<div class="card-content">
-									<div class="row">
-									<div class="input-field col s2">
-										<input id="Quantity1" type="number" name="quantity" min="1">
-										<label for="quantity">Quantity</label>
-									</div>
-									<div class="input-field col s4">
-										<select id="measurement1" class="browser-default"
-											name="measurement" required>
-											<option th:text="Measurement" value=""  selected disabled></option>
-											<option th:each="m : ${measurements}" th:value="${m.id}"
-												th:text="${m.measurementType}"></option>
-										</select>
-									</div>
-										<div class="input-field col s6">
-											<input id="ingredient1" type="text" name="ingredient"> <label
-												for="ingredient">Ingredient</label>
-										</div>
-									</div>
-									<div class="row" style="padding-bottom:10px; padding-left:540px;">
-									<div class="input-field">
-										<label> <input type="checkbox" class="filled-in"
-											name="protein" onClick="myFunction(this)"/> <span>Protein</span>
-										</label>
-										</div>
-									</div>
-									<div class="row" id="proteinDiv" style="display:none">
-										<label>Protein</label> <br> <br> <select
-											class="browser-default" name="protienType" required>
-											<option th:each="p : ${proteins}" th:value="${p.id}"
-												th:text="${p.proteinType}"></option>
-										</select>
-									</div>
+							<div class="row">
+								<div class="input-field col s2">
+									<input id="quantity1" type="number" name="quantity" min="1">
+									<label for="quantity">Quantity</label>
+								</div>
+								<div class="input-field col s4">
+									<select id="measurement1" class="browser-default"
+										name="measurement" required>
+										<option th:text="Measurement" value="" selected disabled></option>
+										<option th:each="m : ${measurements}" th:value="${m.id}"
+											th:text="${m.measurementType}"></option>
+									</select>
+								</div>
+								<div class="input-field col s6">
+									<input id="ingredientName1" required type="text" name="ingredient">
+									<label for="ingredient">Ingredient</label>
+								</div>
+							</div>
+							<div class="row"
+								style="padding-bottom: 10px; padding-left: 540px;">
+								<div class="input-field">
+									<label> <input type="checkbox" class="filled-in"
+										name="protein" onClick="myFunction(this)" /> <span>Protein</span>
+									</label>
+								</div>
+							</div>
+							<div class="row" id="proteinDiv" style="display: none">
+								<label>Protein</label> <br> <br> <select id="proteinType1"
+									class="browser-default" name="proteinType1" required>
+									<option th:each="p : ${proteins}" th:value="${p.id}"
+										th:text="${p.proteinType}"></option>
+								</select>
 							</div>
 						</div>
 					</div>
-					<div class="col s6" style="padding-top:60px"> 
-						<i class="medium material-icons">delete_forever</i>
-					</div>
+				</div>
+				<div class="col s6" style="padding-top: 90px">
+					<i class="small material-icons">delete_forever</i>
 				</div>
 			</div>
-			
-				<a style="margin-left:20%" onclick="newIngredient()" class="waves-effect waves-light btn">Add Ingredient</a>
-			
+		</div>
+
+
+		<div>
+			<a style="margin-left: 20.5%" onclick="newIngredient()"
+				class="waves-effect waves-light btn">Add Ingredient</a>
+		</div>
+
 	</main>
-	
+
+	<div id="footer">
+		<a style="float: right; margin-right: 100px;"
+		 onclick="saveRecipe()" class="waves-effect waves-blue btn">Save</a>
+	</div>
+
+
+	<script th:inline="javascript">
+		function getMeasurements() {
+			var data = /*[[${measurements}]]*/{};
+
+			return data;
+		}
+
+		function getProteins() {
+			var data = /*[[${proteins}]]*/{};
+
+			return data;
+
+		}
+	</script>
+
 </body>
+
+
 </html>

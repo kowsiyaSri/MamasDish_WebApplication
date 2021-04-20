@@ -1,0 +1,104 @@
+package ca.sheridancollege.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import ca.sheridancollege.beans.Ingredient;
+import ca.sheridancollege.beans.Measurement;
+import ca.sheridancollege.beans.Protein;
+import ca.sheridancollege.beans.Recipe;
+import ca.sheridancollege.beans.RecipeIngredient;
+import ca.sheridancollege.repositories.IngredientRepository;
+import ca.sheridancollege.repositories.MeasurementRepository;
+import ca.sheridancollege.repositories.ProteinRepository;
+import ca.sheridancollege.repositories.RecipeIngredientRepository;
+import ca.sheridancollege.repositories.RecipeRepository;
+
+@RestController
+@RequestMapping("/mamasdish")
+public class APIController {
+
+	@Autowired
+	@Lazy
+	private RecipeRepository recipeRepo;
+
+	@Autowired
+	@Lazy
+	private IngredientRepository ingredientRepo;
+
+	@Autowired
+	@Lazy
+	private RecipeIngredientRepository recipeIngredientRepo;
+
+	@Autowired
+	@Lazy
+	private MeasurementRepository measurementRepo;
+
+	@Autowired
+	@Lazy
+	private ProteinRepository proteinRepo;
+
+	@GetMapping(value = "/addIngredient/{ingredient}/{quantity}/{measurement}/{recipeId}/{proteinId}")
+	public int addIngredient(@PathVariable String ingredient, @PathVariable int quantity,
+			@PathVariable int measurement, @PathVariable int recipeId, @PathVariable int proteinId) {
+
+		Ingredient ingred = ingredientRepo.findByIngredientName(ingredient);
+		Measurement recipeMeasurement = null;
+		Recipe newRecipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		Protein ingProtein = null;
+		
+		if(measurement != 0) {
+			recipeMeasurement =  measurementRepo.findById(Long.valueOf(recipeId)).get();
+		}
+		
+		if(proteinId != 0) {
+			ingProtein = proteinRepo.findById(Long.valueOf(proteinId)).get();
+		}
+
+		if (ingred == null) {
+
+			ingred = new Ingredient();
+			ingred.setIngredientName(ingredient);
+			ingred.setProtein(ingProtein);
+			
+
+			ingred = ingredientRepo.save(ingred);
+
+		}
+
+		RecipeIngredient recipeIngred = new RecipeIngredient()
+				.builder()
+				.ingredient(ingred)
+				.quantity(quantity)
+				.measurement(recipeMeasurement)
+				.recipe(newRecipe)
+				.build();
+		
+		newRecipe.getIngredients().add(recipeIngred);
+		recipeRepo.save(newRecipe);
+		
+		return 1;
+	}
+	
+	@GetMapping("/getMeasurements")
+	public List<Measurement> getMeasurements(){
+		
+		return measurementRepo.findAll();
+		
+	}
+	
+	@GetMapping("/getProtein")
+	public List<Protein> getProtein(){
+		
+		return proteinRepo.findAll();
+	
+	}
+
+}
