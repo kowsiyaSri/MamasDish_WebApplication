@@ -45,19 +45,20 @@
 		</ul>
 		<a href="#" data-target="slide-out" class="sidenav-trigger"><i
 			class="material-icons">menu</i></a>
-		<div class="ingredientDiv">
-			<div class="row">
+		<div id="ingredientDiv">
+		<div style="display:none" id="recipeId" th:text="${recipeId}"></div>
+		
+			<div class="row" id="ingredientBox1">
 				<div class="col s12 m6">
 					<div class="card" style="border-radius:15px">
 						<div class="card-content">
-								<form method="POST" th:action="@{/addIngredient}">
 									<div class="row">
 									<div class="input-field col s2">
-										<input id="Quantity" type="number" name="quantity" min="1">
+										<input id="Quantity1" type="number" name="quantity" min="1">
 										<label for="quantity">Quantity</label>
 									</div>
 									<div class="input-field col s4">
-										<select class="browser-default"
+										<select id="measurement1" class="browser-default"
 											name="measurement" required>
 											<option th:text="Measurement" value=""  selected disabled></option>
 											<option th:each="m : ${measurements}" th:value="${m.id}"
@@ -65,25 +66,24 @@
 										</select>
 									</div>
 										<div class="input-field col s6">
-											<input id="ingredient" type="text" name="ingredient"> <label
+											<input id="ingredient1" type="text" name="ingredient"> <label
 												for="ingredient">Ingredient</label>
 										</div>
 									</div>
 									<div class="row" style="padding-bottom:10px; padding-left:540px;">
 									<div class="input-field">
 										<label> <input type="checkbox" class="filled-in"
-											name="protein" /> <span>Protein</span>
+											name="protein" onClick="myFunction(this)"/> <span>Protein</span>
 										</label>
 										</div>
 									</div>
-									<div class="row" style="display:none">
+									<div class="row" id="proteinDiv" style="display:none">
 										<label>Protein</label> <br> <br> <select
 											class="browser-default" name="protienType" required>
 											<option th:each="p : ${proteins}" th:value="${p.id}"
 												th:text="${p.proteinType}"></option>
 										</select>
 									</div>
-								</form>
 							</div>
 						</div>
 					</div>
@@ -91,8 +91,11 @@
 						<i class="medium material-icons">delete_forever</i>
 					</div>
 				</div>
-				<a class="waves-effect waves-light btn">Add Ingredient</a>
 			</div>
+			
+				<a style="margin-left:20%" onclick="newIngredient()" class="waves-effect waves-light btn">Add Ingredient</a>
+			
 	</main>
+	
 </body>
 </html>

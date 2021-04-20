@@ -19,6 +19,6 @@ body{
 	top:75px;
 }
 
-.formDiv, .ingredientDiv{
+.formDiv, #ingredientDiv{
 	margin-left:20%;
 }

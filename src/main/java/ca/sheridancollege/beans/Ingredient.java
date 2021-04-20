@@ -26,7 +26,7 @@ public class Ingredient {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-    private String ingredient_name;
+    private String ingredientName;
 
     @OneToOne
     private Protein protein;

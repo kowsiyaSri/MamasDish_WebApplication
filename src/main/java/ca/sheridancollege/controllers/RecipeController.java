@@ -58,7 +58,7 @@ public class RecipeController {
 	}
 	
 	@PostMapping("/addRecipe")
-	public String addRecipe(@ModelAttribute Recipe recipe, @RequestParam String prep, @RequestParam String cook) {
+	public String addRecipe(@ModelAttribute Recipe recipe, @RequestParam String prep, @RequestParam String cook, Model model) {
 		String ptime[] = prep.split(":"); 
 		float phr =Float.parseFloat(ptime[0]) * 60; 
 		float pmin = Float.parseFloat(ptime[1]);
@@ -70,7 +70,14 @@ public class RecipeController {
 		recipe.setCookTime(chr + cmin);
 		System.out.println(recipe.getPrepTime());
 		System.out.println(recipe.getCookTime());
-		return "redirect:/uploadRecipe";
+		
+		Recipe savedRecipe = recipeRepo.save(recipe);
+		
+		model.addAttribute("recipeId", savedRecipe.getId());
+		model.addAttribute("measurements", measureRepo.findAll());
+		model.addAttribute("proteins", proteinRepo.findAll());
+		
+		return "ingredient.html";
 	}
 	
 	@GetMapping("/ingr")
