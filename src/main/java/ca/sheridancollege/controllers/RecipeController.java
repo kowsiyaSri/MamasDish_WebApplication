@@ -13,6 +13,8 @@ import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.CuisineRepository;
 import ca.sheridancollege.repositories.DietRepository;
 import ca.sheridancollege.repositories.MealTypeRepository;
+import ca.sheridancollege.repositories.MeasurementRepository;
+import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
 
 @Controller
@@ -32,6 +34,13 @@ public class RecipeController {
 	
 	@Autowired 
 	private DietRepository dietRepo;
+	
+	@Autowired
+	private ProteinRepository proteinRepo;
+	
+	@Autowired
+	private MeasurementRepository measureRepo;
+	
 	
 	@GetMapping("/")
 	public String home(Model model) {
@@ -62,5 +71,12 @@ public class RecipeController {
 		System.out.println(recipe.getPrepTime());
 		System.out.println(recipe.getCookTime());
 		return "redirect:/uploadRecipe";
+	}
+	
+	@GetMapping("/ingr")
+	public String addIngredient(Model model) {
+		model.addAttribute("measurements", measureRepo.findAll());
+		model.addAttribute("proteins", proteinRepo.findAll());
+		return "ingredient.html";
 	}
 }

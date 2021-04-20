@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet"
+	type="text/css">
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+<script src="../static/js/ingredient.js" th:src="@{/js/ingredient.js}"></script>
+<script data-require="jquery@1.12.4" data-semver="1.12.4"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+	<header>
+		<nav class="homeNav">
+			<div class="nav-wrapper">
+				<a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="about.html">About</a></li>
+					<li><a href="profile.html">Profile</a></li>
+					<li><a href="recipe.html">Recipe</a></li>
+					<li><a href="myrecipe.html">My Recipe</a></li>
+					<li><a href="logout.html">Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<main>
+		<ul id="slide-out" class="sidenav sidenav-fixed recipeNav">
+			<li><a href="#!">Recipe Details</a></li>
+			<li><a href="#!">Ingredient</a></li>
+			<li><a href="#!">Instruction</a></li>
+		</ul>
+		<a href="#" data-target="slide-out" class="sidenav-trigger"><i
+			class="material-icons">menu</i></a>
+		<div class="ingredientDiv">
+			<div class="row">
+				<div class="col s12 m6">
+					<div class="card" style="border-radius:15px">
+						<div class="card-content">
+								<form method="POST" th:action="@{/addIngredient}">
+									<div class="row">
+									<div class="input-field col s2">
+										<input id="Quantity" type="number" name="quantity" min="1">
+										<label for="quantity">Quantity</label>
+									</div>
+									<div class="input-field col s4">
+										<select class="browser-default"
+											name="measurement" required>
+											<option th:text="Measurement" value=""  selected disabled></option>
+											<option th:each="m : ${measurements}" th:value="${m.id}"
+												th:text="${m.measurementType}"></option>
+										</select>
+									</div>
+										<div class="input-field col s6">
+											<input id="ingredient" type="text" name="ingredient"> <label
+												for="ingredient">Ingredient</label>
+										</div>
+									</div>
+									<div class="row" style="padding-bottom:10px; padding-left:540px;">
+									<div class="input-field">
+										<label> <input type="checkbox" class="filled-in"
+											name="protein" /> <span>Protein</span>
+										</label>
+										</div>
+									</div>
+									<div class="row" style="display:none">
+										<label>Protein</label> <br> <br> <select
+											class="browser-default" name="protienType" required>
+											<option th:each="p : ${proteins}" th:value="${p.id}"
+												th:text="${p.proteinType}"></option>
+										</select>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="col s6" style="padding-top:60px"> 
+						<i class="medium material-icons">delete_forever</i>
+					</div>
+				</div>
+				<a class="waves-effect waves-light btn">Add Ingredient</a>
+			</div>
+	</main>
+</body>
+</html>
