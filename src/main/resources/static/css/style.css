@@ -1,105 +1,34 @@
 @charset "ISO-8859-1";
 
-body {
-	background-color: #F7F9FB;
+body{
+	background-color:#F7F9FB;
 }
 
-.homeNav {
-	background-color: #5085A5;
+.homeNav{
+	background-color:#5085A5;
 	height: 75px;
 }
 
-.logo {
-	width: 70px;
-	height: 70px;
-	padding: 10px;
+.logo{
+	width:70px;
+	height:70px;
+	padding:10px;
 }
 
-.recipeNav {
-	top: 75px;
+.recipeNav{
+	top:75px;
 }
 
-.formDiv, #ingredientDiv, #instructionDiv {
-	margin-left: 20%;
+.formDiv, #ingredientDiv, #instructionDiv{
+	margin-left:20%;
 }
 
 #footer {
-	position: fixed;
-	padding: 10px;
-	bottom: 0;
-	width: 100%;
-	/* Height of the footer*/
-	height: 70px;
-}
+            position: fixed;
+            padding: 10px;
+            bottom: 0;
+            width: 100%;
+            /* Height of the footer*/ 
+            height: 70px;
 
-.row .input-field textarea:focus {
-	border-bottom: 1px solid #5085A5 !important;
-	box-shadow: 0 1px 0 0 #5085A5 !important
-}
-
-.row .input-field input[type=text]:focus {
-	border-bottom: 1px solid #5085A5 !important;
-	box-shadow: 0 1px 0 0 #5085A5 !important
-}
-
-.row .input-field input[type=number]:focus {
-	border-bottom: 1px solid #5085A5 !important;
-	box-shadow: 0 1px 0 0 #5085A5 !important
-}
-
-/* label color */
-.input-field label {
-	color: #5085A5 !important;
-}
-/* label focus color */
-.input-field input[type=text]:focus+label {
-	color: #5085A5 !important;
-}
-/* label underline focus color */
-.input-field input[type=text]:focus {
-	border-bottom: 1px solid #5085A5;
-	box-shadow: 0 1px 0 0 #5085A5;
-}
-/* valid color */
-.input-field input[type=text].valid {
-	border-bottom: 1px solid #5085A5;
-	box-shadow: 0 1px 0 0 #5085A5;
-}
-
-/* icon prefix focus color */
-.input-field .prefix.active {
-	color: #5085A5;
-}
-
-/* label focus color */
-.input-field input[type=number]:focus+label {
-	color: #5085A5 !important;
-}
-/* label underline focus color */
-.input-field input[type=number]:focus {
-	border-bottom: 1px solid #5085A5;
-	box-shadow: 0 1px 0 0 #5085A5;
-}
-/* valid color */
-.input-field input[type=number].valid {
-	border-bottom: 1px solid #5085A5;
-	box-shadow: 0 1px 0 0 #5085A5;
-}
-
-ul.dropdown-content.select-dropdown li span {
-	color: #5085A5; /* no need for !important :) */
-}
-
-.select-dropdown{
-    color: #5085A5;
-}
-
-.checkbox-blue-grey[type="checkbox"].filled-in:checked+span:not(.lever):after {
-  border: 2px solid #607d8b;
-  background-color: #607d8b;
-}
-
-#deleteBtn{
-	
-	background-color:#5085A5
-}
+        }
