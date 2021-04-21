@@ -9,14 +9,15 @@ body{
 	height: 75px;
 }
 
+#recipeImg{
+	width:100%;
+	height:300px;
+}
+
 .logo{
 	width:70px;
 	height:70px;
 	padding:10px;
-}
-
-.recipeNav{
-	top:75px;
 }
 
 .formDiv, #ingredientDiv, #instructionDiv{

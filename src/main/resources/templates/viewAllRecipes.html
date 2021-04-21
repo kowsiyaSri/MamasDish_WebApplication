@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet"
+	type="text/css">
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+<script data-require="jquery@1.12.4" data-semver="1.12.4"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.js"></script>
+<title>View All Recipes</title>
+</head>
+<body>
+	<header>
+		<nav class="homeNav">
+			<div class="nav-wrapper">
+				<a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="about.html">About</a></li>
+					<li><a href="profile.html">Profile</a></li>
+					<li><a th:href="@{/uploadRecipe}">Recipe</a></li>
+					<li><a href="myrecipe.html">My Recipe</a></li>
+					<li><a href="logout.html">Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<main>
+ <div class="row">
+  <div th:each="r, iter : ${recipes}">
+    <div class="col s4">
+      <div class="card" style="height:500px">
+        <div class="card-image">
+          <img id="recipeImg" src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/epic-summer-salad-7539748.jpg">
+          <span class="card-title" style="color:black; font-weight:bold;" th:text="${r.title}"></span>
+        </div>
+        <div class="card-content">
+        	<p th:text=${r.country.name}></p>
+			<p th:text="${r.description}"></p>
+        </div>
+        <div class="card-action">
+          <a href="" th:text="${iter.index}">This is a link</a>
+        </div>
+      </div>
+    </div>
+  </div>
+ </div>
+ </main>
+</body>
+</html>
