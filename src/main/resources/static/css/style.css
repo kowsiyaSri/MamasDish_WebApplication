@@ -9,18 +9,35 @@ body {
 	height: 75px;
 }
 
+<<<<<<< HEAD
 .logo {
 	width: 70px;
 	height: 70px;
 	padding: 10px;
+=======
+#recipeImg{
+	width:100%;
+	height:300px;
 }
 
+.logo{
+	width:70px;
+	height:70px;
+	padding:10px;
+>>>>>>> refs/remotes/origin/main
+}
+
+<<<<<<< HEAD
 .recipeNav {
 	top: 75px;
 }
 
 .formDiv, #ingredientDiv, #instructionDiv {
 	margin-left: 20%;
+=======
+.formDiv, #ingredientDiv, #instructionDiv{
+	margin-left:20%;
+>>>>>>> refs/remotes/origin/main
 }
 
 #footer {
