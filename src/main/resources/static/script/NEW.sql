@@ -55,7 +55,7 @@ INSERT INTO Instruction(step_number, description) VALUES
 (1, 'Take yogurt in a bowl and whisk it. Add grated garlic to it and mix. Keep it in the fridge while you cook the eggplants.'),
 (2, 'Cut the eggplants into thin slices. You can remove the outer covering of the eggplant if you want.'),
 (3, 'Heat oil in a pan on medium flame. Once hot, add the eggplants slices and fry till they are golden brown in color. 
-	Do not over-fry it else the slices will become very soggy, you still want it little firm in the center.',
+	Do not over-fry it else the slices will become very soggy, you still want it little firm in the center.'),
 (4, 'Place the eggplants slices on a kitchen towel to drain excess oil. Set aside.'),
 (5, 'In another pan, heat 2-3 teaspoon of oil and add chopped garlic to it. Saute till it become light golden brown in color.'),
 (6, 'Add the tomatoes, turmeric powder, cayenne pepper, salt and cook till tomatoes become soft and mushy. This will take 6-7 minutes.'),
