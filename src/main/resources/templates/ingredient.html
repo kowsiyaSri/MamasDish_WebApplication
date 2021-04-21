@@ -23,7 +23,6 @@
 </head>
 <body>
 	<header>
-	<div class="navbar-fixed">
 		<nav class="homeNav">
 			<div class="nav-wrapper">
 				<a th:href="@{/}" class="brand-logo"><img class="logo"
@@ -37,19 +36,25 @@
 				</ul>
 			</div>
 		</nav>
-		</div>
 	</header>
 	<main>
+<<<<<<< main
+<<<<<<< HEAD
 		<ul class="sidenav sidenav-fixed" style="top:75px; height:100%">
+=======
+		<ul id="slide-out" class="sidenav sidenav-fixed" style="top:75px">
+>>>>>>> refs/remotes/origin/main
+=======
+		<ul id="slide-out" class="sidenav sidenav-fixed recipeNav">
+>>>>>>> ca02ac2 - Added delete button functionality to ingredient page
 			<li><a href="#!">Recipe Details</a></li>
 			<li><a href="#!">Ingredient</a></li>
 			<li><a href="#!">Instruction</a></li>
 		</ul>
 		<a href="#" data-target="slide-out" class="sidenav-trigger"><i
 			class="material-icons">menu</i></a>
-						<div style="display: none" id="recipeId"  th:text="${recipeId}"></div>
-			
 		<div id="ingredientDiv">
+			<div style="display: none" id="recipeId"  th:text="${recipeId}"></div>
 
 			<div class="row" id="ingredientBox1">
 				<div class="col s12 m6">
@@ -61,11 +66,11 @@
 									<label for="quantity">Quantity</label>
 								</div>
 								<div class="input-field col s4">
-									<select id="measurement1" style="color:#5085A5" class="browser-default"
+									<select id="measurement1" class="browser-default"
 										name="measurement" required>
-										<option th:text="Measurement" style="color:#5085A5" value="" selected disabled></option>
+										<option th:text="Measurement" value="" selected disabled></option>
 										<option th:each="m : ${measurements}" th:value="${m.id}"
-											th:text="${#strings.capitalize(m.measurementType)}"></option>
+											th:text="${m.measurementType}"></option>
 									</select>
 								</div>
 								<div class="input-field col s6">
@@ -76,7 +81,7 @@
 							<div class="row"
 								style="padding-bottom: 10px; padding-left: 540px;">
 								<div class="input-field">
-									<label> <input type="checkbox" id="protein1" class="filled-in checkbox-blue-grey"
+									<label> <input type="checkbox" id="protein1" class="filled-in"
 										name="protein1" onClick="showProtein(this)"/> <span>Protein</span>
 									</label>
 								</div>
@@ -92,20 +97,15 @@
 					</div>
 				</div>
 				<div class="col s6" style="padding-top: 90px">
-				<a class="btn-floating" id="deleteBtn" onclick="deleteIngredient(1)">
-					<i class="material-icons">delete_forever</i>
-					</a>
+					<i class="small material-icons">delete_forever</i>
 				</div>
 			</div>
 		</div>
 
 
-		<div class="row">
-			<div class="input-field col s12">
-				<button style="margin-left: 20.5%; width:39%; background-color:#5085A5" onclick="newIngredient()" class="waves-effect waves-light btn">
-					Add Ingredient
-				</button>
-			</div>
+		<div>
+			<a style="margin-left: 20.5%" onclick="newIngredient()"
+				class="waves-effect waves-light btn">Add Ingredient</a>
 		</div>
 
 	</main>

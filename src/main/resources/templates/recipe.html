@@ -23,6 +23,8 @@
 </head>
 <body>
 	<header>
+<<<<<<< main
+<<<<<<< HEAD
 		<div class="navbar-fixed">
 			<nav class="homeNav">
 				<div class="nav-wrapper">
@@ -38,9 +40,47 @@
 				</div>
 			</nav>
 		</div>
+=======
+		<nav class="homeNav">
+			<div class="nav-wrapper">
+				<a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="about.html">About</a></li>
+					<li><a href="profile.html">Profile</a></li>
+					<li><a th:href="@{/uploadRecipe}">Recipe</a></li>
+					<li><a href="myrecipe.html">My Recipe</a></li>
+					<li><a href="logout.html">Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+>>>>>>> refs/remotes/origin/main
+=======
+		<nav class="homeNav">
+			<div class="nav-wrapper">
+				<a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="about.html">About</a></li>
+					<li><a href="profile.html">Profile</a></li>
+					<li><a href="recipe.html">Recipe</a></li>
+					<li><a href="myrecipe.html">My Recipe</a></li>
+					<li><a href="logout.html">Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+>>>>>>> ca02ac2 - Added delete button functionality to ingredient page
 	</header>
 	<main>
+<<<<<<< main
+<<<<<<< HEAD
 		<ul class="sidenav sidenav-fixed" style="top:75.1px; height:100%">
+=======
+		<ul id="slide-out" class="sidenav sidenav-fixed" style="top:75px">
+>>>>>>> refs/remotes/origin/main
+=======
+		<ul id="slide-out" class="sidenav sidenav-fixed recipeNav">
+>>>>>>> ca02ac2 - Added delete button functionality to ingredient page
 			<li><a href="#!">Recipe Details</a></li>
 			<li><a href="#!">Ingredient</a></li>
 			<li><a href="#!">Instruction</a></li>
@@ -80,8 +120,9 @@
 				</div>
 				<div class="row">
 					<div class="input-field col s5">
-						<label>Country</label> <br> <br> <select
-							class="browser-default" th:field="*{country}" required>
+						<label>Country</label> <br>
+						<br> <select class="browser-default" th:field="*{country}"
+							required>
 							<option th:each="c : ${countries}" th:value="${c.id}"
 								th:text="${c.name}"></option>
 						</select>
@@ -89,8 +130,8 @@
 				</div>
 				<div class="row">
 					<div class="input-field col s5">
-						<label>Cuisine</label> <br> <br> <select
-							class="browser-default" th:field="*{cuisine}">
+						<label>Cuisine</label> <br>
+						<br> <select class="browser-default" th:field="*{cuisine}">
 							<option th:each="c : ${cuisines}" th:value="${c.id}"
 								th:text="${c.cuisineName}"></option>
 						</select>
@@ -98,31 +139,26 @@
 				</div>
 				<div class="row">
 					<div class="input-field col s5">
-						<label>Meal Type</label> <br> <br> <select
-							class="browser-default" th:field="*{mealtype}">
+						<label>Meal Type</label> <br>
+						<br> <select class="browser-default" th:field="*{mealtype}">
 							<option th:each="m : ${meals}" th:value="${m.id}"
-								th:text="${#strings.capitalize(#strings.toLowerCase(m.mealName))}"></option>
+								th:text="${m.mealName}"></option>
 						</select>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s5">
-						<label>Diet Type</label> <br> <br> <select
-							class="browser-default" th:field="*{diet}">
+						<label>Diet Type</label> <br>
+						<br> <select class="browser-default" th:field="*{diet}">
 							<option th:each="d : ${diets}" th:value="${d.id}"
-								th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
+								th:text="${d.dietType}"></option>
 						</select>
 					</div>
 				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<button class="btn waves-effect waves-teal"
-							style="width: 41%; background-color: #5085A5" type="submit"
-							name="action">
-							Next : Add Ingredients <i class="material-icons right">send</i>
-						</button>
-					</div>
-				</div>
+				<button class="btn waves-effect waves-light" type="submit"
+					name="action">
+					Save <i class="material-icons right">send</i>
+				</button>
 			</form>
 		</div>
 	</main>
