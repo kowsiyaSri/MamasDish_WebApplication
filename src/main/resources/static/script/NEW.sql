@@ -13,11 +13,11 @@ INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id
     (1, 1, 5, 2),
     (110, 1, 19, 3);
 
-INSERT INTO Instruction(step_number, description, recipe_id) VALUES
-	(1, 'Sear the chicken evenly until cooked.', 1),
-	(2, 'Add in soy sauce and brown sugar. Stir till you bring it to a boil.', 1),
-	(3, 'Stir until sauce has reduced and evenly glazes the chicken.', 1),
-	(4, 'Serve with rice and enjoy!', 1);
+INSERT INTO Instruction(step_number, description) VALUES
+	(1, 'Sear the chicken evenly until cooked.'),
+	(2, 'Add in soy sauce and brown sugar. Stir till you bring it to a boil.'),
+	(3, 'Stir until sauce has reduced and evenly glazes the chicken.'),
+	(4, 'Serve with rice and enjoy!');
     
 INSERT INTO Ingredient(ingredient_name, protein_id) VALUES
  ('small eggplants', null),
@@ -51,15 +51,15 @@ INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id
 (0.25, 2 , 1, 13); -- dried mint
 
 /* Add Instructions */
-INSERT INTO Instruction(step_number, description, recipe_id) VALUES
-(1, 'Take yogurt in a bowl and whisk it. Add grated garlic to it and mix. Keep it in the fridge while you cook the eggplants.', 2),
-(2, 'Cut the eggplants into thin slices. You can remove the outer covering of the eggplant if you want.', 2),
+INSERT INTO Instruction(step_number, description) VALUES
+(1, 'Take yogurt in a bowl and whisk it. Add grated garlic to it and mix. Keep it in the fridge while you cook the eggplants.'),
+(2, 'Cut the eggplants into thin slices. You can remove the outer covering of the eggplant if you want.'),
 (3, 'Heat oil in a pan on medium flame. Once hot, add the eggplants slices and fry till they are golden brown in color. 
-	Do not over-fry it else the slices will become very soggy, you still want it little firm in the center.', 2),
-(4, 'Place the eggplants slices on a kitchen towel to drain excess oil. Set aside.', 2),
-(5, 'In another pan, heat 2-3 teaspoon of oil and add chopped garlic to it. Saute till it become light golden brown in color.', 2),
-(6, 'Add the tomatoes, turmeric powder, cayenne pepper, salt and cook till tomatoes become soft and mushy. This will take 6-7 minutes.', 2),
-(7, 'Next add the fried eggplants, around 1/4 cup of water and cover and cook at low heat for around 10 minutes.Switch off the flame.', 2),
+	Do not over-fry it else the slices will become very soggy, you still want it little firm in the center.',
+(4, 'Place the eggplants slices on a kitchen towel to drain excess oil. Set aside.'),
+(5, 'In another pan, heat 2-3 teaspoon of oil and add chopped garlic to it. Saute till it become light golden brown in color.'),
+(6, 'Add the tomatoes, turmeric powder, cayenne pepper, salt and cook till tomatoes become soft and mushy. This will take 6-7 minutes.'),
+(7, 'Next add the fried eggplants, around 1/4 cup of water and cover and cook at low heat for around 10 minutes.Switch off the flame.'),
 (8, 'To serve, take a plate and put half of the yogurt sauce. 
-	Then place the tomato sauce and eggplants over it and finally pour the remaining yogurt sauce on top of the eggplants and sprinkle lots of dried mint.', 2),
-(9, 'Serve with kabuli pulao, pita bread or naan.', 2);
+	Then place the tomato sauce and eggplants over it and finally pour the remaining yogurt sauce on top of the eggplants and sprinkle lots of dried mint.'),
+(9, 'Serve with kabuli pulao, pita bread or naan.');
