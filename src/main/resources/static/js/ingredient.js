@@ -1,5 +1,6 @@
 function saveRecipe() {
 
+	var ingredientCount = $('[id^="ingredientBox"]').length;
 	var recipeId = $("#recipeId").html();
 
 	var ingredientNames = $('[id^="ingredientName"]');
@@ -7,27 +8,25 @@ function saveRecipe() {
 
 	for (let ingrName of ingredientNames) {
 
-			if (ingrName.value == "") {
-	
-				ingredientCheck = false;
-				break;
-			}
+		if (ingrName.value == "") {
+
+			ingredientCheck = false;
+			break;
+		}
 
 	}
 
 	if (ingredientCheck) {
 
-		for(let ingrDivs of $('[id^="ingredientDiv"]').children()){
+		for (let i = 1; i <= ingredientCount; i++) {
 
-			var ingredient = $("#"+ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
-			var measurement = $("#"+ingrDivs.id).find('select[id^="measurement"]').get(0).value;
-			var quantity = $("#"+ingrDivs.id).find('input[id^="quantity"]').get(0).value;
-			var protein = $("#"+ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
+			var ingredient = $("#ingredientName" + i).val();
+			var measurement = $("#measurement" + i).val();
+			var quantity = $("#quantity" + i).val();
+			var protein = $("#proteinType" + i).val();
 
-			
-			
-			var el = $("#"+ingrDivs.id).find('input[id^="protein"]').get(0);
-			if (el.checked) {
+			var el = $("#protein" + i);
+			if (el[0].checked) {
 				console.log(protein)
 				if (protein == null) {
 					protein = 0;
@@ -102,52 +101,10 @@ function showProtein(el) {
 
 
 
-function getNewId(){
-
-	
-	var newDivId = true;
-	
-	var divID = Math.floor(Math.random() * 100);
-	
-	
-	while(!checkId(divID)){
-	
-			divID = Math.floor(Math.random() * 100);
-	}
-	
-	return divID;
-	
-}
-
-
-function checkId(id){
-
-	for(let ingrDivs of $('[id^="ingredientBox"]')){
-			var num = (ingrDivs.id).split("ingredientBox");
-			var num = num[1];
-			
-			
-			if(num == id){
-				return false;
-			
-			} else {
-			
-				return true;
-			}
-			
-		}
-
-}
-
-
 function newIngredient() {
 
 	var measurements = getMeasurements();
-	
-	var divID = getNewId();
-	
-	
-	console.log(divID);
+	var divID = $('[id^="ingredientBox"]').length + 1;
 	var proteinTypes = getProteins();
 
 	$("#ingredientDiv").append("<div class='row' id='ingredientBox" + divID + "'> <div class='col s12 m6'> <div class='card' style='border-radius:15px'>" +
@@ -166,10 +123,9 @@ function newIngredient() {
 		"<label>Protein</label> <br> <br> <select class='browser-default' id='proteinType" + divID + "' name='proteinType' required>" +
 		"<option value=''  selected disabled></option>" +
 		"</select> </div> </div> </div> </div> " +
-		"<div class='col s6' style='padding-top:90px'>" +
-			"<a class='btn-floating' onclick='deleteIngredient("+divID+")' id='deleteBtn'>"+
-				"<i class='small material-icons'>delete_forever</i>" +
-		"</a></div></div></div>");
+		"<div class='col s6' style='padding-top:90px'> <i class='small material-icons'>delete_forever</i>" +
+		"</div></div></div>");
+
 
 
 	for (let measurement of measurements) {
@@ -187,19 +143,6 @@ function newIngredient() {
 			text: protein.proteinType
 		}));
 	}
-
-
-
-}
-
-function deleteIngredient(id){
-
-
-	$("#ingredientBox"+id).remove();
-	
-	
-
-
 
 
 
