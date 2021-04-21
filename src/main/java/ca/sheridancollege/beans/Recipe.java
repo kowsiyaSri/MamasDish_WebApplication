@@ -69,6 +69,6 @@ public class Recipe {
 	@OneToMany(mappedBy="recipe", cascade= CascadeType.ALL)
 	private List<RecipeIngredient> ingredients;
 	
-	@OneToMany(mappedBy="recipe", cascade= CascadeType.ALL)
+	@OneToMany(cascade= CascadeType.ALL)
 	private List<Instruction> instructions;
 }

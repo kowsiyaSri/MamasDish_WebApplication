@@ -7,15 +7,18 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.sheridancollege.beans.Ingredient;
+import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.Measurement;
 import ca.sheridancollege.beans.Protein;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.RecipeIngredient;
 import ca.sheridancollege.repositories.IngredientRepository;
+import ca.sheridancollege.repositories.InstructionRepository;
 import ca.sheridancollege.repositories.MeasurementRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
@@ -44,6 +47,10 @@ public class APIController {
 	@Autowired
 	@Lazy
 	private ProteinRepository proteinRepo;
+	
+	@Autowired
+	@Lazy
+	private InstructionRepository instructionRepo;
 
 	@GetMapping(value = "/addIngredient/{ingredient}/{quantity}/{measurement}/{recipeId}/{proteinId}")
 	public int addIngredient(@PathVariable String ingredient, @PathVariable int quantity,
@@ -87,18 +94,19 @@ public class APIController {
 		return 1;
 	}
 	
-	@GetMapping("/getMeasurements")
-	public List<Measurement> getMeasurements(){
-		
-		return measurementRepo.findAll();
-		
+	@PostMapping(value="/addInstructions/{recipeId}", headers= {"Content-type=application/json"})
+	public int addInstruction(@RequestBody Instruction instruction, @PathVariable int recipeId) {
+		System.out.println(instruction);
+		Instruction saveInstruction = instructionRepo.save(instruction);
+		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		recipe.getInstructions().add(saveInstruction);
+		recipeRepo.save(recipe);
+		return 1;
 	}
 	
-	@GetMapping("/getProtein")
-	public List<Protein> getProtein(){
-		
-		return proteinRepo.findAll();
-	
+	@GetMapping("/instructions")
+	public List<Instruction> listInstructions() {
+		return instructionRepo.findAll();
 	}
 
 }

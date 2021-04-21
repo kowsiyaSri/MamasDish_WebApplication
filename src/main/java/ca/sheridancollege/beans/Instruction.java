@@ -30,7 +30,5 @@ public class Instruction {
 
     @Lob
     private String description;
-    
-	@ManyToOne
-    private Recipe recipe;
+    	
 }

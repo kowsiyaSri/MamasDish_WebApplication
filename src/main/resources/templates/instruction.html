@@ -12,7 +12,7 @@
 	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
-<script src="../static/js/ingredient.js" th:src="@{/js/ingredient.js}"></script>
+<script src="../static/js/instruction.js" th:src="@{/js/instruction.js}"></script>
 <script data-require="jquery@1.12.4" data-semver="1.12.4"
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <link rel="stylesheet"
@@ -45,45 +45,18 @@
 		</ul>
 		<a href="#" data-target="slide-out" class="sidenav-trigger"><i
 			class="material-icons">menu</i></a>
-		<div id="ingredientDiv">
+		<div id="instructionDiv">
 			<div style="display: none" id="recipeId"  th:text="${recipeId}"></div>
 
-			<div class="row" id="ingredientBox1">
+			<div class="row" id="instructionBox1">
 				<div class="col s12 m6">
 					<div class="card" style="border-radius: 15px">
 						<div class="card-content">
 							<div class="row">
-								<div class="input-field col s2">
-									<input id="quantity1" type="number" name="quantity" min="1">
-									<label for="quantity">Quantity</label>
+								<div class="input-field col s12">
+								 	<textarea id="instructionValue1" class="materialize-textarea" name="instruction"></textarea>
+									<label for="instruction">Instruction</label>
 								</div>
-								<div class="input-field col s4">
-									<select id="measurement1" class="browser-default"
-										name="measurement" required>
-										<option th:text="Measurement" value="" selected disabled></option>
-										<option th:each="m : ${measurements}" th:value="${m.id}"
-											th:text="${m.measurementType}"></option>
-									</select>
-								</div>
-								<div class="input-field col s6">
-									<input id="ingredientName1" required type="text" name="ingredient">
-									<label for="ingredient">Ingredient</label>
-								</div>
-							</div>
-							<div class="row"
-								style="padding-bottom: 10px; padding-left: 540px;">
-								<div class="input-field">
-									<label> <input type="checkbox" id="protein1" class="filled-in"
-										name="protein1" onClick="showProtein(this)"/> <span>Protein</span>
-									</label>
-								</div>
-							</div>
-							<div class="row" id="proteinDiv1" style="display: none">
-								<label>Protein</label> <br> <br> <select id="proteinType1"
-									class="browser-default" name="proteinType1" required>
-									<option th:each="p : ${proteins}" th:value="${p.id}"
-										th:text="${p.proteinType}"></option>
-								</select>
 							</div>
 						</div>
 					</div>
@@ -94,34 +67,17 @@
 			</div>
 		</div>
 
-
 		<div>
-			<a style="margin-left: 20.5%" onclick="newIngredient()"
-				class="waves-effect waves-light btn">Add Ingredient</a>
+			<a style="margin-left: 20.5%" onclick="addInstruction()"
+				class="waves-effect waves-light btn">Add Instruction</a>
 		</div>
 
 	</main>
 
 	<div id="footer">
 		<a style="float: right; margin-right: 100px;"
-		 onclick="saveRecipe()" class="waves-effect waves-blue btn">Save</a>
+		 onclick="saveInstruction()" class="waves-effect waves-blue btn">Save</a>
 	</div>
-
-
-	<script th:inline="javascript">
-		function getMeasurements() {
-			var data = /*[[${measurements}]]*/{};
-
-			return data;
-		}
-
-		function getProteins() {
-			var data = /*[[${proteins}]]*/{};
-
-			return data;
-
-		}
-	</script>
 
 </body>
 
