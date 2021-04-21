@@ -93,10 +93,4 @@ public class RecipeController {
 		model.addAttribute("recipeId", recipeId);
 		return "instruction.html";
 	}
-	
-	@GetMapping("/viewAllRecipe")
-	public String viewAllRecipes(Model model){
-		model.addAttribute("recipes", recipeRepo.findAll());
-		return "viewAllRecipes.html";
-	}
 }
