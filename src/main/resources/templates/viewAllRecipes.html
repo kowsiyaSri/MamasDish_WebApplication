@@ -12,9 +12,7 @@
 	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
-<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
-<script data-require="jquery@1.12.4" data-semver="1.12.4"
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../static/js/script.js" th:src="@{/js/viewAllRecipes.js}"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
 <script
@@ -44,8 +42,25 @@
 	</header>
 	<main>
 	
+		 	<h3 id="recipeHeader">Recipes</h3>
 	
- <div class="row" style="padding:50px;">
+	<nav class="row" id="center" style="width:75%; background-color:white; border-radius:10px; ">
+    <div class="nav-wrapper" >
+      <form>
+        <div   class="input-field col s11" >
+          <input id="search" type="search" style="border-right: 1px solid lightgrey; padding-top:5px; margin-top:10px; height:40px;" required>
+        </div>
+  
+	        <button class="col s0.5 btn-flat" type="submit"><i class="material-icons cyan-text text-darken-4">search</i></button>
+	        <button class="col s0.5 btn-flat" onclick="clearText()"><i class="material-icons cyan-text text-darken-4">clear</i></button>
+   
+      </form>
+       
+    </div>
+  </nav>
+  
+ <div class="row" style="padding:50px; width:85%">
+ 
   <div th:each="r: ${recipes}">
     <div class="col s4">
     <a class="link" th:href="@{/viewRecipe/{id}(id=${r.id})}">
