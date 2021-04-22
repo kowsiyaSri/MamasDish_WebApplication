@@ -1,6 +1,5 @@
 function saveRecipe() {
 
-	var ingredientCount = $('[id^="ingredientBox"]').length;
 	var recipeId = $("#recipeId").html();
 
 	var ingredientNames = $('[id^="ingredientName"]');
@@ -8,25 +7,30 @@ function saveRecipe() {
 
 	for (let ingrName of ingredientNames) {
 
-		if (ingrName.value == "") {
-
-			ingredientCheck = false;
-			break;
-		}
+			if (ingrName.value == "") {
+	
+				ingredientCheck = false;
+				break;
+			}
 
 	}
 
 	if (ingredientCheck) {
+	
 
-		for (let i = 1; i <= ingredientCount; i++) {
+		for(let ingrDivs of $('[id^="ingredientDiv"]').children()){
 
-			var ingredient = $("#ingredientName" + i).val();
-			var measurement = $("#measurement" + i).val();
-			var quantity = $("#quantity" + i).val();
-			var protein = $("#proteinType" + i).val();
 
-			var el = $("#protein" + i);
-			if (el[0].checked) {
+			var ingredient = $("#"+ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
+			var measurement = $("#"+ingrDivs.id).find('select[id^="measurement"]').get(0).value;
+			var quantity = $("#"+ingrDivs.id).find('input[id^="quantity"]').get(0).value;
+			var protein = $("#"+ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
+
+			
+			console.log(measurement)
+			
+			var el = $("#"+ingrDivs.id).find('input[id^="protein"]').get(0);
+			if (el.checked) {
 				console.log(protein)
 				if (protein == null) {
 					protein = 0;
@@ -72,9 +76,6 @@ function saveRecipe() {
 
 	}
 
-
-
-
 }
 
 function addIngredient(id) {
@@ -101,31 +102,74 @@ function showProtein(el) {
 
 
 
+function getNewId(){
+
+	
+	var newDivId = true;
+	
+	var divID = Math.floor(Math.random() * 100);
+	
+	
+	while(!checkId(divID)){
+	
+			divID = Math.floor(Math.random() * 100);
+	}
+	
+	return divID;
+	
+}
+
+
+function checkId(id){
+
+	for(let ingrDivs of $('[id^="ingredientBox"]')){
+			var num = (ingrDivs.id).split("ingredientBox");
+			var num = num[1];
+			
+			
+			if(num == id){
+				return false;
+			
+			} else {
+			
+				return true;
+			}
+			
+		}
+
+}
+
+
 function newIngredient() {
 
 	var measurements = getMeasurements();
-	var divID = $('[id^="ingredientBox"]').length + 1;
+	
+	var divID = getNewId();
+	
+
+	console.log(divID);
 	var proteinTypes = getProteins();
 
 	$("#ingredientDiv").append("<div class='row' id='ingredientBox" + divID + "'> <div class='col s12 m6'> <div class='card' style='border-radius:15px'>" +
 		"<div class='card-content'> <div class='row'> <div class='input-field col s2'> " +
 		"<input id='quantity" + divID + "' type='number' name='quantity' min='1'> <label for='quantity'>Quantity</label>" +
 		"</div> <div class='input-field col s4'>" +
-		"<select class='browser-default'id='measurement" + divID + "' required>" +
-		"<option value=''  selected disabled>Measurement</option>" +
+		"<select style='color:#5085A' class='browser-default'id='measurement" + divID + "' required>" +
+		"<option value=''  selected disabled  style='color:#5085A5'>Measurement</option>" +
 		"</select> " +
 		"</div> <div class='input-field col s6'><input id='ingredientName" + divID + "' type='text' name='ingredient' required>" +
 		"<label for='ingredient'>Ingredient</label> </div>" +
-		"</div> <div class='row' style='padding-bottom:10px; padding-left:540px;'> " +
+		"</div> <div class='row' style='padding-bottom:10px; padding-left:500px;'> " +
 		"<div class='input-field'><label> <input type='checkbox' class='filled-in' id='protein" + divID + "'  name='protein" + divID + "' onClick='showProtein(this)'  /> <span>Protein</span>" +
 		"</label></div></div>" +
 		"<div class='row' id='proteinDiv" + divID + "'style='display:none'>" +
 		"<label>Protein</label> <br> <br> <select class='browser-default' id='proteinType" + divID + "' name='proteinType' required>" +
 		"<option value=''  selected disabled></option>" +
 		"</select> </div> </div> </div> </div> " +
-		"<div class='col s6' style='padding-top:90px'> <i class='small material-icons'>delete_forever</i>" +
-		"</div></div></div>");
-
+		"<div class='col s6' style='padding-top:90px'>" +
+			"<a class='btn-floating' onclick='deleteIngredient("+divID+")' id='deleteBtn'>"+
+				"<i class='small material-icons'>delete_forever</i>" +
+		"</a></div></div></div>");
 
 
 	for (let measurement of measurements) {
@@ -146,4 +190,16 @@ function newIngredient() {
 
 
 
+}
+
+function deleteIngredient(id){
+		
+	
+	if(($('[id^="ingredientDiv"]').children()).length >1){
+	
+		$("#ingredientBox"+id).remove();
+	
+	}
+
+	
 }

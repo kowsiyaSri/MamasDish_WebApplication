@@ -62,7 +62,7 @@ public class APIController {
 		Protein ingProtein = null;
 		
 		if(measurement != 0) {
-			recipeMeasurement =  measurementRepo.findById(Long.valueOf(recipeId)).get();
+			recipeMeasurement =  measurementRepo.findById(Long.valueOf(measurement)).get();
 		}
 		
 		if(proteinId != 0) {
