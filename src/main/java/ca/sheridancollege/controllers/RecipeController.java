@@ -1,6 +1,7 @@
 package ca.sheridancollege.controllers;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ca.sheridancollege.beans.Chef;
 import ca.sheridancollege.beans.EndUser;
+import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.User;
 import ca.sheridancollege.repositories.ChefRepository;
@@ -192,6 +194,10 @@ public class RecipeController {
 	@GetMapping("/viewRecipe/{recipeId}")
 	public String viewRecipe(@PathVariable int recipeId, Model model) {
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
+		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
+		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
+		model.addAttribute("instructions", instruct);
+		
 		return "viewRecipe.html";
 	}
 

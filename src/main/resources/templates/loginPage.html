@@ -81,18 +81,18 @@ body {
 								name="password" class="validate"> <label for="password1">Password</label>
 						</div>
 				<p style="padding-left:10px;">
-							<input type="checkbox" id="test5" /> <label for="test5">Remember
+							<input type="checkbox" id="test5" /> <label for="test5" id="registerSh">Remember
 								Me</label>
 						</p>
 						
 						
-				<p style="padding-left:10px; margin-top:30px">
+				<p style="padding-left:10px; margin-top:20px">
 					<p id="loginBtn">
-						<input type="submit" name="login-submit" id="login-submit" value="Login" class="blue darken-4 btn"> 
+						<input type="submit" name="login-submit" id="login-submit" value="Login" class=" btn blue darken-4 btn"> 
 						
-						<br><br>
-						 <a th:href="@{/register}" class="blue-text text-darken-4" id="hider">
-							Register</a>
+						<br>
+						 <p id="noAcct">Don't have an account?<a th:href="@{/register}" id="registerSh">
+							Register</a></p>
 						</p>
 						
 					</div>

@@ -145,6 +145,11 @@ select#search::-ms-expand {
 	box-shadow: 0 1px 0 0 #5085A5 !important
 }
 
+.row .input-field input[type=password]:focus {
+	border-bottom: 1px solid #5085A5 !important;
+	box-shadow: 0 1px 0 0 #5085A5 !important
+}
+
 .row .input-field input[type=number]:focus {
 	border-bottom: 1px solid #5085A5 !important;
 	box-shadow: 0 1px 0 0 #5085A5 !important
@@ -283,6 +288,15 @@ h3 {
 	font-family: 'Roboto Condensed', sans-serif;
 }
 
+#noAcct{
+
+	font-size:15px;
+	color:black;
+	font-family: 'Roboto Condensed', sans-serif;
+	padding-left:10px;
+	padding-top:5px;
+}
+
 p {
 	font-family: Carme;
 	font-size: 14px;
@@ -342,6 +356,14 @@ pre {
 	font-weight: 400;
 	padding-bottom: 20px;
 	line-height: 30px;
+}
+
+#registerSh {
+	font-family: 'Mulish', sans-serif;
+	font-size: 15px;
+	font-variant: small-caps;
+	color:#5085A5;
+
 }
 
 .link {

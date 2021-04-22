@@ -102,7 +102,7 @@
 									<h6 id="listLbl"><strong>INSTRUCTIONS</strong></h6>
 								</li>
 								
-								<li id="list" class="collection-item" style="padding: 20px 25px" th:each="i : ${recipe.instructions}">
+								<li id="list" class="collection-item" style="padding: 20px 25px" th:each="i : ${instructions}">
 									<div th:text="${i.stepNumber} + ') ' + ${i.description}"></div>
 								</li>
 							</ul>
