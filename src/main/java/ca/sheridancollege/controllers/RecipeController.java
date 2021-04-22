@@ -1,5 +1,13 @@
 package ca.sheridancollege.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,6 +68,7 @@ public class RecipeController {
 	@PostMapping("/addRecipe")
 	public String addRecipe(@ModelAttribute Recipe recipe, @RequestParam String prep, @RequestParam String cook,
 			Model model) {
+		
 		String ptime[] = prep.split(":");
 		float phr = Float.parseFloat(ptime[0]) * 60;
 		float pmin = Float.parseFloat(ptime[1]);
@@ -69,9 +78,27 @@ public class RecipeController {
 		float chr = Float.parseFloat(ctime[0]) * 60;
 		float cmin = Float.parseFloat(ctime[1]);
 		recipe.setCookTime(chr + cmin);
-		System.out.println(recipe.getPrepTime());
-		System.out.println(recipe.getCookTime());
-
+		
+		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+		
+		Set<ConstraintViolation<Recipe>> validationErrors = validator.validate(recipe);
+		
+		if(!validationErrors.isEmpty()) {
+			
+			//some errors have occurred
+			List<String> errors = new ArrayList<String>();
+			for(ConstraintViolation<Recipe> e : validationErrors) {
+				errors.add(e.getPropertyPath() + "::" + e.getMessage());
+			}
+			model.addAttribute("errorMessage", errors);
+			model.addAttribute("recipe", new Recipe());
+			model.addAttribute("countries", countryRepo.findByOrderByName());
+			model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
+			model.addAttribute("meals", mealRepo.findAll());
+			model.addAttribute("diets", dietRepo.findAll());
+			return "recipe.html";
+		}
+		
 		Recipe savedRecipe = recipeRepo.save(recipe);
 
 		model.addAttribute("recipeId", savedRecipe.getId());

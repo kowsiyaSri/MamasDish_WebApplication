@@ -50,79 +50,77 @@
 			<li><a href="#!">Ingredient</a></li>
 			<li><a href="#!">Instruction</a></li>
 		</ul>
-
 		<div class="formDiv">
+			<div style="color:red; margin-top:10px" th:each="error: ${errorMessage}" th:text="${error}"></div>
 			<form method="POST" th:object="${recipe}" th:action="@{/addRecipe}">
 				<div class="row">
 					<div class="input-field col s5">
-						<input id="title" type="text" th:field="*{title}"> <label
-							for="title">Title</label>
+						<input id="title" type="text" th:field="*{title}" required> 
+						<label for="title">Title</label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s5">
-						<textarea th:field="*{description}" id="textarea1"
-							class="materialize-textarea"></textarea>
+						<textarea th:field="*{description}" id="textarea1" class="materialize-textarea" required></textarea>
 						<label for="textarea1">Summary</label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s1">
-						<input id="serving" type="number" th:field="*{servingSize}"
-							min="1"> <label for="serving">Serving Size</label>
+						<input id="serving" type="number" th:field="*{servingSize}" min="1"> 
+						<label for="serving">Serving Size</label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col s2">
-						<input id="prepTime" class="timepicker" placeholder="HH:MM"
-							name="prep" /> <label for="prepTime">Prep Time</label>
+ 						<input type="text" placeholder="HH:MM" id="prep" name="prep" title="Please enter in hh:mm format. Ex. 00:25" pattern="^([0-5][0-9]):([0-5][0-9])$" required/>
+						<label for="prep">Prep Time</label>
 					</div>
 					<div class="col s2">
-						<input id="cookTime" class="timepicker" placeholder="HH:MM"
-							name="cook" /> <label for="cookTime">Cook Time</label>
+						<input type="text" placeholder="HH:MM" id="cook" name="cook" pattern="^([0-5][0-9]):([0-5][0-9])$" required/>
+						<label for="cook">Cook Time</label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s5">
-						<label>Country</label> <br> <br> <select
-							class="browser-default" th:field="*{country}" required>
-							<option th:each="c : ${countries}" th:value="${c.id}"
-								th:text="${c.name}"></option>
+						<label>Meal Type</label><br><br>
+						<select class="browser-default" th:field="*{mealtype}" required>
+							<option th:text="'Meal Type'" style="color:#5085A5" value="" selected disabled></option>
+							<option th:each="m : ${meals}" th:value="${m.id}" th:text="${#strings.capitalize(#strings.toLowerCase(m.mealName))}"></option>
 						</select>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s5">
-						<label>Cuisine</label> <br> <br> <select
-							class="browser-default" th:field="*{cuisine}">
-							<option th:each="c : ${cuisines}" th:value="${c.id}"
-								th:text="${c.cuisineName}"></option>
+						<label>Country</label><br><br>
+						<select class="browser-default" th:field="*{country}" required>
+							<option th:text="Country" style="color:#5085A5" value="" selected disabled></option>
+							<option th:each="c : ${countries}" th:value="${c.id}" th:text="${c.name}"></option>
 						</select>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s5">
-						<label>Meal Type</label> <br> <br> <select
-							class="browser-default" th:field="*{mealtype}">
-							<option th:each="m : ${meals}" th:value="${m.id}"
-								th:text="${#strings.capitalize(#strings.toLowerCase(m.mealName))}"></option>
+						<label>Cuisine</label><br><br>
+						<select class="browser-default" th:field="*{cuisine}">
+							<option th:text="Cuisine" value="" selected></option>
+							<option th:each="c : ${cuisines}" th:value="${c.id}" th:text="${c.cuisineName}"></option>
 						</select>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s5">
-						<label>Diet Type</label> <br> <br> <select
-							class="browser-default" th:field="*{diet}">
-							<option th:each="d : ${diets}" th:value="${d.id}"
-								th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
+						<label>Diet Type</label><br><br>
+						<select class="browser-default" th:field="*{diet}">
+							<option th:text="'Diet Type'" value="" selected></option>
+							<option th:each="d : ${diets}" th:value="${d.id}" th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
 						</select>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s12">
 						<button class="btn waves-effect waves-teal"
-							style="width: 41%; background-color: #5085A5" type="submit"
-							name="action">
+							style="width: 41%; background-color: #5085A5" type="submit" name="action">
 							Next : Add Ingredients <i class="material-icons right">send</i>
 						</button>
 					</div>

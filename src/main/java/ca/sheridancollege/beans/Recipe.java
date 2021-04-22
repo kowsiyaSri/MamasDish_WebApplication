@@ -12,6 +12,11 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AllArgsConstructor;
@@ -33,6 +38,8 @@ public class Recipe {
 	
     private int iconPic;
     
+    @NotNull(message="Title is Mandatory.")
+    @Size(min=1, max=100, message="Title must be between 1-100 characters.")
     private String title;
     
     private float duration;
@@ -42,21 +49,27 @@ public class Recipe {
     @OneToMany
     private List<Rating> ratings;
     
+    @NotNull(message="Serving size is Mandatory!")
+    @Min(value=1, message="Serving size muat be atleast 1")
     private int servingSize;
     
     private float cookTime;
     
     private float prepTime;
     
+    @NotNull(message="Summary is Mandatory.")
+    @Size(min=1, max=100, message="Summary must be at least 1 character in length.")
     @Lob
     private String description;
     
 	@ManyToOne
     private Chef chef;
     
+	@NotNull(message="MealType is Mandatory!")
 	@OneToOne
     private MealType mealtype;
     
+	@NotNull(message="Country is Mandatory!")
 	@OneToOne
     private Country country;    
     
