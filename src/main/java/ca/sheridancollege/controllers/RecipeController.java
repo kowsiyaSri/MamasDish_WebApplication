@@ -96,7 +96,13 @@ public class RecipeController {
 	
 	@GetMapping("/viewAllRecipe")
 	public String viewAllRecipes(Model model){
-	model.addAttribute("recipes", recipeRepo.findAll());
-	return "viewAllRecipes.html";
+		model.addAttribute("recipes", recipeRepo.findAll());
+		return "viewAllRecipes.html";
+	}
+	
+	@GetMapping("/viewRecipe/{recipeId}")
+	public String viewRecipe(@PathVariable int recipeId, Model model) {
+		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
+		return "viewRecipe.html";
 	}
 }

@@ -1,6 +1,42 @@
+function getNewId() {
+
+
+	var newDivId = true;
+
+	var divID = Math.floor(Math.random() * 100);
+
+
+	while (!checkId(divID)) {
+
+		divID = Math.floor(Math.random() * 100);
+	}
+
+	return divID;
+
+}
+
+
+function checkId(id) {
+
+	for (let instructDivs of $('[id^="instructionBox"]')) {
+		var num = (instructDivs.id).split("instructionBox");
+		var num = num[1];
+
+
+		if (num == id) {
+			return false;
+
+		} else {
+
+			return true;
+		}
+
+	}
+
+}
+
 function saveInstruction() {
 
-	var instructionCount = $('[id^="instructionBox"]').length;
 	var recipeId = $("#recipeId").html();
 
 	var instructions = $('[id^="instructionValue"]');
@@ -17,37 +53,43 @@ function saveInstruction() {
 	}
 
 	if (instructionCheck) {
-
-		for (let i = 1; i <= instructionCount; i++) {
-		
-			var instruction = $("#instructionValue" + i).val();
+		let counter = 1;
+		for(let instructDivs of $('[id^="instructionDiv"]').children()){
+			console.log(instructDivs)
+			var instruction = $("#"+instructDivs.id).find('textarea[id^="instructionValue"]').get(0).value;
 			fetch('http://localhost:8080/mamasdish/addInstructions/' + recipeId, {
 				method: 'post',
 				headers: {
 					'Accept': 'application/json',
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ stepNumber: i, description: instruction })
+				body: JSON.stringify({ stepNumber: counter, description: instruction })
 			}).then(res => res.json())
-				.then(res => console.log(res));
+				.then(
+				res => console.log(res));
+			counter++;
 		}
 	}
 }
 
-function addInstruction(){
-	var divID = $('[id^="instructionBox"]').length + 1;
-		$("#instructionDiv").append("<div class='row' id='instructionBox1'> <div class='col s12 m6'> <div class='card' style='border-radius: 15px'>" +
-			"<div class='card-content'> <div class='row'> <div class='input-field col s12'>" +
-			"<textarea id='instructionValue" + divID +"' class='materialize-textarea' name='instruction'></textarea>" +
-			"<label for='instruction'>Instruction</label> </div></div></div></div></div>" +
-			"<div class='col s6' style='padding-top: 90px'><i class='small material-icons'>delete_forever</i>" +
-			"</div></div>");
+function addInstruction() {
+	var divID = getNewId();
+	$("#instructionDiv").append("<div class='row' id='instructionBox" + divID + "'> <div class='col s12 m6'> <div class='card' style='border-radius: 15px'>" +
+		"<div class='card-content'> <div class='row'> <div class='input-field col s12'>" +
+		"<textarea id='instructionValue" + divID + "' class='materialize-textarea' name='instruction'></textarea>" +
+		"<label for='instruction'>Instruction</label> </div></div></div></div></div>" +
+		"<div class='col s6' style='padding-top: 90px'>" +
+		"<a class='btn-floating' onclick='deleteInstruction(" + divID + ")' id='deleteBtn'>" +
+		"<i class='small material-icons'>delete_forever</i></a>" +
+		"</div></div>");
 }
-/*
-			"<div class='row' id='instructionBox1'> <div class='col s12 m6'> <div class='card' style='border-radius: 15px'>" +
-			"<div class='card-content'> <div class='row'> <div class='input-field col s12'>" +
-			"<textarea id='instructionValue" + divID +"' class='materialize-textarea' name='instruction'></textarea>" +
-			"<label for='instruction'>Instruction</label> </div></div></div></div></div>" +
-			"<div class='col s6' style='padding-top: 90px'><i class='small material-icons'>delete_forever</i>" +
-			"</div></div>"
-*/
+
+function deleteInstruction(id) {
+
+	if (($('[id^="instructionDiv"]').children()).length > 1) {
+
+		$("#instructionBox" + id).remove();
+
+	}
+
+}

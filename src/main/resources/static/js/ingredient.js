@@ -78,15 +78,6 @@ function saveRecipe() {
 
 }
 
-function addIngredient(id) {
-
-	var test = $("#Quantity1").val();
-
-	console.log($("#recipeId").html());
-
-}
-
-
 function showProtein(el) {
 	var str = el.name;
 

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet"
+	type="text/css">
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+<script src="../static/js/instruction.js" th:src="@{/js/instruction.js}"></script>
+<script data-require="jquery@1.12.4" data-semver="1.12.4"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.js"></script>
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Carme" />
+<title>Insert title here</title>
+</head>
+<body>
+	<header>
+		<nav class="homeNav">
+			<div class="nav-wrapper">
+				<a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="about.html">About</a></li>
+					<li><a href="profile.html">Profile</a></li>
+					<li><a href="recipe.html">Recipe</a></li>
+					<li><a href="myrecipe.html">My Recipe</a></li>
+					<li><a href="logout.html">Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<main>
+		<div style="margin: auto; align-items: center; width: 50%;">
+			<div class="row"
+				style="margin: auto; align-items: center; width: 100%;">
+				<div class="card" style="margin-top: 5%">
+					<div class="card-image">
+						<img id="recipeImg"
+							src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/epic-summer-salad-7539748.jpg">
+					</div>
+					<div class="card-content">
+						<h3 style="margin-top:0px; margin-bottom:30px" th:text="${recipe.title}">Pizza</h3>
+						<span>
+							<span class="chefFont" th:text="'Recipe By: ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName} ">Recipe By:John Doe</span>
+							<span style="float: right"><img style="height: 20px" th:src="@{/images/threestars.png}" /></span>
+						</span>
+						<hr style="border-top: .5px; border-right: 0px; border-left: 0px; padding: 10px 0px">
+						<div style="padding: 20px 0px" >
+							Course: <strong th:text="${recipe.mealtype.mealName.toLowerCase()}">main</strong>
+							&nbsp&nbsp&nbsp&nbsp/&nbsp&nbsp&nbsp&nbsp
+							Country: <strong th:text="${recipe.country.name.toLowerCase()}">italian</strong>
+						</div>
+						<div style="margin-top: 5px; border: 1px dashed lightgrey; height: 100px;" class="row s12">
+							<div style="border-right: 1px dashed lightgrey; height: 100px; padding:10px" class="col s4" id="center">
+								<img class="icon" th:src="@{/images/serving.png}" id="center">
+								<p id="iconlbl">Serving Size:</p>
+								<p th:text="${recipe.servingSize}">1</p>
+							</div>
+							<div style="border-right: 1px dashed lightgrey; height: 100px; padding:10px"
+								class="col s4" id="center">
+								<img class="icon" th:src="@{/images/time.png}" id="center">
+								<p id="iconlbl">Prep Time:</p>
+								<p th:text="${#numbers.formatDecimal(recipe.prepTime, 0, 0)} + ' mins'">10 mins</p>
+							</div>
+							<div class="col s4" id="center" style="padding:10px">
+								<img class="icon" th:src="@{/images/cooking.png}" id="center">
+								<p id="iconlbl">Cook Time:</p>
+								<p th:text="${#numbers.formatDecimal(recipe.cookTime, 0, 0)} + ' mins'">20 min</p>
+							</div>
+						</div>
+						<div class="yellow lighten-5">
+							<ul class="collection with-header" style="border: 0px;">
+								<li class="collection-header yellow lighten-5"><h6 id="listLbl">INGREDIENTS</h6></li>
+								<li class="collection-item yellow lighten-5" style="padding:20px 25px" th:each="r: ${recipe.ingredients}">
+									<div th:text="${r.quantity} + ' ' + ${r.measurement.measurementType} + ' ' + ${r.ingredient.ingredientName}" ></div>
+								</li>
+							</ul>
+						</div>
+						<div>
+							<ul class="collection with-header" style="border: 0px">
+								<li id="list" class="collection-header"><h6 id="listLbl">INSTRUCTIONS</h6></li>
+								<li id="list" class="collection-item" style="padding:20px 25px" th:each="i : ${recipe.instructions}">
+									<div th:text="${i.stepNumber} + ') ' + ${i.description}"></div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
