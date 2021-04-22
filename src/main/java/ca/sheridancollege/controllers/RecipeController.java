@@ -9,6 +9,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +18,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ca.sheridancollege.beans.Chef;
+import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Recipe;
+import ca.sheridancollege.beans.User;
+import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.CuisineRepository;
 import ca.sheridancollege.repositories.DietRepository;
+import ca.sheridancollege.repositories.EndUserRepository;
 import ca.sheridancollege.repositories.MealTypeRepository;
 import ca.sheridancollege.repositories.MeasurementRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
+import ca.sheridancollege.repositories.RoleRepository;
+import ca.sheridancollege.repositories.UserRepository;
 
 @Controller
 public class RecipeController {
@@ -50,11 +58,65 @@ public class RecipeController {
 	@Autowired
 	private MeasurementRepository measureRepo;
 
+	@Autowired
+	private EndUserRepository endUserRepo;
+	
+	@Autowired
+	private UserRepository userRepo;
+	
+	@Autowired
+	private RoleRepository roleRepo;
+	
+	@Autowired
+	private ChefRepository chefRepo;
+
 	@GetMapping("/")
 	public String home(Model model) {
 		return "home.html";
 	}
 
+	@GetMapping("/login")
+	public String toLoginPage(Model model) {
+
+		return "loginPage.html";
+	}
+	
+	private String encodePassword(String password) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder.encode(password);
+	}
+
+	@PostMapping("/register")
+	public String processRegister(@RequestParam String email, @RequestParam String fname, @RequestParam String lname,
+			@RequestParam String password , @RequestParam(required=false) boolean isChef , @RequestParam(required=false) String description)  {
+		EndUser endUser = EndUser.builder().firstName(fname).lastName(lname).email(email).password(password).build();
+		User user = new User(email, encodePassword(password));
+		endUserRepo.save(endUser);
+		if(isChef) {
+			Chef chef =Chef.builder().description(description).recipes(new ArrayList<Recipe>()).enduser(endUser).build() ;
+			user.getRoles().add(roleRepo.findByRolename("ROLE_CHEF"));
+			chefRepo.save(chef);
+		}
+		else {
+			user.getRoles().add(roleRepo.findByRolename("ROLE_USER"));
+			
+		}
+
+		userRepo.save(user);
+
+		return "loginPage.html";
+	}
+
+	@GetMapping("/register")
+	public String Register()  {
+		return "register.html";
+	}
+	
+	@GetMapping("/access-denied") 
+	public String toAccessDenied() {
+		return "/error/access-denied.html"; 
+	}
+	 
 	@GetMapping("/uploadRecipe")
 	public String goUploadRecipe(Model model) {
 		model.addAttribute("recipe", new Recipe());
