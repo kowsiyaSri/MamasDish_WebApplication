@@ -10,20 +10,24 @@
 <title>Mama's Dish</title>
 </head>
 <body>
-<header>
-  <nav class="homeNav">
-    <div class="nav-wrapper">
-      <a th:href="@{/}" class="brand-logo"><img class="logo" src="/images/logo.png"/></a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="about.html">About</a></li>
-        <li><a href="profile.html">Profile</a></li>
-        <li><a th:href="@{/uploadRecipe}">New Recipe</a></li>
-        <li><a href="myrecipe.html">My Recipe</a></li>
-        <li><a href="logout.html">Logout</a></li>
-      </ul>
-    </div>
-  </nav>
-</header>
+	<header>
+		<div class="navbar-fixed" id="centerNav">
+			<nav class="homeNav fixed" id="centerNav">
+				<div class="nav-wrapper" id="centerNav">
+					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a> -->
+					<ul style="width: 100%" id="centerNav"
+						class="hide-on-med-and-down">
+						<li style="padding-right: 80px;"><a href="about.html" id="homeNavTxt" >About</a></li>
+						<li style="padding-right: 80px"><a href="profile.html" id="homeNavTxt">Profile</a></li>
+						<li style="padding-right: 80px"><a href="recipe.html" id="homeNavTxt">Recipe</a></li>
+						<li style="padding-right: 80px"><a href="myrecipe.html" id="homeNavTxt">My Recipe</a></li>
+						<li><a href="logout.html" id="homeNavTxt">Logout</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</header>
 <main>
 	<h1>Upload a recipe</h1>
 	<a class="waves-effect waves-light btn-large" th:href="@{/uploadRecipe}"><i class="material-icons left">cloud</i>Upload A Recipe</a>

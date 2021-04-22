@@ -100,8 +100,8 @@ function getNewId(){
 	
 	var divID = Math.floor(Math.random() * 100);
 	
-	
-	while(!checkId(divID)){
+
+	while(checkId(divID) == false){
 	
 			divID = Math.floor(Math.random() * 100);
 	}

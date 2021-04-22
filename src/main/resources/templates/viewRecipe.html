@@ -49,9 +49,8 @@
 					<div class="card-content">
 						<h2 id="recipeTitle"
 							th:text="${recipe.title}">Pizza</h2>
-						<span> <span class="chefFont"
-							th:text="'Recipe By: ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName} ">Recipe
-								By:John Doe</span> <span style="float: right"><img
+							<!--th:text="Recipe By:  " + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}  -->
+						<span> <span class="chefFont">RecipeBy:John Doe</span> <span style="float: right"><img
 								style="height: 20px" th:src="@{/images/threestars.png}" /></span>
 						</span>
 						<hr>
@@ -91,8 +90,8 @@
 								</li>
 								<li class="collection-item yellow lighten-5"
 									style="padding: 20px 0px" th:each="r: ${recipe.ingredients}">
-									<div id="ingredLi" th:text="${r.quantity} + ' ' + ${r.measurement.measurementType} + ' ' + ${r.ingredient.ingredientName}">
-									</div>
+									<div id="ingredLi" th:if="${r.measurement}" th:text="${r.quantity} + ' ' + ${r.measurement.measurementType} + ' ' + ${r.ingredient.ingredientName}"></div>
+									<div id="ingredLi" th:unless="${r.measurement}" th:text="${r.quantity} + ' ' + ${r.ingredient.ingredientName}"></div>
 								</li>
 							</ul>
 						</div>
