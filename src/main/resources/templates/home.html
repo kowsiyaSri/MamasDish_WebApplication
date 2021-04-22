@@ -9,28 +9,36 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 <title>Mama's Dish</title>
 </head>
-<body>
+<body style="background-color:#BECEDD">
 	<header>
-		<div class="navbar-fixed" id="centerNav">
-			<nav class="homeNav fixed" id="centerNav">
+		<div class="navbar-fixed" id="centerNav" >
+			<nav style="height:160px; background-color:white;" class="fixed" id="centerNav">
 				<div class="nav-wrapper" id="centerNav">
 					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
 					src="/images/logo.png" /></a> -->
 					<ul style="width: 100%" id="centerNav"
 						class="hide-on-med-and-down">
-						<li style="padding-right: 80px;"><a href="about.html" id="homeNavTxt" >About</a></li>
-						<li style="padding-right: 80px"><a href="profile.html" id="homeNavTxt">Profile</a></li>
-						<li style="padding-right: 80px"><a href="recipe.html" id="homeNavTxt">Recipe</a></li>
-						<li style="padding-right: 80px"><a href="myrecipe.html" id="homeNavTxt">My Recipe</a></li>
-						<li><a href="logout.html" id="homeNavTxt">Logout</a></li>
+						<li><a id="landNav" href="/viewAllRecipe">Mama's Dish</a></li>
+					
 					</ul>
 				</div>
 			</nav>
 		</div>
 	</header>
-<main>
-	<h1>Upload a recipe</h1>
-	<a class="waves-effect waves-light btn-large" th:href="@{/uploadRecipe}"><i class="material-icons left">cloud</i>Upload A Recipe</a>
+	<main style="margin-top:80px;" >
+	<div id="center">
+	
+	
+		<img style="height:440px" th:src="@{/images/shakshuka.jpg}"/>
+	
+			<p id="homeHeader">Welcome to Mama's Dish</p>
+			<p id="homeP">Mama's Dish is a recipe platform the features recipes from all over the world.</p>
+			<p id="homeP">Mama's Dish also allows chefs to upload their recipes and share them with the world.</p>
+			<p id="homeP"><a href="/login">Login or Register</a> to upload recipes!</p>
+	
+	</div>
+
+
 </main>   
 </body>
 </html>

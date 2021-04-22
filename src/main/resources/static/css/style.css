@@ -5,13 +5,14 @@
 	;
 
 body {
-	background-color: #F7F9FB;
+	background-color: #BECEDD;
 }
 
 #recipeHeader {
 	margin-bottom: 30px;
-	color: #222;
-	font-size: 25px;
+	padding:30px;
+	color: #42464A;
+	font-size: 30px;
 	font-weight: 700;
 	text-transform: uppercase;
 	font-family: "Roboto Condensed", sans-serif;
@@ -59,14 +60,43 @@ select#search::-ms-expand {
 }
 
 .homeNav {
-	background-color: #5085A5;
-	height: 75px;
+	background-color: white;
+	height: 80px;
 	font-family: 'Roboto Condensed', sans-serif;
 }
 
 #homeNavTxt {
-	font-size: 28px;
+	font-size: 20px;
 	font-variant: small-caps;
+	font-weight:200;
+	color:grey;
+	padding:60px;
+}
+
+#landNav {
+	font-size: 60px;
+	font-variant: small-caps;
+	font-weight:500;
+	padding-top:50px;
+	color:grey;
+}
+
+#homeP{
+	font-size:20px;
+	font-family: 'Mulish', sans-serif;
+	font-weight:800px;
+	font-style:italic;
+	color:#5A5F64;
+	
+}
+
+#homeHeader{
+	font-size:30px;
+	font-family: 'Mulish', sans-serif;
+	font-weight:600px;
+	font-style:italic;
+	color:#42464A;
+	
 }
 
 .logo {
