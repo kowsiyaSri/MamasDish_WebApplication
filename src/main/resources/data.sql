@@ -1,6 +1,3 @@
-
-USE `mamasdish2`;
-
 INSERT INTO end_user (first_name, last_name, email, password) VALUES
 ('Razan','alsaddi','razan@hotmail.com','1234'),
 ('Portia','Ocran','portia@hotmail.com','1234'),
@@ -450,3 +447,10 @@ INSERT INTO Instruction(step_number, description) VALUES
 (8, 'To serve, take a plate and put half of the yogurt sauce. 
 	Then place the tomato sauce and eggplants over it and finally pour the remaining yogurt sauce on top of the eggplants and sprinkle lots of dried mint.'),
 (9, 'Serve with kabuli pulao, pita bread or naan.');
+
+INSERT INTO RECIPE_INSTRUCTIONS(recipe_id, instructions_id) VALUES 
+(1,1),
+(1,2),
+(1,3),
+(2,4),
+(2,5);

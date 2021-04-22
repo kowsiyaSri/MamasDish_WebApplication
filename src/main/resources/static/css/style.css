@@ -1,12 +1,38 @@
 @charset "ISO-8859-1";
 
+@import
+	url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
+	;
+
 body {
 	background-color: #F7F9FB;
+}
+
+hr {
+	border-top: .5px;
+	border-right: 0px;
+	border-left: 0px;
+	padding: 10px 0px
+}
+
+#srvDiv {
+	border-right: 1px dashed lightgrey;
+	height: 100px;
+	padding: 14px;
+	margin: auto;
+	align-items: center;
+	text-align: center;
 }
 
 .homeNav {
 	background-color: #5085A5;
 	height: 75px;
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+#homeNavTxt {
+	font-size: 28px;
+	font-variant: small-caps;
 }
 
 .logo {
@@ -35,6 +61,12 @@ body {
 	width: 100%;
 	/* Height of the footer*/
 	height: 70px;
+}
+
+#ingredLi {
+	font-family: 'Mulish', sans-serif;
+	color: #736458;
+	font-size: 18px;
 }
 
 .row .input-field textarea:focus {
@@ -120,8 +152,23 @@ ul.dropdown-content.select-dropdown li span {
 	text-align: center;
 }
 
+#centerUl {
+	margin: auto;
+	align-items: center;
+}
+
 #list {
 	border: 0px;
+	font-family: 'Mulish', sans-serif;
+	font-size: 18px;
+}
+
+#recipeTitle {
+	margin-top: 0px;
+	margin-bottom: 30px;
+	font-family: 'Mulish', sans-serif;
+	font-size: 30px;
+	font-weight: 900px;
 }
 
 h1 {
@@ -141,7 +188,8 @@ h3 {
 	font-weight: 700;
 	line-height: 15.4px;
 }
-.chefFont{
+
+.chefFont {
 	font-family: Carme;
 	font-size: 17px;
 	font-style: normal;
@@ -150,15 +198,25 @@ h3 {
 	line-height: 15.4px;
 }
 
-#iconlbl{
-	font-weight:bold;
+#iconlbl {
+	font-weight: bold;
+	font-family: 'Mulish', sans-serif;
+	padding-top: 1px;
+	padding-bottom: 1px;
 }
-#listLbl{
-	font-family: Carme;
-	font-size: 18px;
-	font-weight: 600;
-	line-height: 20px;
+
+#listLbl {
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 23px;
+	font-weight: 900px;
 }
+
+#ulHeader {
+	padding: 10px 0px 10px 0px;
+	font-weight: 800;
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
 p {
 	font-family: Carme;
 	font-size: 14px;
@@ -184,4 +242,45 @@ pre {
 	font-variant: normal;
 	font-weight: 400;
 	line-height: 18.5714px;
+}
+
+#centerNav {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#recipeCard {
+	font-family: 'Mulish', sans-serif;
+	font-size: 30px;
+	font-variant: small-caps;
+	font-weight: 660;
+	padding-bottom: 20px;
+	text-align: center;
+}
+
+#recipeCountry {
+	font-family: 'Mulish', sans-serif;
+	font-size: 20px;
+	font-variant: small-caps;
+	font-weight: 500;
+	color: #ACACAC;
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+#recipeDescription {
+	font-family: 'Mulish', sans-serif;
+	font-size: 20px;
+	font-weight: 400;
+	padding-bottom: 20px;
+	line-height:30px;
+}
+
+.link
+{
+   text-decoration: none; 
+   background-color: none;
+   color:black;
 }
