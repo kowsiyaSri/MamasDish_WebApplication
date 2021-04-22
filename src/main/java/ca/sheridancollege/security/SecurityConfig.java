@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 		//******************************************************************
 		
 		http.authorizeRequests()
-			.antMatchers("/user/**").hasRole("USER")
+			.antMatchers("/viewAllRecipe", "/viewRecipe").hasAnyRole("USER", "CHEF")
 			.antMatchers("/uploadRecipe","/addRecipe").hasRole("CHEF")
 			.antMatchers("/h2-console/**","/register/**").permitAll()
 			.antMatchers("/","/css/**","/images/**","/js/**","/**").permitAll()
@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 		.and()
 			.formLogin()
 			.loginPage("/login")
-			//.defaultSuccessUrl("/nuts")
+			.defaultSuccessUrl("/viewAllRecipe")
 			.permitAll()
 		.and()
 			.logout()

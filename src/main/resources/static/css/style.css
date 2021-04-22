@@ -10,7 +10,7 @@ body {
 
 #recipeHeader {
 	margin-bottom: 30px;
-	padding:30px;
+	padding: 30px;
 	color: #42464A;
 	font-size: 30px;
 	font-weight: 700;
@@ -35,15 +35,14 @@ select#search {
 	padding-left: 30px;
 	margin-top: 10px;
 	height: 40px;
-	font-size:17px;
-	color:#006064;
+	font-size: 17px;
+	color: #006064;
 	font-family: 'Mulish', sans-serif;
-	text-transform : uppercase;
+	text-transform: uppercase;
 	-moz-appearance: none;
 	/* for Chrome */
 	-webkit-appearance: none;
 }
-
 
 /* For IE10 */
 select#search::-ms-expand {
@@ -68,35 +67,33 @@ select#search::-ms-expand {
 #homeNavTxt {
 	font-size: 20px;
 	font-variant: small-caps;
-	font-weight:200;
-	color:grey;
-	padding:60px;
+	font-weight: 200;
+	color: grey;
+	padding: 60px;
 }
 
 #landNav {
 	font-size: 60px;
 	font-variant: small-caps;
-	font-weight:500;
-	padding-top:50px;
-	color:grey;
+	font-weight: 500;
+	padding-top: 50px;
+	color: grey;
 }
 
-#homeP{
-	font-size:20px;
+#homeP {
+	font-size: 20px;
 	font-family: 'Mulish', sans-serif;
-	font-weight:800px;
-	font-style:italic;
-	color:#5A5F64;
-	
+	font-weight: 800px;
+	font-style: italic;
+	color: #5A5F64;
 }
 
-#homeHeader{
-	font-size:30px;
+#homeHeader {
+	font-size: 30px;
 	font-family: 'Mulish', sans-serif;
-	font-weight:600px;
-	font-style:italic;
-	color:#42464A;
-	
+	font-weight: 600px;
+	font-style: italic;
+	color: #42464A;
 }
 
 .logo {
@@ -118,10 +115,9 @@ select#search::-ms-expand {
 	margin-left: 20%;
 }
 
-#optionFilter{
-	font-size:15px;
+#optionFilter {
+	font-size: 15px;
 	font-family: 'Mulish', sans-serif;
-	
 }
 
 #footer {
@@ -352,4 +348,18 @@ pre {
 	text-decoration: none;
 	background-color: none;
 	color: black;
+}
+
+#loginBtn {
+	padding-left: 10px;
+	margin-top: 30px">
+}
+
+.liA{
+	padding:0px 30px;
+}
+
+#formLogin {
+	background-color: white;
+	padding: 30px;
 }

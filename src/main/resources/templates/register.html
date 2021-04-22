@@ -21,13 +21,33 @@
 
 body {
 	align-items: center;
+		align-items: center;
+	 background-image: url('images/shakshuka.png');
+  	background-repeat: no-repeat;
+  	background-attachment: fixed;  
+  	background-size: cover;
+	
 }
 </style>
 </head>
 <body>
+<header>
+		<div class="navbar-fixed" id="centerNav" >
+			<nav style="height:160px; background-color:white;" class="fixed" id="centerNav">
+				<div class="nav-wrapper" id="centerNav">
+					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a> -->
+					<ul style="width: 100%" id="centerNav"
+						class="hide-on-med-and-down">
+						<li><a id="landNav" href="/viewAllRecipe">Mama's Dish</a></li>
+					
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</header>
 
-
-	<div class="row container padtop80" style="min-height: 100vh">
+	<div class="row container padtop80" style="margin-top:70px">
 		<div class="col m6 offset-m3 s12">
 			<div class="row">
 				<div class="col s12">
@@ -38,7 +58,7 @@ body {
 				</div>
 			</div>
 		</div>
-		<div class="col m6 offset-m3 s12 z-depth-1 padtop10">
+		<div class="col m6 offset-m3 s12 z-depth-1"  id="formLogin">
 		<form th:action="@{/register}" method="post">
 			
 				<div class="input-field col s12 ">
@@ -62,23 +82,22 @@ body {
 				</div>
 
 
-				<p class="padleft10">
+				<p style="padding-left:10px;">
 					<input type="checkbox" name="isChef" id="test6" onClick="showDescription(this)" /> <label
 						for="test6">Sign up as a CHEF </label>
 				</p>
+				
 				<div class="input-field col s12 " id="descriptionBox" style="display: none">
 					<label>Description</label> <br> <br> 
 					<input type="text" name="description" >					
 				</div>
-				<p class="padleft10">
-					<input type="submit" value="Register" class="blue darken-4 btn" style="margin:20px;">
+				<p id="loginBtn">
+					<input type="submit" value="Register" class="blue darken-4 btn">
 				</p>
 			
 		</form>
 		</div>
-
-
-
+		</div>
 
 
 		<script type="text/javascript"
