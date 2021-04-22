@@ -23,33 +23,32 @@ public class RecipeController {
 
 	@Autowired
 	private RecipeRepository recipeRepo;
-	
+
 	@Autowired
 	private CountryRepository countryRepo;
-	
+
 	@Autowired
 	private MealTypeRepository mealRepo;
-	
+
 	@Autowired
 	private CuisineRepository cuisineRepo;
-	
-	@Autowired 
+
+	@Autowired
 	private DietRepository dietRepo;
-	
+
 	@Autowired
 	private ProteinRepository proteinRepo;
-	
+
 	@Autowired
 	private MeasurementRepository measureRepo;
-	
-	
+
 	@GetMapping("/")
 	public String home(Model model) {
 		return "home.html";
 	}
-	
+
 	@GetMapping("/uploadRecipe")
-	public String goUploadRecipe(Model model){
+	public String goUploadRecipe(Model model) {
 		model.addAttribute("recipe", new Recipe());
 		model.addAttribute("countries", countryRepo.findByOrderByName());
 		model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
@@ -57,52 +56,78 @@ public class RecipeController {
 		model.addAttribute("diets", dietRepo.findAll());
 		return "recipe.html";
 	}
-	
+
 	@PostMapping("/addRecipe")
-	public String addRecipe(@ModelAttribute Recipe recipe, @RequestParam String prep, @RequestParam String cook, Model model) {
-		String ptime[] = prep.split(":"); 
-		float phr =Float.parseFloat(ptime[0]) * 60; 
+	public String addRecipe(@ModelAttribute Recipe recipe, @RequestParam String prep, @RequestParam String cook,
+			Model model) {
+		String ptime[] = prep.split(":");
+		float phr = Float.parseFloat(ptime[0]) * 60;
 		float pmin = Float.parseFloat(ptime[1]);
 		recipe.setPrepTime(phr + pmin);
-		
+
 		String ctime[] = cook.split(":");
-		float chr =Float.parseFloat(ctime[0]) * 60; 
+		float chr = Float.parseFloat(ctime[0]) * 60;
 		float cmin = Float.parseFloat(ctime[1]);
 		recipe.setCookTime(chr + cmin);
 		System.out.println(recipe.getPrepTime());
 		System.out.println(recipe.getCookTime());
-		
+
 		Recipe savedRecipe = recipeRepo.save(recipe);
-		
+
 		model.addAttribute("recipeId", savedRecipe.getId());
 		model.addAttribute("measurements", measureRepo.findAll());
 		model.addAttribute("proteins", proteinRepo.findAll());
-		
+
 		return "ingredient.html";
 	}
-	
+
 	@GetMapping("/ingr")
 	public String addIngredient(Model model) {
 		model.addAttribute("measurements", measureRepo.findAll());
 		model.addAttribute("proteins", proteinRepo.findAll());
 		return "ingredient.html";
 	}
-	
+
 	@GetMapping("/addInstructions/{recipeId}")
-	public String addInstructions(@PathVariable int recipeId ,Model model) {
+	public String addInstructions(@PathVariable int recipeId, Model model) {
 		model.addAttribute("recipeId", recipeId);
 		return "instruction.html";
 	}
-	
+
 	@GetMapping("/viewAllRecipe")
-	public String viewAllRecipes(Model model){
+	public String viewAllRecipes(Model model) {
 		model.addAttribute("recipes", recipeRepo.findAll());
 		return "viewAllRecipes.html";
 	}
-	
+
 	@GetMapping("/viewRecipe/{recipeId}")
 	public String viewRecipe(@PathVariable int recipeId, Model model) {
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
 		return "viewRecipe.html";
+	}
+
+	@PostMapping("/searchRecipes")
+	public String searchRecipes(Model model, @RequestParam String search, @RequestParam int searchBy) {
+
+		switch (searchBy) {
+
+		case 1:
+			model.addAttribute("recipes", recipeRepo.findByTitleContainingIgnoreCase(search));
+			break;
+		case 3:
+			model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(search));
+			break;
+		case 2:
+			model.addAttribute("recipes", recipeRepo.findByIngredients_Ingredient_IngredientNameContainingIgnoreCase(search));
+			break;
+			
+			default:
+				model.addAttribute("recipes",
+						recipeRepo.findByTitleContainingIgnoreCaseOrCountry_nameContainingIgnoreCase(search, search));
+		}
+
+		model.addAttribute("searchVal", search);
+		
+		return "viewAllRecipes.html";
 	}
 }

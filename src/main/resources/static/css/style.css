@@ -16,7 +16,7 @@ body {
 	text-transform: uppercase;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
-	text-align:center;
+	text-align: center;
 }
 
 hr {
@@ -24,6 +24,29 @@ hr {
 	border-right: 0px;
 	border-left: 0px;
 	padding: 10px 0px
+}
+
+select#search {
+	border: 0px;
+	outline: 0px;
+	border-right: 1px solid lightgrey;
+	padding-top: 8px;
+	padding-left: 30px;
+	margin-top: 10px;
+	height: 40px;
+	font-size:17px;
+	color:#006064;
+	font-family: 'Mulish', sans-serif;
+	text-transform : uppercase;
+	-moz-appearance: none;
+	/* for Chrome */
+	-webkit-appearance: none;
+}
+
+
+/* For IE10 */
+select#search::-ms-expand {
+	display: none;
 }
 
 #srvDiv {
@@ -63,6 +86,12 @@ hr {
 
 .formDiv, #ingredientDiv, #instructionDiv {
 	margin-left: 20%;
+}
+
+#optionFilter{
+	font-size:15px;
+	font-family: 'Mulish', sans-serif;
+	
 }
 
 #footer {
