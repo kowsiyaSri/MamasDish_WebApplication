@@ -401,74 +401,798 @@ INSERT INTO country (country_code, Latitude, Longitude, Name) VALUES
             ('ZM', -13.133897, 27.849332, 'Zambia'),
             ('ZW', -19.015438, 29.154857, 'Zimbabwe');
             
+/* Recipe 1 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES
+		(1,'3 Ingredient Teriyaki Chicken', 30, 4, 4, 20 , 10 , 'Easy Recipe Under 30 mins. Tastes Great!',4, 7, 227,null,null );
+
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('Chicken Thighs', 1),
+    	('Soy Sauce', null),
+    	('Brown Sugar', null);
+
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(910, 1, 19, 1),
+    	(1, 1, 5, 2),
+    	(110, 1, 19, 3);
+
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Sear the chicken evenly until cooked.'),
+		(2, 'Add in soy sauce and brown sugar. Stir till you bring it to a boil.'),
+		(3, 'Stir until sauce has reduced and evenly glazes the chicken.'),
+		(4, 'Serve with rice and enjoy!');
     
-INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id) VALUES
-	(1,'3 Ingredient Teriyaki Chicken', 30, 4, 4, 20 , 10 , 'Easy Recipe Under 30 mins. Tastes Great!',4, 7, 227,null,null );
+/* Recipe 2 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id) 
+	VALUES 
+		(1,'3 Ingredient Teriyaki Beef', 30, 3.5, 4, 20.0, 10.0, 'Easy Beef Recipe Under 30 mins. Tastes Great!',4, 7, 227,null,null);
+ 
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+	 	('Beef Chunks', 6),
+		('Soy Sauce', null), 
+		('Brown Sugar', null);		
 
-INSERT INTO Ingredient(ingredient_name, protein_id) VALUES
-	('Chicken Thighs', 1),
-    ('Soy Sauce', null),
-    ('Brown Sugar', null);
-
-INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) VALUES
-	(910, 1, 19, 1),
-    (1, 1, 5, 2),
-    (110, 1, 19, 3);
-
-INSERT INTO Instruction(step_number, description) VALUES
-	(1, 'Sear the chicken evenly until cooked.'),
-	(2, 'Add in soy sauce and brown sugar. Stir till you bring it to a boil.'),
-	(3, 'Stir until sauce has reduced and evenly glazes the chicken.'),
-	(4, 'Serve with rice and enjoy!');
-    
-INSERT INTO Ingredient(ingredient_name, protein_id) VALUES
- ('small eggplants', null),
- ('garlic', null),
- ('tomatoes ', null),
- ('turmeric powder', null),
- ('water', null),
- ('vegetable oil', null),
- ('salt', null),
- ('yogurt', null),
- ('grated garlic', null),
- ('dried mint', null);
-
-/* Add Recipe */ 
-INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id) VALUES
-	(5, 'Afghan Eggplant With Yogurt Sauce', 35, 4.15, 2, 15, 20, 
-	'Eggplants cooked with tomatoes. Served with yogurt-garlic sauce and topped with lots of dried mint. Traditional Afghan recipe.',  
-	1, 7, 3, 1, null);
-    
 /* Add Recipe Ingredient */
-INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) VALUES
-(6, 2, null, 4), -- small eggplants
-(2, 2, 24, 5), -- garlic
-(3, 2, null, 6), -- tomatoes
-(0.25, 2, 1, 7), -- turmeric powder
-(0.25, 2, 5, 8), -- water
-(1, 2, 2, 9), -- vegetable oil
-(1, 2, 2, 10), -- salt
-(1, 2, 5, 11), -- yogurt
-(1, 2, 1, 12), -- grated garlic
-(0.25, 2 , 1, 13); -- dried mint
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES 
+		(910, 2, 19, 4),
+		(1, 2, 5, 2),
+		(110, 2, 19, 3);
 
 /* Add Instructions */
-INSERT INTO Instruction(step_number, description) VALUES
-(1, 'Take yogurt in a bowl and whisk it. Add grated garlic to it and mix. Keep it in the fridge while you cook the eggplants.'),
-(2, 'Cut the eggplants into thin slices. You can remove the outer covering of the eggplant if you want.'),
-(3, 'Heat oil in a pan on medium flame. Once hot, add the eggplants slices and fry till they are golden brown in color. 
-	Do not over-fry it else the slices will become very soggy, you still want it little firm in the center.'),
-(4, 'Place the eggplants slices on a kitchen towel to drain excess oil. Set aside.'),
-(5, 'In another pan, heat 2-3 teaspoon of oil and add chopped garlic to it. Saute till it become light golden brown in color.'),
-(6, 'Add the tomatoes, turmeric powder, cayenne pepper, salt and cook till tomatoes become soft and mushy. This will take 6-7 minutes.'),
-(7, 'Next add the fried eggplants, around 1/4 cup of water and cover and cook at low heat for around 10 minutes.Switch off the flame.'),
-(8, 'To serve, take a plate and put half of the yogurt sauce. 
-	Then place the tomato sauce and eggplants over it and finally pour the remaining yogurt sauce on top of the eggplants and sprinkle lots of dried mint.'),
-(9, 'Serve with kabuli pulao, pita bread or naan.');
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+	(1, 'Sear the beef evenly until cooked.'),
+	(2, 'Add in soy sauce and brown sugar. Stir till you bring it to a boil.'),
+	(3, 'Stir until sauce has reduced and evenly glazes the beef.'),
+	(4, 'Serve with rice and enjoy!');
 
-INSERT INTO RECIPE_INSTRUCTIONS(recipe_id, instructions_id) VALUES 
-(1,1),
-(1,2),
-(1,3),
-(2,4),
-(2,5);
+/* Recipe 3 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1,'3 Ingredient Teriyaki Pork',30, 4, 4, 20.0, 10.0, 'Easy Pork Recipe Teriyaki!',4, 7, 227,null,null);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('Pork', 3),
+		('Soy Sauce', null), 
+		('Brown Sugar', null); 
+		
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(910, 3, 19, 1),
+		(1, 3, 5, 2),
+		(110, 3, 19, 3);
+	
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Sear the pork evenly until cooked.'),
+		(2, 'Add in soy sauce and brown sugar. Stir till you bring it to a boil.'),
+		(3, 'Stir until sauce has reduced and evenly glazes the chicken.'),
+		(4, 'Serve with rice and enjoy!');
+		
+/* Recipe 4 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1,'3 Ingredient Teriyaki Salmon', 30, 3.5, 4, 20.0, 10.0, 'Simple teriyaki salmon!',4, 7, 227,null,null);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('Salmon', 15),
+		('Soy Sauce', null), 
+		('Brown Sugar', null); 
+		
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(910, 4, 19, 6),
+		(1, 4, 5, 2),
+		(110, 4, 19, 3);
+	
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Sear the salmon evenly until cooked.'),
+		(2, 'Add in soy sauce and brown sugar. Stir till you bring it to a boil.'),
+		(3, 'Stir until sauce has reduced and evenly glazes the chicken.'),
+		(4, 'Serve with rice and enjoy!');
+
+/* Recipe 5 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1,'3 Ingredient Teriyaki Shrimp', 30, 4.5, 4, 20.0, 10.0, 'Simple teriyaki Shrimp recipe!',4, 7, 227,null,null);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('Shrimp', 15),
+		('Soy Sauce', null), 
+		('Brown Sugar', null); 
+		
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(910, 5, 19, 7),
+		(1, 5, 5, 2),
+		(110, 5, 19, 3);
+	
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Sear the shrimp evenly until cooked.'),
+		(2, 'Add in soy sauce and brown sugar. Stir till you bring it to a boil.'),
+		(3, 'Stir until sauce has reduced and evenly glazes the chicken.'),
+		(4, 'Serve with rice and enjoy!');
+		
+/* Recipe 6 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1,'3 Ingredient Green Beans',12.0,5,6,7.0,5.0,'Easy and healthy meal',1,4,40,6,2);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('green beans', null),
+	    ('water',null),
+	    ('salt', null),
+	    ('butter', null),
+	    ('savory Spice Blend', null); 
+		
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(680, 6, 19, 8), -- green beans
+		(0.25, 6, 12, 9), -- water
+		(0.75, 6, 1, 10), -- salt
+		(4, 6, 1, 11), --  butter
+	    (1.25, 6, 1, 12); -- savory Spice Blend  
+	
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'In a large pan over high heat, combine the green beans, water, and ¼ teaspoon salt. Cover and steam for 5–7 minutes, until the green beans 
+			are just barely tender.'),
+	    (2, 'Remove the lid and add the remaining ½ teaspoon salt, the butter, and Savory spice blend. Cook, tossing every 30 seconds, until the green 
+			beans are tender and charred in a few spots, 1–2 minutes.'),
+	    (3, 'Serve immediately.'),
+	    (4, 'Enjoy!');
+	    
+/* Recipe 7 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1,'10 Miute Cola Wing',10.0,4,1,7.0,2.0,'Chiness meal',2,7,46,1,5);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('olive oil', null),
+	    ('chicken wings', 1),
+	    ('soy sauce', null),
+	    ('cola soda', null),
+	    ('scallion', null);
+		
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(1, 7, 1, 13), -- olive oil
+		(6, 7, 23, 14), -- chicken wings
+		(2, 7, 1, 2), -- soy sauce
+		(3.25, 7, 12, 15), -- cola soda
+	    (1, 7, 23, 16); -- scallion  
+	
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Heat the olive oil in a medium nonstick skillet over medium heat. Add the chicken wings and sear for 1–2 minute per side, until just crispy.'),
+	    (2, 'Add the soy sauce and cola and increase the heat to high. Bring to boil and cook, stirring constantly, until the sauce is reduced and syrupy and 
+			the wings are warmed through and well coated, 5–7 minutes.'),
+	    (3, 'Garnish with scallions and serve immediatel'),
+	    (4, 'Enjoy!');
+	    
+/* Recipe 8 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(5, 'Afghan Eggplant With Yogurt Sauce', 35, 4.15, 2, 15, 20, 'Eggplants cooked with tomatoes.', 1, 7, 3, 1, null);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('small eggplants', null),
+		('garlic', null),
+		('tomatoes ', null),
+		('turmeric powder', null),
+		('water', null),
+		('vegetable oil', null),
+		('salt', null),
+		('yogurt', null),
+		('grated garlic', null),
+		('dried mint', null);
+		
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(6, 8, null, 17), -- small eggplants
+		(2, 8, 24, 18), -- garlic
+		(3, 8, null, 19), -- tomatoes
+		(0.25, 8, 1, 20), -- turmeric powder
+		(0.25, 8, 5, 9), -- water
+		(1, 8, 2, 21), -- vegetable oil
+		(1, 8, 2, 10), -- salt
+		(1, 8, 5, 22), -- yogurt
+		(1, 8, 1, 23), -- grated garlic
+		(0.25,8 , 1, 24); -- dried mint  
+	
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Take yogurt in a bowl and whisk it. Add grated garlic to it and mix. Keep it in the fridge while you cook the eggplants.'),
+		(2, 'Cut the eggplants into thin slices. You can remove the outer covering of the eggplant if you want.'),
+		(3, 'Heat oil in a pan on medium flame. Once hot, add the eggplants slices and fry till they are golden brown in color. Do not over-fry it else 
+			the slices will become very soggy, you still want it little firm in the center.'),
+		(4, 'Place the eggplants slices on a kitchen towel to drain excess oil. Set aside.'),
+		(5, 'In another pan, heat 2-3 teaspoon of oil and add chopped garlic to it. Saute till it become light golden brown in color.'),
+		(6, 'Add the tomatoes, turmeric powder, cayenne pepper, salt and cook till tomatoes become soft and mushy. This will take 6-7 minutes.'),
+		(7, 'Next add the fried eggplants, around 1/4 cup of water and cover and cook at low heat for around 10 minutes.Switch off the flame.'),
+		(8, 'To serve, take a plate and put half of the yogurt sauce. Then place the tomato sauce and eggplants over it and finally pour the remaining 
+			yogurt sauce on top of the eggplants and sprinkle lots of dried mint.'),
+		(9, 'Serve with kabuli pulao, pita bread or naan.');
+		
+
+/* Recipe 9 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1, 'Afghani Kabli Pulao', 90, 4.84, 4, 45, 45,'Lightly sweetened Vegetarian Afghani Pulao with carrots and raisins makes a great meal!', 1, 7, 3, 1, 4);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('basmati rice', null),
+		('salt', null),
+		('cardamom powder', null),
+		('cumin powder', null),
+		('water', null),
+		('carrot shredded', null),
+		('raisins', null),
+		('vegetable oil', null),
+		('granulated white sugar', null);
+		
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(2, 9, 5, 25), -- basmati rice
+		(2, 9, 1, 10), -- salt
+		(0.25, 9, 1, 26), -- cardamom powder
+		(0.25, 9, 1, 27), -- cumin powder
+		(2, 9, 5, 9), -- water
+		(1.25, 9, 5, 28), -- carrot shredded
+		(0.33, 9, 5, 29), -- raisins
+		(5, 9, 2, 21), -- vegetable oil
+		(2, 9, 2, 30); -- granulated white sugar
+	
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Soak basmati rice in enough water for 45 minutes. Drain the rice and set aside.'),
+		(2, 'In a large pan, bring water to boil, add around 2-3 teaspoons of salt to the water as it boils.'),
+		(3, 'When water comes to a boil, add the soaked & drained rice to it. Cook for 10 minutes, stirring at regular intervals in between. We do not want to 
+			fully cook the rice and it must not turn mushy. Just like we cook the pasta till al dente (firm to bite), the rice should also be cooked to a point 
+			when it is still firm. If you soak the rice for 45 minutes to 1 hour, it should not take more than 10 minutes for rice to reach that stage.'),
+		(4, 'Remove the pan from heat as soon as rice is done and then drain. Set aside.'),
+		(5, 'While the rice was cooking in step 1, heat vegetable oil in a pan. Once oil is hot, add the shredded carrots.'),
+		(6, 'Cook for 1-2 minutes and then add 2 tablespoons of sugar and mix.'),
+		(7, 'Once the color of the carrot starts changing a bit, add raisins and cook for another minute or two.'),
+		(8, 'Remove from heat and drain on a paper towel. Do not drain the oil that you used for frying the carrots and raisins, we will use it the next steps.'),
+		(9, 'Now take a large sheet of aluminium foil and place the fried carrot and raisins in the center.'),
+		(10, 'Close all sides to form an aluminium foil packet with the carrot and raisins inside.'),
+		(11, 'In the meanwhile, transfer the cooked rice back to the pan again.'),
+		(12, 'Place the pan on low heat with a skillet underneath (see picture above).'),
+		(13, 'Sprinkle cardamom powder on top of the rice and then place the prepared aluminium packet on one side of the rice.'),
+		(14, 'Now add the oil that was leftover after frying with carrots and raisins to the rice. Just drop it all over.'),
+		(15, 'Cover the pan tightly and let the rice steam with the carrots and raisins on low heat for 20-30 minutes. In the meanwhile, in a small bowl, soak 
+				some saffron in a tablespoon of milk.'),
+		(16, 'Remove rice from the pan and transfer to serving bowl. Pour the soaked saffron all over the rice. Sprinkle some cumin powder.'),
+		(17, 'Open the aluminium foil packet and top the rice with the carrots and raisins.'),
+		(18, 'Enjoy Afghani Pulao as such or serve with a side of borani banjan.');
+		
+/* Recipe 10 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(3, 'Pumpkin Chocolate Chip Bread', 70, 4.32, 10, 55, 10, 'Grated fresh ginger stirred right into the batter makes this plush, moist pumpkin bread 
+		recipe extra special — and spicy!', 1, 1, 227, 21, null);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('all-purpose flour', null),
+		('baking powder', null),
+		('baking soda', null),
+		('pumpkin pie spice', null),
+		('kosher salt', null),
+		('(1 stick) unsalted butter, melted', null),
+		('canned pure pumpkin', null),
+		('granulated sugar', null),
+		('packed brown sugar', null),
+		('large eggs', null),
+		('milk', null),
+		('grated fresh ginger', null),
+		('pure vanilla extract', null),
+		('bittersweet chocolate chips', null);
+		
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(1.75, 10, 5, 31), -- all-purpose flour
+		(1, 10, 1, 32), -- baking powder
+		(0.5, 10, 1, 33), -- baking soda
+		(1.5, 10, 1, 34), -- pumpkin pie spice
+		(0.5, 10, 1, 35), -- kosher salt
+		(0.5, 10, 5, 36), -- (1 stick) unsalted butter, melted
+		(1, 10, 5, 37), -- canned pure pumpkin
+		(0.5, 10, 5, 38), -- granulated sugar
+		(0.25, 10, 5, 39), -- packed brown sugar
+		(2, 10, null, 40), -- large eggs
+		(2, 10, 5, 41), -- milk
+		(2, 10, 2, 42), -- grated fresh ginger
+		(1, 10, 1, 43), -- pure vanilla extract
+		(0.5, 10, 5, 44); -- bittersweet chocolate chips
+	
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Heat oven to 350°F. Lightly coat 81/2- by 4 1/2-in. loaf pan with cooking spray. Line with parchment, leaving an overhang on the two long sides; 
+			lightly coat paper.'),
+		(2, 'In large bowl, whisk together flour, baking powder, baking soda, pumpkin pie spice and salt.'),
+		(3, 'Transfer melted butter to large bowl and whisk in pumpkin and sugars (this will help cool it down if it is still hot). Whisk in eggs, milk, ginger 
+			and vanilla. Add flour mixture and mix to combine; fold in 1/2 cup chocolate chips.'),
+		(4, 'Transfer mixture to prepared pan, scatter remaining 2 Tbsp chips on top and bake until a wooden pick inserted into the center comes out clean, 45 
+			to 55 minutes.'),
+		(5, 'Transfer pan to wire rack and let cool 10 minutes before using parchment overhangs to transfer bread to rack to cool completely.');
+
+
+/* Recipe 11 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(2, 'Cream Roll', 30, 4, 8, 20, 10, 'Take a stroll down memory lane with Cream Roll. Try this easy cream roll recipe with step by step instructions.',  
+         1, 3, 3, 1, null);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('puff pastry sheet', null),
+		('milk', null),
+		('unsalted butter', null),
+		('powdered sugar', null),
+		('vanilla essence', null);
+	
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(20, 11, null, 45), -- puff pastry sheet
+		(8, 11, 2, 41), -- milk
+		(2, 11, 5, 46), -- unsalted butter
+		(2, 11, 5, 47), -- powdered sugar
+		(2, 11, 1, 48); -- vanilla essence
+	
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'To start with, take a puff pastry sheet and cut it into a long ribbon-like piece. Cut as many pieces you want. Make sure that all the pieces 
+			are neither too wide nor too thin in width.'),
+		(2, 'Now, take wood dowels and roll a piece of puff pastry sheet around it. Roll other pieces around the dowels as well. Now, cook them in the oven 
+			at 180 degree Celsius for about 30 minutes.'),
+		(3, 'When done, remove from oven and let it cool. When cooled slightly, take the wood out of the cooked pastry rolls.'),
+		(4, 'Meanwhile, take a bowl and add vanilla essence, powdered sugar, milk and butter. Mix it and add milk slowly-slowly to the mixture while mixing 
+			it.'),
+		(5, 'When done, transfer the mixture in a piping bag and roll the piping bag. Cut the tip of the piping bag. Take puff pastry roll and pipe in the 
+			mixture inside the opening/centre of the roll.'),
+		(6, 'Once done, serve the cream roll fresh.');	
+
+
+/* Recipe 12 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1,'French Omelette',7.0,5,1,5.0,2.0,'Easy and healthy meal',1,1,72,48,5);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('eggs', null),
+	    ('salt',null),
+	    ('Butter', null),
+	    ('fresh chive', null);
+
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(3, 12, 1, 49),-- eggs
+		(1, 12, 22, 10), -- salt
+		(1, 12, 1, 11),-- Butter
+		(1, 12, 23, 50);-- fresh chive
+		
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Beat the eggs with the salt until the whites and the yolks are completely combined, with no spots of egg white remaining.'),
+	    (2, 'Over medium-low heat, melt the butter in a skillet, then pour in the eggs.'),
+	    (3, 'Using a rubber spatula, constantly scrape the bottom of the pan while shaking the pan in a circular motion to ensure that the eggs cook slowly, 
+			forming only small curds, about 1-2 minutes.'),
+	    (4, 'Once you start to see the bottom of the pan for more than a second after scraping, push the eggs into a round circular shape. Cook until the edges 
+			solidify, then tilt the pan and carefully roll the omelette on itself.');
+
+/* Recipe 13 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(4, 'Vegetable Samosas', 100, 4.82, 24, 70, 30, 'Serve up these crisp vegan samosas as a tasty starter or side dish with your favourite curry.', 1, 3, 
+		103, 43, 1);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('vegetable oil', null),
+		('onion, finely chopped', null),
+		('garlic, crushed', null),
+		('potato (about 150g) finely diced', null),
+		('carrot (about 100g) finely diced', null),
+		('frozen peas', null),
+		('curry powder', null),
+		('vegetable stock', null),
+		('plain flour', null),
+		('sea salt', null);
+
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(1, 13, 2, 21), -- vegetable oil
+		(1, 13, null, 51), -- onion, finely chopped
+		(2, 13, 24, 52), -- garlic, crushed
+		(1, 13, null, 53), -- potato (about 150g) finely diced
+		(1, 13, null, 54), -- carrot (about 100g) finely diced
+		(100, 13, 19, 55), -- frozen peas
+		(2, 13, 1, 56), -- curry powder
+		(100, 13, 9, 57), -- vegetable stock
+		(225, 13, 19, 58), -- plain flour
+		(2, 13, 2, 59); -- sea salt
+		
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'To make the filling, heat the oil in a frying pan, add the onion and garlic, mix in the spices and fry for 10 mins until soft. Add the vegetables, 
+			seasoning and stir well until coated. Add the stock, cover and simmer for 30 mins until cooked. Leave to cool.'),
+		(2, 'To make the pastry, mix flour and salt into a bowl. Make a well in the centre, add the oil and 100ml water to make a firm dough. Knead the dough 
+			on a floured surface for 5-10 mins until smooth and roll into a ball. Cover in cling film and set aside at room temperature for 30 mins.'),
+		(3, 'Divide the pastry into 12 equal pieces. Roll each piece into a ball and roll out into a circle of 15cm. Divide this circle into two equal pieces 
+			with a knife.'),
+		(4, 'Brush each edge with a little water and form a cone shape around your fingers, sealing the dampened edge. Fill with 1 tbsp mixture and press the 
+			two dampened edges together to seal the top of the cone. Repeat with the remaining pastry.'),
+		(5, 'Heat the oil in a large deep saucepan to 180C. The oil should come 1/3rd of the way up the pan. Deep fry the samosas in batches for 8-10 mins 
+			until crisp and brown. Take out and drain on kitchen paper.');
+				
+/* Recipe 14 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1,'New York City Dog',30.0,2,4,25.0,5.0,'Hot dog',3,1,227,13,5);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('vegetable oil', null),
+	    ('water',null),
+	    ('salt',null),
+		('ketchup',null),
+	    ('kosher beef hot dogs', 6),
+	    ('hot dog buns', null),
+	    ('french yellow mustard', null);
+
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(2, 14, 1,21), -- vegetable oil
+		(0.25, 14, 23, 9), -- water
+	    (1, 14, 1, 10), -- salt
+		(2, 14, 1, 60),  -- ketchup
+		(4, 14, 23, 61), -- 'kosher beef hot dogs
+		(4, 14, 23, 62), -- hot dog buns
+	    (1, 14, 22, 63);  -- mustard
+		
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Onion sauce: Heat oil in a skillet over low heat. Add in onion and cook for a few minutes until softened. Stir in water, ketchup, and salt. 
+			Cover pan and cook for about 20 minutes, stirring occasionally, until onions are completely soft and saucy.'),
+	    (2, 'Boil hot dogs until cooked. Place in buns and then layer sauerkraut, onion sauce, and French’s spicy brown mustard on top.'),
+	    (3, 'Enjoy!');	
+			
+/* Recipe 15 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1,'Yaki Tomorokoshi',10.0,3,3,7.0,3.0,'Corn on the cob',1,3,112,2,5);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('Corn', null),
+	    ('Canola oil',null),
+	    ('Soy sauce', null),
+	    ('sugar', null);
+
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(3, 15,23, 64), -- Corn
+		(1, 15, 1, 65),-- Canola oil
+		(3, 15, 1, 2), -- Soy sauce
+		(1, 15, 1, 66);-- sugar
+		
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Blanch the corn in a large pot of boiling water for 3 minutes. Remove the corn from the pot.'),
+	    (2, 'Heat the canola oil in a medium pan over medium-high heat. Add the corn and cook, turning occasionally, until nicely browned on all sides.'),
+	    (3, 'In a small bowl, combine the soy sauce and sugar. Pour over the corn in the pan and brush over the corn until well coated. Transfer to a serving 
+			plate.'),
+	    (4, 'Enjoy!');			
+			
+/* Recipe 16 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1, 'Beef Bean Stew with Pork', 40, 5, 4, 20, 20, 'Wonderful dish of beans with tomatoes and a touch of chile and curry.', 2, 7, 79, 1, 4);
+
+/* Add Ingredient */
+INSERT INTO Ingredient(ingredient_name, protein_id) 
+	VALUES
+		('beef eye round', 6),
+		('chicken thigh',  1),
+		('pork shoulder', 3),
+		('black eyed peas', null),
+		('red palm oil', null),
+		('red onion', null),
+		('ginger', null),
+		('cayenne pepper', null),
+		('curry powder', null),
+		('plum tomatoes', null),
+		('tomato puree', null),
+		('tomato paste', null),
+		('salt', null),
+		('pepper', null);
+
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(1.5, 16, 5, 70), /*black eyed peas*/
+		(.25, 16, 5, 71), /*red palm oil*/
+		(1, 16, 23, 72), /*red onion*/
+		(1, 16, 23, 73),/*ginger*/
+		(1, 16, 23, 69),/*smoked pork*/
+		(1.5, 16, 1, 74), /*cayenne pepper*/
+		(1, 16, 1, 56),/*curry powder */
+		(4, 16, 23, 75), /*plum tomatoes*/
+		(1, 16, 5, 76), /* tomato puree*/
+		(1, 16, 2, 78), /* tomatoe paste*/
+		(1, 16, 1, 10), /* salt*/
+		(1, 16, 1, 77); /* pepper*/
+		
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Cook the cowpeas in plain water until they are tender. Add a big pinch of salt, cover the pot and remove it from the heat. Set aside for now.'),
+		(2, 'In a medium pot, heat the palm oil over medium heat. When it is hot, saute the onions for about 3 minutes, then add the Scotch bonnet and the 
+			chopped, smoked pork. Saute for another minute or three. Stir in the cayenne and the curry powder, then the chopped fresh tomatoes.'),
+		(3, 'Add the remaining ingredients and the cowpeas. Remove the cowpeas from their water with a slotted spoon. It is OK if some cooking water gets into 
+			the pot. Stir well to combine and simmer for 30 minutes. Serve with fried plantains or simple white rice.');			
+	
+/* Recipe 17 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1, 'Vegetarian Bean Stew', 40, 5, 4, 20, 20, 'Wonderful dish of beans with tomatoes and a touch of chile and curry.', 2, 7, 79, 1, 2);
+
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(1.5, 17, 5, 70), /*black eyed peas*/
+		(.25, 17, 5, 71), /*red palm oil*/
+		(1, 17, 23, 72), /*red onion*/
+		(1, 17, 23, 73),/*ginger*/
+		(1.5, 17, 1, 74), /*cayenne pepper*/
+		(1, 17, 1, 56),/*curry powder */
+		(4, 17, 23, 75), /*plum tomatoes*/
+		(1, 17, 5, 76), /* tomator puree*/
+		(1, 17, 2, 78), /* tomator paste*/
+		(1, 17, 1, 10), /* salt*/
+		(1, 17, 1, 77); /* pepper*/
+		
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Cook the black eyed peas in plain water until they are tender. Add a big pinch of salt, cover the pot and remove it from the heat. Set aside 
+			for now.'),
+		(2, 'In a medium pot, heat the palm oil over medium heat. When it is hot, saute the onions for about 3 minutes, then add the Scotch bonnet and the 
+			chopped, smoked pork. Saute for another minute or three. Stir in the cayenne and the curry powder, then the chopped fresh tomatoes.'),
+		(3, 'Add the remaining ingredients and the black eyed peas. Remove the black eyed peas from their water with a slotted spoon. It is OK if some cooking 
+			water gets into the pot. Stir well to combine and simmer for 30 minutes. Serve with fried plantains or simple white rice.');    
+	    
+/* Recipe 18 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1, 'Chicken Bean Stew', 40, 5, 4, 20, 20, 'Wonderful dish of beans with tomatoes and a touch of chile and curry.', 2, 7, 79, 1, 4);
+
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(1.5, 18, 5, 70), /*black eyed peas*/
+		(.25, 18, 5, 71), /*red palm oil*/
+		(1, 18, 23, 72), /*red onion*/
+		(1, 18, 23, 73),/*ginger*/
+		(1, 18, 23, 68),/*chicken*/
+		(1.5, 18, 1, 74), /*cayenne pepper*/
+		(1, 18, 1, 56),/*curry powder */
+		(4, 18, 23, 75), /*plum tomatoes*/
+		(1, 18, 5, 76), /* tomator puree*/
+		(1, 18, 2, 78), /* tomator paste*/
+		(1, 18, 1, 10), /* salt*/
+		(1, 18, 1, 77); /* pepper*/
+		
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Cook the cowpeas in plain water until they are tender. Add a big pinch of salt, cover the pot and remove it from the heat. Set aside for now.'),
+		(2, 'In a medium pot, heat the palm oil over medium heat. When it is hot, saute the onions for about 3 minutes, then add the Scotch bonnet and the 
+			chopped, smoked pork. Saute for another minute or three. Stir in the cayenne and the curry powder, then the chopped fresh tomatoes.'),
+		(3, 'Add the remaining ingredients and the cowpeas. Remove the cowpeas from their water with a slotted spoon. It is OK if some cooking water gets into 
+			the pot. Stir well to combine and simmer for 30 minutes. Serve with fried plantains or simple white rice.');
+					
+/* Recipe 19 */ 
+INSERT INTO Recipe(icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
+	VALUES 
+		(1, 'Beef Bean Stew', 40, 5, 4, 20, 20, 'Wonderful dish of beans with tomatoes and a touch of chile and curry.', 2, 7, 79, 1, 4);
+
+/* Add Recipe Ingredient */
+INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
+	VALUES
+		(1.5, 19, 5, 70), /*black eyed peas*/
+		(.25, 19, 5, 71), /*red palm oil*/
+		(1, 19, 23, 72), /*red onion*/
+		(1, 19, 23, 73),/*ginger*/
+		(1, 19, 23, 67),/*beef*/
+		(1.5, 19, 1, 74), /*cayenne pepper*/
+		(1, 19, 1, 56),/*curry powder */
+		(4, 19, 23, 75), /*plum tomatoes*/
+		(1, 19, 5, 76), /* tomator puree*/
+		(1, 19, 2, 78), /* tomator paste*/
+		(1, 19, 1, 10), /* salt*/
+		(1, 19, 1, 77); /* pepper*/
+		
+/* Add Instructions */
+INSERT INTO Instruction(step_number, description) 
+	VALUES
+		(1, 'Cook the cowpeas in plain water until they are tender. Add a big pinch of salt, cover the pot and remove it from the heat. Set aside for now.'),
+		(2, 'In a medium pot, heat the palm oil over medium heat. When it is hot, saute the onions for about 3 minutes, then add the Scotch bonnet and the 
+			chopped, smoked pork. Saute for another minute or three. Stir in the cayenne and the curry powder, then the chopped fresh tomatoes.'),
+		(3, 'Add the remaining ingredients and the cowpeas. Remove the cowpeas from their water with a slotted spoon. It is OK if some cooking water gets into 
+			the pot. Stir well to combine and simmer for 30 minutes. Serve with fried plantains or simple white rice.');			
+			
+	    
+/* Add Recipe to Instructions */		
+INSERT INTO RECIPE_INSTRUCTIONS(recipe_id, instructions_id) 
+	VALUES 
+		-- Recipe 1
+		(1,1),
+		(1,2),
+		(1,3),
+		-- Recipe 2
+		(2,4),
+		(2,5),
+		(2,6),
+		(2,7),
+		-- Recipe 3
+		(3,8),
+		(3,9),
+		(3,10),
+		(3,11),
+		-- Recipe 4
+		(4,12),
+		(4,13),
+		(4,14),
+		(4,15),
+		-- Recipe 5
+		(5,16),
+		(5,17),
+		(5,18),
+		(5,19),
+		-- Recipe 6
+		(6,20),
+		(6,21),
+		(6,22),
+		(6,23),
+		-- Recipe 7
+		(7,24),
+		(7,25),
+		(7,26),
+		(7,27),
+		-- Recipe 8
+		(8,28),
+		(8,29),
+		(8,30),
+		(8,31),
+		(8,32),
+		(8,33),
+		(8,34),
+		(8,35),
+		(8,36),
+		-- Recipe 9
+		(9,37),
+		(9,38),
+		(9,39),
+		(9,40),
+		(9,41),
+		(9,42),
+		(9,43),
+		(9,44),
+		(9,45),
+		(9,46),
+		(9,47),
+		(9,48),
+		(9,49),
+		(9,50),
+		(9,51),
+		(9,52),
+		(9,53),
+		(9,54),
+		(9,55),
+		-- Recipe 10
+		(10,56),
+		(10,57),
+		(10,58),
+		(10,59),
+		(10,60),
+		-- Recipe 11
+		(11,61),
+		(11,62),
+		(11,63),
+		(11,64),
+		(11,65),
+		(11,66),
+		-- Recipe 12
+		(12,67),
+		(12,68),
+		(12,69),
+		(12,70),
+		-- Recipe 13
+		(13,71),
+		(13,72),
+		(13,73),
+		(13,74),
+		(13,75),
+		-- Recipe 14
+		(14,76),
+		(14,77),
+		(14,78),
+		-- Recipe 15
+		(15,79),
+		(15,80),
+		(15,81),
+		(15,82),
+		-- Recipe 16
+		(16,83),
+		(16,84),
+		(16,85),
+		-- Recipe 17
+		(17,86),
+		(17,87),
+		(17,88),
+		-- Recipe 18
+		(18,89),
+		(18,90),
+		(18,91),
+		-- Recipe 19
+		(19,92),	
+		(19,93),
+		(19,94);

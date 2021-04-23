@@ -129,7 +129,7 @@ public class RecipeController {
 
 			userRepo.save(user);
 
-			return "loginPage.html";
+			return "home.html";
 		}
 
 	}
