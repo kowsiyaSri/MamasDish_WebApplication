@@ -42,18 +42,11 @@
 		</div>
 	</header>
 	<main>
-
-			
 		<div style="display: none" id="recipeId"  th:text="${recipeId}"></div>
-			
-				<h3 style="text-align:center" id="recipeHeader">Add your ingredients:</h3>
-			
-				<div style="display: none; text-align:center; margin-bottom:5px;" id="errId">Please ensure all ingredients are named</div>
+		<h3 style="text-align:center" id="recipeHeader">Add your ingredients:</h3>
+		<div style="display: none; text-align:center; margin-bottom:5px;" id="errId">Please ensure all ingredients are named</div>
 			
 		<div id="ingredientDiv">
-			
-			
-
 			<div class="row" style="margin-left:33%; margin-top:20px" id="ingredientBox1">
 				<div class="col s12 m6">
 					<div class="card" style="border-radius: 15px">
@@ -76,19 +69,18 @@
 									<label for="ingredient">Ingredient</label>
 								</div>
 							</div>
-							<div class="row"
-								style="padding-bottom: 10px; padding-left: 400px;">
+							<div class="row" style="padding-bottom: 10px; padding-left: 380px;">
 								<div class="input-field">
 									<label> <input type="checkbox" id="protein1" class="filled-in checkbox-blue-grey"
-										name="protein1" onClick="showProtein(this)"/> <span>Protein</span>
+										name="protein1" onClick="showProtein(this)"/> 
+										<span>Protein</span>
 									</label>
 								</div>
 							</div>
 							<div class="row" id="proteinDiv1" style="display: none">
-								<label>Protein</label> <br> <br> <select id="proteinType1"
-									class="browser-default" name="proteinType1" required>
-									<option th:each="p : ${proteins}" th:value="${p.id}"
-										th:text="${p.proteinType}"></option>
+								<label>Protein</label> <br><br> 
+								<select id="proteinType1" class="browser-default" name="proteinType1" required>
+									<option th:each="p : ${proteins}" th:value="${p.id}" th:text="${p.proteinType}"></option>
 								</select>
 							</div>
 						</div>

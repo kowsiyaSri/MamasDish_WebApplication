@@ -46,7 +46,7 @@ function saveRecipe() {
 
 
 
-			if (measurement == null) {
+			if (measurement == "") {
 				measurement = 0;
 			} else {
 				measurement = parseInt(measurement)
@@ -153,7 +153,7 @@ function newIngredient() {
 		"</select> " +
 		"</div> <div class='input-field col s6'><input id='ingredientName" + divID + "' type='text' name='ingredient' required>" +
 		"<label for='ingredient'>Ingredient</label> </div>" +
-		"</div> <div class='row' style='padding-bottom:10px; padding-left:400px;'> " +
+		"</div> <div class='row' style='padding-bottom:10px; padding-left:380px;'> " +
 		"<div class='input-field'><label> <input type='checkbox' class='filled-in' id='protein" + divID + "'  name='protein" + divID + "' onClick='showProtein(this)'  /> <span>Protein</span>" +
 		"</label></div></div>" +
 		"<div class='row' id='proteinDiv" + divID + "'style='display:none'>" +
