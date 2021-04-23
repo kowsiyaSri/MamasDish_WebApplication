@@ -61,7 +61,7 @@ body {
 		<div class="col m6 offset-m3 s12 z-depth-1"  id="formLogin">
 		<form th:action="@{/register}" method="post">
 			
-				<p id="errId" th:text="${errMssg}"></p>
+				<p id="errId" style="text-align:center" th:text="${errMssg}"></p>
 			
 				<div class="input-field col s12 ">
 					<input placeholder="Email Address" th:value="${emailInput}" id="email" type="text" name="email" class="validate" required> 

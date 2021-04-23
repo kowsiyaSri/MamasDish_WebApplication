@@ -118,9 +118,6 @@ select#search::-ms-expand {
 	top: 75px;
 }
 
-.formDiv, #ingredientDiv, #instructionDiv {
-	margin-left: 20%;
-}
 
 #optionFilter {
 	font-size: 15px;

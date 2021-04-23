@@ -19,7 +19,7 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.js"></script>
-<title>Insert title here</title>
+<title>Add Ingredients</title>
 </head>
 <body>
 <header>
@@ -42,21 +42,19 @@
 		</div>
 	</header>
 	<main>
-		<ul class="sidenav sidenav-fixed" style="top:75px; height:100%">
-			<li><a href="#!">Recipe Details</a></li>
-			<li><a href="#!">Ingredient</a></li>
-			<li><a href="#!">Instruction</a></li>
-		</ul>
-		<a href="#" data-target="slide-out" class="sidenav-trigger"><i
-			class="material-icons">menu</i></a>
+
 			
-						<div style="display: none" id="recipeId"  th:text="${recipeId}"></div>
+		<div style="display: none" id="recipeId"  th:text="${recipeId}"></div>
 			
+				<h3 style="text-align:center" id="recipeHeader">Add your ingredients:</h3>
+			
+				<div style="display: none; text-align:center; margin-bottom:5px;" id="errId">Please ensure all ingredients are named</div>
 			
 		<div id="ingredientDiv">
 			
+			
 
-			<div class="row" id="ingredientBox1">
+			<div class="row" style="margin-left:33%; margin-top:20px" id="ingredientBox1">
 				<div class="col s12 m6">
 					<div class="card" style="border-radius: 15px">
 						<div class="card-content">
@@ -79,7 +77,7 @@
 								</div>
 							</div>
 							<div class="row"
-								style="padding-bottom: 10px; padding-left: 500px;">
+								style="padding-bottom: 10px; padding-left: 400px;">
 								<div class="input-field">
 									<label> <input type="checkbox" id="protein1" class="filled-in checkbox-blue-grey"
 										name="protein1" onClick="showProtein(this)"/> <span>Protein</span>
@@ -107,7 +105,7 @@
 
 		<div class="row">
 			<div class="input-field col s12">
-				<a style="margin-left: 20.5%; width:39%; background-color:#5085A5" onclick="newIngredient()" class="waves-effect waves-blue btn">
+				<a style="margin-left: 30%; width:39%; background-color:#5085A5" onclick="newIngredient()" class="waves-effect waves-blue btn">
 					Add Ingredient
 				</a>
 			</div>

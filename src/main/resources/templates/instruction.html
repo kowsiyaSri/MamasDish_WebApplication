@@ -42,17 +42,15 @@
 		</div>
 	</header>
 	<main>
-		<ul id="slide-out" class="sidenav sidenav-fixed recipeNav">
-			<li><a href="#!">Recipe Details</a></li>
-			<li><a href="#!">Ingredient</a></li>
-			<li><a href="#!">Instruction</a></li>
-		</ul>
-		<a href="#" data-target="slide-out" class="sidenav-trigger"><i
-			class="material-icons">menu</i></a>
+	
+	<h3 style="text-align:center" id="recipeHeader">Add your ingredients:</h3>
+			
+				<div style="display: none; text-align:center" id="errId">Please ensure all ingredients are named</div>
+		
 		<div style="display: none" id="recipeId"  th:text="${recipeId}"></div>
 		<div id="instructionDiv">			
 			<div class="row" id="instructionBox1">
-				<div class="col s12 m6">
+				<div class="col 10 m6" style="margin-left:400px;">
 					<div class="card" style="border-radius: 15px">
 						<div class="card-content">
 							<div class="row">
@@ -64,7 +62,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col s6" style="padding-top: 90px">
+				<div class="col s2" style="padding-top: 90px">
 				<a class="btn-floating" id="deleteBtn" onclick="deleteInstruction(1)">
 					<i class="material-icons">delete_forever</i>
 					</a>
@@ -74,7 +72,7 @@
 
 		<div class="row">
 			<div class="input-field col s12">
-				<a style="margin-left: 20.5%; width:39%; background-color:#5085A5" onclick="addInstruction()" class="waves-effect waves-blue btn">
+				<a style="margin-left: 30%; width:39%; background-color:#5085A5" onclick="addInstruction()" class="waves-effect waves-blue btn">
 					Add Instruction
 				</a>
 			</div>
@@ -83,8 +81,8 @@
 	</main>
 
 	<div id="footer">
-		<a style="float: right; margin-right: 100px;"
-		 onclick="saveInstruction()" class="waves-effect waves-blue btn">Save</a>
+		<a style="float: right; margin-right: 100px; background-color:#5085A5"
+		 onclick="saveInstruction()" class="waves-effect waves-blue btn">Save Recipe</a>
 	</div>
 
 </body>

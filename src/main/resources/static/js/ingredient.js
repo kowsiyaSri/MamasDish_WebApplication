@@ -10,7 +10,10 @@ function saveRecipe() {
 			if (ingrName.value == "") {
 	
 				ingredientCheck = false;
+				$("#errId").show();
+				
 				break;
+				
 			}
 
 	}
@@ -141,7 +144,7 @@ function newIngredient() {
 	console.log(divID);
 	var proteinTypes = getProteins();
 
-	$("#ingredientDiv").append("<div class='row' id='ingredientBox" + divID + "'> <div class='col s12 m6'> <div class='card' style='border-radius:15px'>" +
+	$("#ingredientDiv").append("<div class='row' style='margin-left:33%' id='ingredientBox" + divID + "'> <div class='col s12 m6'> <div class='card' style='border-radius:15px'>" +
 		"<div class='card-content'> <div class='row'> <div class='input-field col s2'> " +
 		"<input id='quantity" + divID + "' type='number' name='quantity' min='1'> <label for='quantity'>Quantity</label>" +
 		"</div> <div class='input-field col s4'>" +
@@ -150,7 +153,7 @@ function newIngredient() {
 		"</select> " +
 		"</div> <div class='input-field col s6'><input id='ingredientName" + divID + "' type='text' name='ingredient' required>" +
 		"<label for='ingredient'>Ingredient</label> </div>" +
-		"</div> <div class='row' style='padding-bottom:10px; padding-left:500px;'> " +
+		"</div> <div class='row' style='padding-bottom:10px; padding-left:400px;'> " +
 		"<div class='input-field'><label> <input type='checkbox' class='filled-in' id='protein" + divID + "'  name='protein" + divID + "' onClick='showProtein(this)'  /> <span>Protein</span>" +
 		"</label></div></div>" +
 		"<div class='row' id='proteinDiv" + divID + "'style='display:none'>" +
