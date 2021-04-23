@@ -8,9 +8,16 @@ body {
 	background-color: #BECEDD;
 }
 
+#errId{
+	color: red;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-family: "Roboto Condensed", sans-serif;
+}
+
 #recipeHeader {
 	margin-bottom: 30px;
-	padding: 30px;
+	padding: 20px;
 	color: #42464A;
 	font-size: 30px;
 	font-weight: 700;
@@ -260,8 +267,8 @@ h3 {
 	line-height: 15.4px;
 }
 
-.chefFont {
-	font-family: Carme;
+#chefFont {
+	font-family: Mulish;
 	font-size: 17px;
 	font-style: normal;
 	font-variant: normal;

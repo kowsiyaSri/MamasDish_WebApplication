@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 		
 		http.authorizeRequests()
 			.antMatchers("/viewAllRecipe", "/viewRecipe").hasAnyRole("USER", "CHEF")
-			.antMatchers("/uploadRecipe","/addRecipe").hasRole("CHEF")
+			.antMatchers("/uploadRecipe","/addRecipe","/chefIndex").hasRole("CHEF")
 			.antMatchers("/h2-console/**","/register/**").permitAll()
 			.antMatchers("/","/css/**","/images/**","/js/**","/**").permitAll()
 			.anyRequest().authenticated()

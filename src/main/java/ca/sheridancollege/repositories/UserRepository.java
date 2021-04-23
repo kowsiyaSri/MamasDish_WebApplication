@@ -8,5 +8,7 @@ import ca.sheridancollege.beans.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
 	
-public User findByUsername(String username);
+	public User findByUsername(String username);
+	
+	
 }

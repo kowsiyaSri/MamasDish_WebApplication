@@ -61,38 +61,42 @@ body {
 		<div class="col m6 offset-m3 s12 z-depth-1"  id="formLogin">
 		<form th:action="@{/register}" method="post">
 			
+				<p id="errId" th:text="${errMssg}"></p>
+			
 				<div class="input-field col s12 ">
-					<input placeholder="Email Address" id="email" type="text"
-						name="email" class="validate"> <label for="email">Email
-						ID* </label>
+					<input placeholder="Email Address" th:value="${emailInput}" id="email" type="text" name="email" class="validate" required> 
+						<label for="email">Email ID* </label>
 				</div>
 				<div class="input-field col s12 ">
-					<input placeholder="First Name" id="first_name" type="text"
-						name="fname" class="validate"> <label for="first_name">First
-						Name* </label>
+					<input placeholder="First Name" id="first_name" th:value="${fNameInput}" type="text" name="fname" class="validate" required>
+					 <label for="first_name">First Name* </label>
 				</div>
 				<div class="input-field col s12 ">
-					<input placeholder="Last Name" id="last_name" type="text"
-						name="lname" class="validate"> <label for="last_name">Last
-						Name* </label>
+					<input placeholder="Last Name" id="last_name"  th:value="${lNameInput}"  type="text" name="lname" class="validate" required> 
+					<label for="last_name">Last Name* </label>
 				</div>
 				<div class="input-field col s12 ">
-					<input placeholder="Password" id="password1" type="password"
-						name="password" class="validate"> <label for="password1">Password*</label>
+					<input placeholder="Password" id="password1" type="password" required name="password" class="validate">
+						 <label for="password1">Password*</label>
+				</div>
+				
+				<div class="input-field col s12 ">
+					<input placeholder="Password" id="password2" type="password" required name="password2" class="validate"> 
+						<label for="password2">Re-enter Password*</label>
 				</div>
 
 
 				<p style="padding-left:10px;">
-					<input type="checkbox" name="isChef" id="test6" onClick="showDescription(this)" /> <label
-						for="test6">Sign up as a CHEF </label>
+					<input type="checkbox" name="isChef" id="test6" onClick="showDescription(this)" /> 
+						<label for="test6">Sign up as a CHEF </label>
 				</p>
 				
 				<div class="input-field col s12 " id="descriptionBox" style="display: none">
-					<label>Description</label> <br> <br> 
-					<input type="text" name="description" >					
+					<label>Tell us about yourself: </label>
+					<textarea name="description"  class="materialize-textarea"></textarea>					
 				</div>
 				<p id="loginBtn" >
-					<button type="submit" value="Register"  class="blue darken-4 btn"></button>
+					<input type="submit" value="Register"  class="blue darken-4 btn"/>
 				</p>
 			
 		</form>

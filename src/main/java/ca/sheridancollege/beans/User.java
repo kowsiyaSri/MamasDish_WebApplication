@@ -24,22 +24,20 @@ import lombok.NoArgsConstructor;
 @Entity
 public class User {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String username;
 	private String encryptedpassword;
 	private Byte enabled;
-	
-	public User(String username, String encryptedpassword)
-	{
-	   this.username=username;
-	   this.encryptedpassword = encryptedpassword;
-		enabled=1;
+
+	public User(String username, String encryptedpassword) {
+		this.username = username;
+		this.encryptedpassword = encryptedpassword;
+		enabled = 1;
 	}
-	
-	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Role> roles = new ArrayList<Role>();
-	
-	
+
 }

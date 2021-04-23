@@ -54,6 +54,7 @@ function saveInstruction() {
 
 	if (instructionCheck) {
 		let counter = 1;
+		
 		for(let instructDivs of $('[id^="instructionDiv"]').children()){
 			console.log(instructDivs)
 			var instruction = $("#"+instructDivs.id).find('textarea[id^="instructionValue"]').get(0).value;
@@ -69,6 +70,9 @@ function saveInstruction() {
 				res => console.log(res));
 			counter++;
 		}
+		
+		window.open('/chefIndex' +  '_self');
+		
 	}
 }
 

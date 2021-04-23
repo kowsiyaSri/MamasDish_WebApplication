@@ -25,10 +25,9 @@
 					src="/images/logo.png" /></a> -->
 					<ul style="width: 100%" id="centerNav"
 						class="hide-on-med-and-down">
-						<li style="padding-right: 70px;"><a style="padding:0px 30px" href="about.html" id="homeNavTxt" >About</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" href="profile.html" id="homeNavTxt">Profile</a></li>
 						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" href="myrecipe.html" id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
 						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
 					</ul>
 				</div>

@@ -10,6 +10,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,13 +63,13 @@ public class RecipeController {
 
 	@Autowired
 	private EndUserRepository endUserRepo;
-	
+
 	@Autowired
 	private UserRepository userRepo;
-	
+
 	@Autowired
 	private RoleRepository roleRepo;
-	
+
 	@Autowired
 	private ChefRepository chefRepo;
 
@@ -82,7 +83,7 @@ public class RecipeController {
 
 		return "loginPage.html";
 	}
-	
+
 	private String encodePassword(String password) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder.encode(password);
@@ -90,49 +91,78 @@ public class RecipeController {
 
 	@PostMapping("/register")
 	public String processRegister(@RequestParam String email, @RequestParam String fname, @RequestParam String lname,
-			@RequestParam String password , @RequestParam(required=false) boolean isChef , @RequestParam(required=false) String description)  {
-		EndUser endUser = EndUser.builder().firstName(fname).lastName(lname).email(email).password(password).build();
-		User user = new User(email, encodePassword(password));
-		endUserRepo.save(endUser);
-		if(isChef) {
-			Chef chef =Chef.builder().description(description).recipes(new ArrayList<Recipe>()).enduser(endUser).build() ;
-			user.getRoles().add(roleRepo.findByRolename("ROLE_CHEF"));
-			chefRepo.save(chef);
-		}
-		else {
-			user.getRoles().add(roleRepo.findByRolename("ROLE_USER"));
+			@RequestParam String password, @RequestParam(required = false) boolean isChef,
+			@RequestParam(required = false) String description, @RequestParam String password2, Model model) {
+
+		if (!password.equals(password2)) {
+
+			model.addAttribute("errMssg", "Passwords MUST match.");
+			model.addAttribute("emailInput", email);
+			model.addAttribute("fNameInput", fname);
+			model.addAttribute("lNameInput", lname);
+
+			return "register.html";
+
+		} else if(userRepo.findByUsername(email) != null){
 			
+			model.addAttribute("errMssg", "Email already registered.");
+			model.addAttribute("emailInput", email);
+			model.addAttribute("fNameInput", fname);
+			model.addAttribute("lNameInput", lname);
+
+
+			return "register.html";
+		} else {
+			EndUser endUser = EndUser.builder().firstName(fname).lastName(lname).email(email).password(password)
+					.build();
+			User user = new User(email, encodePassword(password));
+			endUserRepo.save(endUser);
+			if (isChef) {
+				Chef chef = Chef.builder().description(description).recipes(new ArrayList<Recipe>()).enduser(endUser)
+						.build();
+				user.getRoles().add(roleRepo.findByRolename("ROLE_CHEF"));
+				chefRepo.save(chef);
+			} else {
+				user.getRoles().add(roleRepo.findByRolename("ROLE_USER"));
+
+			}
+
+			userRepo.save(user);
+
+			return "loginPage.html";
 		}
 
-		userRepo.save(user);
-
-		return "loginPage.html";
 	}
 
 	@GetMapping("/register")
-	public String Register()  {
+	public String Register() {
 		return "register.html";
 	}
-	
-	@GetMapping("/access-denied") 
+
+	@GetMapping("/access-denied")
 	public String toAccessDenied() {
-		return "/error/access-denied.html"; 
+		return "/error/access-denied.html";
 	}
-	 
+
 	@GetMapping("/uploadRecipe")
-	public String goUploadRecipe(Model model) {
+	public String goUploadRecipe(Model model, Authentication auth) {
 		model.addAttribute("recipe", new Recipe());
 		model.addAttribute("countries", countryRepo.findByOrderByName());
 		model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
 		model.addAttribute("meals", mealRepo.findAll());
 		model.addAttribute("diets", dietRepo.findAll());
+		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
+		model.addAttribute("chef", chef);
+
 		return "recipe.html";
 	}
 
 	@PostMapping("/addRecipe")
 	public String addRecipe(@ModelAttribute Recipe recipe, @RequestParam String prep, @RequestParam String cook,
-			Model model) {
-		
+			Model model, @RequestParam int chefId) {
+
+		Chef chef = chefRepo.findById(Long.valueOf(chefId)).get();
+
 		String ptime[] = prep.split(":");
 		float phr = Float.parseFloat(ptime[0]) * 60;
 		float pmin = Float.parseFloat(ptime[1]);
@@ -142,16 +172,16 @@ public class RecipeController {
 		float chr = Float.parseFloat(ctime[0]) * 60;
 		float cmin = Float.parseFloat(ctime[1]);
 		recipe.setCookTime(chr + cmin);
-		
+
 		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-		
+
 		Set<ConstraintViolation<Recipe>> validationErrors = validator.validate(recipe);
-		
-		if(!validationErrors.isEmpty()) {
-			
-			//some errors have occurred
+
+		if (!validationErrors.isEmpty()) {
+
+			// some errors have occurred
 			List<String> errors = new ArrayList<String>();
-			for(ConstraintViolation<Recipe> e : validationErrors) {
+			for (ConstraintViolation<Recipe> e : validationErrors) {
 				errors.add(e.getPropertyPath() + "::" + e.getMessage());
 			}
 			model.addAttribute("errorMessage", errors);
@@ -162,14 +192,18 @@ public class RecipeController {
 			model.addAttribute("diets", dietRepo.findAll());
 			return "recipe.html";
 		}
-		
+
+		recipe.setChef(chef);
 		Recipe savedRecipe = recipeRepo.save(recipe);
+		chef.getRecipes().add(savedRecipe);
+		chefRepo.save(chef);
 
 		model.addAttribute("recipeId", savedRecipe.getId());
 		model.addAttribute("measurements", measureRepo.findAll());
 		model.addAttribute("proteins", proteinRepo.findAll());
 
 		return "ingredient.html";
+
 	}
 
 	@GetMapping("/ingr")
@@ -197,7 +231,7 @@ public class RecipeController {
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		model.addAttribute("instructions", instruct);
-		
+
 		return "viewRecipe.html";
 	}
 
@@ -213,16 +247,26 @@ public class RecipeController {
 			model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(search));
 			break;
 		case 2:
-			model.addAttribute("recipes", recipeRepo.findByIngredients_Ingredient_IngredientNameContainingIgnoreCase(search));
+			model.addAttribute("recipes",
+					recipeRepo.findByIngredients_Ingredient_IngredientNameContainingIgnoreCase(search));
 			break;
-			
-			default:
-				model.addAttribute("recipes",
-						recipeRepo.findByTitleContainingIgnoreCaseOrCountry_nameContainingIgnoreCase(search, search));
+
+		default:
+			model.addAttribute("recipes",
+					recipeRepo.findByTitleContainingIgnoreCaseOrCountry_nameContainingIgnoreCase(search, search));
 		}
 
 		model.addAttribute("searchVal", search);
-		
+
 		return "viewAllRecipes.html";
+	}
+
+	@GetMapping("/chefIndex")
+	public String chefIndex(Model model, Authentication auth) {
+
+		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
+		model.addAttribute("chef", chef);
+		return "chefIndex";
+
 	}
 }

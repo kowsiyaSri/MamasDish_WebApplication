@@ -22,19 +22,20 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<header>
+<header>
+
 		<div class="navbar-fixed" id="centerNav">
+
 			<nav class="homeNav fixed" id="centerNav">
 				<div class="nav-wrapper" id="centerNav">
 					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
 					src="/images/logo.png" /></a> -->
 					<ul style="width: 100%" id="centerNav"
 						class="hide-on-med-and-down">
-						<li style="padding-right: 80px;"><a href="about.html" id="homeNavTxt" >About</a></li>
-						<li style="padding-right: 80px"><a href="profile.html" id="homeNavTxt">Profile</a></li>
-						<li style="padding-right: 80px"><a href="recipe.html" id="homeNavTxt">Recipe</a></li>
-						<li style="padding-right: 80px"><a href="myrecipe.html" id="homeNavTxt">My Recipe</a></li>
-						<li><a href="logout.html" id="homeNavTxt">Logout</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
 					</ul>
 				</div>
 			</nav>

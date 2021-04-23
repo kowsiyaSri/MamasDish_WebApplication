@@ -2,22 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet"
-	type="text/css">
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="../static/js/instruction.js" th:src="@{/js/instruction.js}"></script>
-<link href='https://fonts.googleapis.com/css?family=Roboto Condensed' rel='stylesheet'>
 
-<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Carme" />
+
+	<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
 <title>Insert title here</title>
 </head>
 <body>
-	<header>
+<header>
 
 		<div class="navbar-fixed" id="centerNav">
 
@@ -27,11 +21,10 @@
 					src="/images/logo.png" /></a> -->
 					<ul style="width: 100%" id="centerNav"
 						class="hide-on-med-and-down">
-						<li style="padding-right: 80px;"><a href="about.html" id="homeNavTxt" >About</a></li>
-						<li style="padding-right: 80px"><a href="profile.html" id="homeNavTxt">Profile</a></li>
-						<li style="padding-right: 80px"><a href="recipe.html" id="homeNavTxt">Recipe</a></li>
-						<li style="padding-right: 80px"><a href="myrecipe.html" id="homeNavTxt">My Recipe</a></li>
-						<li><a href="logout.html" id="homeNavTxt">Logout</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
 					</ul>
 				</div>
 			</nav>
@@ -50,8 +43,11 @@
 						<h2 id="recipeTitle"
 							th:text="${recipe.title}">Pizza</h2>
 							<!--th:text="Recipe By:  " + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}  -->
-						<span> <span class="chefFont">RecipeBy:John Doe</span> <span style="float: right"><img
-								style="height: 20px" th:src="@{/images/threestars.png}" /></span>
+						<span> 
+							<span id="chefFont" th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span> 
+							<span style="float: right">
+								<img style="height: 20px" th:src="@{/images/threestars.png}" />
+							</span>
 						</span>
 						<hr>
 						<div style="padding: 20px 0px">
