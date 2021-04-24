@@ -154,7 +154,7 @@ public class RecipeController {
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
 
-		return "recipe.html";
+		return "/chefs/recipe.html";
 	}
 
 	@PostMapping("/addRecipe")
@@ -190,7 +190,7 @@ public class RecipeController {
 			model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
 			model.addAttribute("meals", mealRepo.findAll());
 			model.addAttribute("diets", dietRepo.findAll());
-			return "recipe.html";
+			return "/chefs/recipe.html";
 		}
 
 		recipe.setChef(chef);
@@ -202,7 +202,7 @@ public class RecipeController {
 		model.addAttribute("measurements", measureRepo.findAll());
 		model.addAttribute("proteins", proteinRepo.findAll());
 
-		return "ingredient.html";
+		return "/chefs/ingredient.html";
 
 	}
 
@@ -210,19 +210,19 @@ public class RecipeController {
 	public String addIngredient(Model model) {
 		model.addAttribute("measurements", measureRepo.findAll());
 		model.addAttribute("proteins", proteinRepo.findAll());
-		return "ingredient.html";
+		return "/chefs/ingredient.html";
 	}
 
 	@GetMapping("/addInstructions/{recipeId}")
 	public String addInstructions(@PathVariable int recipeId, Model model) {
 		model.addAttribute("recipeId", recipeId);
-		return "instruction.html";
+		return "/chefs/instruction.html";
 	}
 
 	@GetMapping("/viewAllRecipe")
 	public String viewAllRecipes(Model model) {
 		model.addAttribute("recipes", recipeRepo.findAll());
-		return "viewAllRecipes.html";
+		return "/users/viewAllRecipes.html";
 	}
 
 	@GetMapping("/viewRecipe/{recipeId}")
@@ -232,7 +232,7 @@ public class RecipeController {
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		model.addAttribute("instructions", instruct);
 
-		return "viewRecipe.html";
+		return "/users/viewRecipe.html";
 	}
 
 	@PostMapping("/searchRecipes")
@@ -258,15 +258,26 @@ public class RecipeController {
 
 		model.addAttribute("searchVal", search);
 
-		return "viewAllRecipes.html";
+		return "/users/viewAllRecipes.html";
 	}
 
+	@GetMapping("/viewRecipesByCountry/{name}")
+	public String viewRecipesByCountry(@PathVariable String name, Model model) {
+		model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(name));
+		return "/users/viewAllRecipes.html";
+	}
+	
 	@GetMapping("/chefIndex")
 	public String chefIndex(Model model, Authentication auth) {
 
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
-		return "chefIndex";
+		return "/chefs/chefIndex";
 
+	}
+	
+	@GetMapping("/map")
+	public String getMap() {
+		return "/users/map.html";
 	}
 }

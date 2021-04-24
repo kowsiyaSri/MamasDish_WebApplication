@@ -19,6 +19,8 @@ import javax.validation.constraints.Size;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -70,6 +72,7 @@ public class Recipe {
     private MealType mealtype;
     
 	@NotNull(message="Country is Mandatory!")
+	
 	@OneToOne
     private Country country;    
     
@@ -84,4 +87,5 @@ public class Recipe {
 	
 	@OneToMany(cascade= CascadeType.ALL)
 	private List<Instruction> instructions;
+	
 }

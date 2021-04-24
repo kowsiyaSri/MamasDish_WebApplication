@@ -8,7 +8,12 @@ body {
 	background-color: #BECEDD;
 }
 
-#errId{
+#map {
+	height:100%;
+	width: 100%;
+}
+
+#errId {
 	color: red;
 	font-size: 14px;
 	text-transform: uppercase;
@@ -117,7 +122,6 @@ select#search::-ms-expand {
 .recipeNav {
 	top: 75px;
 }
-
 
 #optionFilter {
 	font-size: 15px;
@@ -292,13 +296,12 @@ h3 {
 	font-family: 'Roboto Condensed', sans-serif;
 }
 
-#noAcct{
-
-	font-size:15px;
-	color:black;
+#noAcct {
+	font-size: 15px;
+	color: black;
 	font-family: 'Roboto Condensed', sans-serif;
-	padding-left:10px;
-	padding-top:5px;
+	padding-left: 10px;
+	padding-top: 5px;
 }
 
 p {
@@ -366,8 +369,7 @@ pre {
 	font-family: 'Mulish', sans-serif;
 	font-size: 15px;
 	font-variant: small-caps;
-	color:#5085A5;
-
+	color: #5085A5;
 }
 
 .link {
@@ -381,8 +383,8 @@ pre {
 	margin-top: 30px">
 }
 
-.liA{
-	padding:0px 30px;
+.liA {
+	padding: 0px 30px;
 }
 
 #formLogin {

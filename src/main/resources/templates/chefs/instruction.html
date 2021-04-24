@@ -88,4 +88,18 @@
 </body>
 
 
+	<script th:inline="javascript">
+		function getMeasurements() {
+			var data = /*[[${measurements}]]*/{};
+
+			return data;
+		}
+
+		function getProteins() {
+			var data = /*[[${proteins}]]*/{};
+
+			return data;
+
+		}
+	</script>
 </html>

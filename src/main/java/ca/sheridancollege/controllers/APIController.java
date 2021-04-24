@@ -1,5 +1,8 @@
 package ca.sheridancollege.controllers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.sheridancollege.beans.Country;
 import ca.sheridancollege.beans.Ingredient;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.Measurement;
 import ca.sheridancollege.beans.Protein;
 import ca.sheridancollege.beans.Recipe;
+import ca.sheridancollege.beans.RecipeDescription;
 import ca.sheridancollege.beans.RecipeIngredient;
+import ca.sheridancollege.beans.RecipeMarker;
+import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.IngredientRepository;
 import ca.sheridancollege.repositories.InstructionRepository;
 import ca.sheridancollege.repositories.MeasurementRepository;
@@ -51,6 +58,10 @@ public class APIController {
 	@Autowired
 	@Lazy
 	private InstructionRepository instructionRepo;
+	
+	@Autowired
+	@Lazy
+	private CountryRepository countryRepo;
 
 	@GetMapping(value = "/addIngredient/{ingredient}/{quantity}/{measurement}/{recipeId}/{proteinId}")
 	public int addIngredient(@PathVariable String ingredient, @PathVariable int quantity,
@@ -108,5 +119,29 @@ public class APIController {
 	public List<Instruction> listInstructions() {
 		return instructionRepo.findAll();
 	}
-
+	
+	@GetMapping("/countries")
+	public List<Country> getCoordinates(){
+		return countryRepo.findAll();
+	}
+	
+	@GetMapping("/countryRecipes")
+	public List<RecipeMarker> countryRecipes(){
+		List<Country> countries = countryRepo.findAll();
+		List<RecipeMarker> recipeMarkers = new ArrayList<RecipeMarker>();
+		for(Country c : countries) {
+			RecipeMarker marker = new RecipeMarker();
+			marker.setCountry(c);
+			List<Recipe> recipes = recipeRepo.findByCountry_nameContainingIgnoreCase(c.getName());
+			Collections.shuffle(recipes);
+			for(Recipe r : recipes) {
+				RecipeDescription description = new RecipeDescription();
+				description.setRecipeId(r.getId());
+				description.setRecipeTitle(r.getTitle());
+				marker.getRecipes().add(description);
+			}	
+			recipeMarkers.add(marker);
+		}
+		return recipeMarkers;
+	}
 }
