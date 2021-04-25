@@ -432,9 +432,7 @@ INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
 	VALUES
-	 	('Beef Chunks', 6),
-		('Soy Sauce', null), 
-		('Brown Sugar', null);		
+	 	('Beef Chunks', 6);
 
 /* Add Recipe Ingredient */
 INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
@@ -459,14 +457,12 @@ INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
 	VALUES
-		('Pork', 3),
-		('Soy Sauce', null), 
-		('Brown Sugar', null); 
+		('Pork', 3);
 		
 /* Add Recipe Ingredient */
 INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
 	VALUES
-		(910, 3, 19, 1),
+		(910, 3, 19, 5),
 		(1, 3, 5, 2),
 		(110, 3, 19, 3);
 	
@@ -486,9 +482,7 @@ INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
 	VALUES
-		('Salmon', 15),
-		('Soy Sauce', null), 
-		('Brown Sugar', null); 
+		('Salmon', 15);
 		
 /* Add Recipe Ingredient */
 INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
@@ -513,9 +507,7 @@ INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
 	VALUES
-		('Shrimp', 15),
-		('Soy Sauce', null), 
-		('Brown Sugar', null); 
+		('Shrimp', 15);
 		
 /* Add Recipe Ingredient */
 INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
@@ -575,7 +567,6 @@ INSERT INTO Ingredient(ingredient_name, protein_id)
 	VALUES
 		('olive oil', null),
 	    ('chicken wings', 1),
-	    ('soy sauce', null),
 	    ('cola soda', null),
 	    ('scallion', null);
 		
@@ -609,9 +600,7 @@ INSERT INTO Ingredient(ingredient_name, protein_id)
 		('garlic', null),
 		('tomatoes ', null),
 		('turmeric powder', null),
-		('water', null),
 		('vegetable oil', null),
-		('salt', null),
 		('yogurt', null),
 		('grated garlic', null),
 		('dried mint', null);
@@ -655,13 +644,10 @@ INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, 
 INSERT INTO Ingredient( ingredient_name, protein_id) 
 	VALUES
 		('basmati rice', null),
-		('salt', null),
 		('cardamom powder', null),
 		('cumin powder', null),
-		('water', null),
 		('carrot shredded', null),
 		('raisins', null),
-		('vegetable oil', null),
 		('granulated white sugar', null);
 		
 /* Add Recipe Ingredient */
@@ -767,7 +753,6 @@ INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, 
 INSERT INTO Ingredient(ingredient_name, protein_id) 
 	VALUES
 		('puff pastry sheet', null),
-		('milk', null),
 		('unsalted butter', null),
 		('powdered sugar', null),
 		('vanilla essence', null);
@@ -805,8 +790,6 @@ INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, 
 INSERT INTO Ingredient(ingredient_name, protein_id) 
 	VALUES
 		('eggs', null),
-	    ('salt',null),
-	    ('Butter', null),
 	    ('fresh chive', null);
 
 /* Add Recipe Ingredient */
@@ -836,7 +819,6 @@ INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
 	VALUES
-		('vegetable oil', null),
 		('onion, finely chopped', null),
 		('garlic, crushed', null),
 		('potato (about 150g) finely diced', null),
@@ -883,9 +865,6 @@ INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
 	VALUES
-		('vegetable oil', null),
-	    ('water',null),
-	    ('salt',null),
 		('ketchup',null),
 	    ('kosher beef hot dogs', 6),
 	    ('hot dog buns', null),
@@ -920,7 +899,6 @@ INSERT INTO Ingredient(ingredient_name, protein_id)
 	VALUES
 		('Corn', null),
 	    ('Canola oil',null),
-	    ('Soy sauce', null),
 	    ('sugar', null);
 
 /* Add Recipe Ingredient */
@@ -956,11 +934,9 @@ INSERT INTO Ingredient(ingredient_name, protein_id)
 		('red onion', null),
 		('ginger', null),
 		('cayenne pepper', null),
-		('curry powder', null),
 		('plum tomatoes', null),
 		('tomato puree', null),
 		('tomato paste', null),
-		('salt', null),
 		('pepper', null);
 
 /* Add Recipe Ingredient */
@@ -1086,38 +1062,38 @@ INSERT INTO RECIPE_INSTRUCTIONS(recipe_id, instructions_id)
 		(1,1),
 		(1,2),
 		(1,3),
+		(1,4),
 		-- Recipe 2
-		(2,4),
 		(2,5),
 		(2,6),
 		(2,7),
+		(2,8),
 		-- Recipe 3
-		(3,8),
 		(3,9),
 		(3,10),
 		(3,11),
+		(3,12),
 		-- Recipe 4
-		(4,12),
 		(4,13),
 		(4,14),
 		(4,15),
+		(4,16),
 		-- Recipe 5
-		(5,16),
 		(5,17),
 		(5,18),
 		(5,19),
+		(5,20),
 		-- Recipe 6
-		(6,20),
 		(6,21),
 		(6,22),
 		(6,23),
+		(6,24),
 		-- Recipe 7
-		(7,24),
 		(7,25),
 		(7,26),
 		(7,27),
+		(7,28),
 		-- Recipe 8
-		(8,28),
 		(8,29),
 		(8,30),
 		(8,31),
@@ -1126,8 +1102,8 @@ INSERT INTO RECIPE_INSTRUCTIONS(recipe_id, instructions_id)
 		(8,34),
 		(8,35),
 		(8,36),
+		(8,37),
 		-- Recipe 9
-		(9,37),
 		(9,38),
 		(9,39),
 		(9,40),
