@@ -28,6 +28,23 @@
 	</header>
 <main>
 	<div class="content">
+	  <div id="userHomeHeader">Just For You</div>
+		  <div class="scrolling-wrapper-flexbox">
+				<div class="cardInfo" th:each="s : ${suggest}">
+			    <div class="col s3">
+			      <div style="border-radius:20px" class="card">
+			        <a th:href="@{'/viewRecipe/' + ${s.id}}">
+				         <div class="card-image">
+				          <img style="opacity: 0.7; width:300px; height:200px; border-radius:20px" th:src="@{images/shakshuka.png}">
+				          <span class="card-title"  id="userHomeHeader" th:text="${s.title}"></span>
+				        </div>
+			        </a>
+			      </div>
+			    </div>
+			  </div>
+		 </div>
+	 </div>
+	<div class="content">
 	  <div id="userHomeHeader">Discover Recipes By Country</div>
 		  <div class="scrolling-wrapper-flexbox">
 				<div class="cardInfo" th:each="c : ${countries}">
@@ -35,7 +52,7 @@
 			      <div style="border-radius:20px" class="card">
 			        <a th:href="@{'/viewRecipesByCountry/' + ${c.name}}">
 				         <div class="card-image">
-				          <img style="opacity: 0.5; width:300px; height:200px; border-radius:20px" th:src="@{'images/' + ${c.name} + '.jpeg'}">
+				          <img style="opacity: 0.7; width:300px; height:200px; border-radius:20px" th:src="@{'images/' + ${c.name} + '.jpeg'}">
 				          <span class="card-title"  id="userHomeHeader" th:text="${c.name}"></span>
 				        </div>
 			        </a>
@@ -47,13 +64,30 @@
 	 <div class="content">
 	  <div id="userHomeHeader">Discover Recipes By Diet</div>
 		  <div class="scrolling-wrapper-flexbox">
-				<div class="cardInfo" th:each="c : ${countries}">
+				<div class="cardInfo" th:each="d : ${diets}">
 			    <div class="col s3">
 			      <div style="border-radius:20px" class="card">
-			        <a th:href="@{'/viewRecipesByCountry/' + ${c.name}}">
+			        <a th:href="@{'/viewByDiet/' + ${d.id}}">
 				         <div class="card-image">
-				          <img style="opacity: 0.5; width:300px; height:200px; border-radius:20px" th:src="@{'images/' + ${c.name} + '.jpeg'}">
-				          <span class="card-title"  id="userHomeHeader" th:text="${c.name}"></span>
+				          <img style="opacity: 0.7; width:300px; height:200px; border-radius:20px" th:src="@{'images/'+ ${d.dietType} +'.jpeg'}">
+				          <span class="card-title"  id="userHomeHeader" th:text="${d.dietType}"></span>
+				        </div>
+			        </a>
+			      </div>
+			    </div>
+			  </div>
+		 </div>
+	 </div>
+	 <div class="content">
+	  <div id="userHomeHeader">Discover Recipes By Meal Type</div>
+		  <div class="scrolling-wrapper-flexbox">
+				<div class="cardInfo" th:each="m : ${meals}">
+			    <div class="col s3">
+			      <div style="border-radius:20px" class="card">
+			        <a th:href="@{'/viewByMeal/' + ${m.id}}">
+				         <div class="card-image">
+				          <img style="opacity: 0.7; width:300px; height:200px; border-radius:20px" th:src="@{'images/' + ${m.mealName} + '.jpeg'}">
+				          <span class="card-title"  id="userHomeHeader" th:text="${m.mealName}"></span>
 				        </div>
 			        </a>
 			      </div>
