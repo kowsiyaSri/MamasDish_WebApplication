@@ -24,18 +24,30 @@ body {
 	margin-bottom: 5px;
 	padding-top: 20px;
 	color: #42464A;
-	font-size: 20px;
+	font-size: 25px;
 	font-weight:bold;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
 	text-align: left;
 }
 
+#userHomeTitle {
+	margin-bottom: 5px;
+	padding-top: 20px;
+	color: #42464A;
+	font-size: 20px;
+	font-weight:bold;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	text-align: left;
+	color: white;
+	text-shadow: 2px 2px grey;
+}
+
 #userHomeImage{
 	opacity: 0.7; 
 	width:300px; 
 	height:200px; 
-	border-radius:20px" 
 }
 
 #recipeHeader {
