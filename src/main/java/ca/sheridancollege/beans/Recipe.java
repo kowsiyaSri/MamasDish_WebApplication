@@ -40,6 +40,9 @@ public class Recipe {
 	
     private int iconPic;
     
+    //temp image for recipe
+    private String recipeImg;
+    
     @NotNull(message="Title is Mandatory.")
     @Size(min=1, max=100, message="Title must be between 1-100 characters.")
     private String title;
@@ -75,7 +78,7 @@ public class Recipe {
 	
 	@OneToOne
     private Country country;    
-    
+	    
 	@OneToOne
     private Cuisine cuisine;
     

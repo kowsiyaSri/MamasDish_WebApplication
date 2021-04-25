@@ -20,6 +20,17 @@ body {
 	font-family: "Roboto Condensed", sans-serif;
 }
 
+#userHomeHeader {
+	margin-bottom: 5px;
+	padding-top: 20px;
+	color: #42464A;
+	font-size: 20px;
+	font-weight:bold;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	text-align: left;
+}
+
 #recipeHeader {
 	margin-bottom: 30px;
 	padding: 20px;
