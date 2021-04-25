@@ -73,7 +73,7 @@ function saveInstruction() {
 			counter++;
 		}
 		
-		window.open('/chefIndex/' ,  '_self');
+		window.open('/chefs/chefIndex/' ,  '_self');
 		
 	}
 }

@@ -75,7 +75,7 @@ function saveRecipe() {
 		}
 
 		//go to instruction page
-		window.open('/addInstructions/' + recipeId, '_self');
+		window.open('/chefs/addInstructions/' + recipeId, '_self');
 
 	}
 

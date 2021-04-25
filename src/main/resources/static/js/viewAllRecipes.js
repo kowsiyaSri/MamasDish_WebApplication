@@ -15,7 +15,7 @@ function clearText(){
 	
 	if(document.getElementById('searchBar').value !== '' || (document.getElementById('searchBar').value).isEmpty){
 			document.getElementById('searchBar').value = '';
-		window.open("viewAllRecipe", '_self' );
+		window.open("/users/viewAllRecipe", '_self' );
 
 	}
 	

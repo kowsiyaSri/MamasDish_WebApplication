@@ -140,7 +140,6 @@ INSERT INTO diet (diet_type) VALUES
 ('LOW FAT'),
 ('LOW CARB'),
 ('KETO'),
-('MEDITERREAN'),
 ('SUGAR FREE'),
 ('PESCATARIAN'),
 ('PALEO');
@@ -404,7 +403,7 @@ INSERT INTO country (country_code, Latitude, Longitude, Name) VALUES
 /* Recipe 1 */ 
 INSERT INTO Recipe(recipe_img , icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES
-		('teriyaki_chicken',1,'3 Ingredient Teriyaki Chicken', 30, 4, 4, 20 , 10 , 'Easy Recipe Under 30 mins. Tastes Great!',4, 7, 227,null,null );
+		('teriyaki_chicken',1,'3 Ingredient Teriyaki Chicken', 30, 4, 4, 20 , 10 , 'Easy Recipe Under 30 mins. Tastes Great!',4, 5, 227,null, 5 );
 
 INSERT INTO Ingredient(ingredient_name, protein_id) 
 	VALUES
@@ -428,7 +427,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 2 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id) 
 	VALUES 
-		('teriyaki_beef',1,'3 Ingredient Teriyaki Beef', 30, 3.5, 4, 20.0, 10.0, 'Easy Beef Recipe Under 30 mins. Tastes Great!',4, 7, 227,null,null);
+		('teriyaki_beef',1,'3 Ingredient Teriyaki Beef', 30, 3.5, 4, 20.0, 10.0, 'Easy Beef Recipe Under 30 mins. Tastes Great!',4, 5, 227,null, 5);
  
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -455,7 +454,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 3 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('teriyaki_pork', 1,'3 Ingredient Teriyaki Pork',30, 4, 4, 20.0, 10.0, 'Easy Pork Recipe Teriyaki!',4, 7, 227,null,null);
+		('teriyaki_pork', 1,'3 Ingredient Teriyaki Pork',30, 4, 4, 20.0, 10.0, 'Easy Pork Recipe Teriyaki!',4, 5, 227,null, 5);
 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -482,7 +481,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 4 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('teriyaki_salmon',1,'3 Ingredient Teriyaki Salmon', 30, 3.5, 4, 20.0, 10.0, 'Simple teriyaki salmon!',4, 7, 227,null,null);
+		('teriyaki_salmon',1,'3 Ingredient Teriyaki Salmon', 30, 3.5, 4, 20.0, 10.0, 'Simple teriyaki salmon!',4, 5, 227,null, 5);
 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -509,7 +508,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 5 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('teriyaki_shrimp',1,'3 Ingredient Teriyaki Shrimp', 30, 4.5, 4, 20.0, 10.0, 'Simple teriyaki Shrimp recipe!',4, 7, 227,null,null);
+		('teriyaki_shrimp',1,'3 Ingredient Teriyaki Shrimp', 30, 4.5, 4, 20.0, 10.0, 'Simple teriyaki Shrimp recipe!',4, 5, 227,null, 5);
 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -536,7 +535,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 6 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('green_beans',1,'3 Ingredient Green Beans',12.0,5,6,7.0,5.0,'Easy and healthy meal',1,4,40,6,2);
+		('green_beans',1,'3 Ingredient Green Beans',12.0,5,6,7.0,5.0,'Easy and healthy meal',1, 4,40,6,2);
 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -569,7 +568,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 7 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('cola_wings', 1,'10 Minute Cola Wing',10.0,4,1,7.0,2.0,'Chinese meal',2,7,46,1,5);
+		('cola_wings', 1,'10 Minute Cola Wing',10.0,4,1,7.0,2.0,'Chinese meal',2, 6,46,1, null);
 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -601,7 +600,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 8 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('afghan_eggplant', 5, 'Afghan Eggplant With Yogurt Sauce', 35, 4.15, 2, 15, 20, 'Eggplants cooked with tomatoes.', 1, 7, 3, 1, null);
+		('afghan_eggplant', 5, 'Afghan Eggplant With Yogurt Sauce', 35, 4.15, 2, 15, 20, 'Eggplants cooked with tomatoes.', 1, 6, 3, 1, null);
 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -650,7 +649,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 9 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('kabli_pulao', 1, 'Afghani Kabli Pulao', 90, 4.84, 4, 45, 45,'Lightly sweetened Vegetarian Afghani Pulao with carrots and raisins makes a great meal!', 1, 7, 3, 1, 4);
+		('kabli_pulao', 1, 'Afghani Kabli Pulao', 90, 4.84, 4, 45, 45,'Lightly sweetened Vegetarian Afghani Pulao with carrots and raisins makes a great meal!', 1, 6, 3, 1, 4);
 
 /* Add Ingredient */
 INSERT INTO Ingredient( ingredient_name, protein_id) 
@@ -707,7 +706,7 @@ INSERT INTO Instruction(step_number, description)
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
 		('pumpkin_bread',3, 'Pumpkin Chocolate Chip Bread', 70, 4.32, 10, 55, 10, 'Grated fresh ginger stirred right into the batter makes this plush, moist pumpkin bread 
-		recipe extra special — and spicy!', 1, 1, 227, 21, null);
+		recipe extra special — and spicy!', 1, 7, 227, 21, null);
 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -762,7 +761,7 @@ INSERT INTO Instruction(step_number, description)
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
 		('cream_roll', 2, 'Cream Roll', 30, 4, 8, 20, 10, 'Take a stroll down memory lane with Cream Roll. Try this easy cream roll recipe with step by step instructions.',  
-         1, 3, 3, 1, null);
+         1, 7, 3, 1, null);
 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -800,7 +799,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 12 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('french_omlette',1,'French Omelette',7.0,5,1,5.0,2.0,'Easy and healthy meal',1,1,72,48,5);
+		('french_omlette',1,'French Omelette',7.0,5,1,5.0,2.0,'Easy and healthy meal',1, 2,72,48,5);
 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -831,7 +830,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 13 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('samosa', 4, 'Vegetable Samosas', 100, 4.82, 24, 70, 30, 'Serve up these crisp vegan samosas as a tasty starter or side dish with your favourite curry.', 1, 3, 
+		('samosa', 4, 'Vegetable Samosas', 100, 4.82, 24, 70, 30, 'Serve up these crisp vegan samosas as a tasty starter or side dish with your favourite curry.', 1, 1, 
 		103, 43, 1);
 
 /* Add Ingredient */
@@ -879,7 +878,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 14 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('hotdog',1,'New York City Dog',30.0,2,4,25.0,5.0,'Hot dog',3,1,227,13,5);
+		('hotdog',1,'New York City Dog',30.0,2,4,25.0,5.0,'Hot dog',3,5,227,13,null);
 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -914,7 +913,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 15 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('corn', 1,'Yaki Tomorokoshi',10.0,3,3,7.0,3.0,'Corn on the cob',1,3,112,2,5);
+		('corn', 1,'Yaki Tomorokoshi',10.0,3,3,7.0,3.0,'Corn on the cob',1,4,112,2, 1);
 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -944,7 +943,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 16 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('pork_stew',1, 'Pork Stew', 40, 5, 4, 20, 20, 'Wonderful dish of beans with tomatoes and a touch of chile and curry.', 2, 7, 79, 1, 4);
+		('pork_stew',1, 'Pork Stew', 40, 5, 4, 20, 20, 'Wonderful dish of beans with tomatoes and a touch of chile and curry.', 2, 6, 79, 1, 4);
 
 /* Add Ingredient */
 INSERT INTO Ingredient(ingredient_name, protein_id) 
@@ -992,7 +991,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 17 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('veg_stew',1, 'Vegetarian Bean Stew', 40, 5, 4, 20, 20, 'Wonderful dish of beans with tomatoes and a touch of chile and curry.', 2, 7, 79, 1, 2);
+		('veg_stew',1, 'Vegetarian Bean Stew', 40, 5, 4, 20, 20, 'Wonderful dish of beans with tomatoes and a touch of chile and curry.', 2, 6, 79, 1, 2);
 
 /* Add Recipe Ingredient */
 INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
@@ -1022,7 +1021,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 18 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('chicken_stew', 1, 'Chicken Bean Stew', 40, 5, 4, 20, 20, 'Wonderful dish of beans with tomatoes and a touch of chile and curry.', 2, 7, 79, 1, 4);
+		('chicken_stew', 1, 'Chicken Bean Stew', 40, 5, 4, 20, 20, 'Wonderful dish of beans with tomatoes and a touch of chile and curry.', 2, 6, 79, 1, 4);
 
 /* Add Recipe Ingredient */
 INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 
@@ -1052,7 +1051,7 @@ INSERT INTO Instruction(step_number, description)
 /* Recipe 19 */ 
 INSERT INTO Recipe(recipe_img, icon_pic, title, duration, rating, serving_size, cook_time, prep_time, description, chef_id, mealtype_id, country_id, cuisine_id, diet_id)
 	VALUES 
-		('beef_bean',1, 'Beef Bean Stew', 40, 5, 4, 20, 20, 'Wonderful dish of beans with tomatoes and a touch of chile and curry.', 2, 7, 79, 1, 4);
+		('beef_bean',1, 'Beef Bean Stew', 40, 5, 4, 20, 20, 'Wonderful dish of beans with tomatoes and a touch of chile and curry.', 2, 6, 79, 1, 4);
 
 /* Add Recipe Ingredient */
 INSERT INTO Recipe_Ingredient(quantity, recipe_id, measurement_iD, ingredient_id) 

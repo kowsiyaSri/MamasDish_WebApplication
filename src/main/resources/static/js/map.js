@@ -99,13 +99,24 @@ fetch('http://localhost:8080/mamasdish/countryRecipes')
 				});
 				
 				var MAX_SIZE = 3;
-				var contentString = "<div><h6>" + data[i].country.name + "</h6>";
+				var contentString = "<div><div id='discoverCountry'>" + data[i].country.name + "</div><ul style='margin-top:10px;padding:0px;border:0px'>";
 				for (let x=0; x < data[i].recipes.length ; x++){
+				
+					var recipeImg = ""
+					
+					if(data[i].recipes[x].recipeImg == null){
+						recipeImg = "shakshuka.png"
+					} else {
+						recipeImg = data[i].recipes[x].recipeImg + ".jpeg"
+					}
 					if (x < MAX_SIZE){
-						contentString += "<p><a href=/viewRecipe/" +data[i].recipes[x].recipeId+">"+ data[i].recipes[x].recipeTitle+"</a></p>"
+						contentString += "<li style='border:0px; padding:0px; margin-left:0px; width:400px;'>"
+						contentString += "<div class='row' style='border: 2px solid #e4e8eb; padding:10px; border-radius: 15px;'><img class='col s4' style='height:70px; margin-left:0px;' src='/images/recipes/" + recipeImg + "'>"
+						contentString += "<a id='discoverFont' class='col s8' style='margin-top:10px; padding-top:0px;' href=/users/viewRecipe/"+ data[i].recipes[x].recipeId + ">"
+						contentString += data[i].recipes[x].recipeTitle + "</a></div></li>"						
 					}
 				}
-				contentString += "<p><a href=/viewRecipesByCountry/"+data[i].country.name+">"+"View All Recipes</p></div>"
+				contentString += "</ul><p><a id='discoverFont' href=/users/viewRecipesByCountry/"+data[i].country.name+">"+"View All Recipes</p></div>"
 				information[i] = new google.maps.InfoWindow({
 				   content: contentString
 				});

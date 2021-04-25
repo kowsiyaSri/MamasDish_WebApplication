@@ -14,4 +14,6 @@ public class RecipeDescription {
 	private Long recipeId;
 	
 	private String recipeTitle;
+	
+	private String recipeImg;
 }

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link href="css/home.css" th:href="@{/css/home.css}" rel="stylesheet" type="text/css">
+<link href="css/home.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<title>Welcome to Mama's Dish</title>
+</head>
+<body>
+<main>
+	<header>
+		<div class="navbar-fixed" id="centerNav">
+			<nav class="homeNav fixed" id="centerNav">
+				<div class="nav-wrapper" id="centerNav">
+					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a> -->
+					<ul style="width: 100%" id="centerNav"
+						class="hide-on-med-and-down">
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</header>
+<main>
+	<div class="content">
+	  <div id="userHomeHeader">Just For You</div>
+		  <div class="scrolling-wrapper-flexbox">
+				<div class="cardInfo" th:each="s : ${suggest}">
+			    <div class="col s3">
+			      <div style="border-radius:20px" class="card">
+			        <a th:href="@{'/users/viewRecipe/' + ${s.id}}">
+				         <div class="card-image">
+				          	<img id="userHomeImage" th:if="${s.recipeImg != null}" th:src="@{'/images/recipes/'+ ${s.recipeImg} +'.jpeg'}">
+							<img id="userHomeImage" th:unless="${s.recipeImg != null}" th:src="@{/images/shakshuka.png}">
+				          <span class="card-title"  id="userHomeHeader" th:text="${s.title}"></span>
+				        </div>
+			        </a>
+			      </div>
+			    </div>
+			  </div>
+		 </div>
+	 </div>
+	<div class="content">
+	  <div id="userHomeHeader">Discover Recipes By Country</div>
+		  <div class="scrolling-wrapper-flexbox">
+				<div class="cardInfo" th:each="c : ${countries}">
+			    <div class="col s3">
+			      <div style="border-radius:20px" class="card">
+			        <a th:href="@{'/users/viewRecipesByCountry/' + ${c.name}}">
+				         <div class="card-image">
+				          <img style="opacity: 0.7; width:300px; height:200px; border-radius:20px" th:src="@{'/images/countries/' + ${c.name} + '.jpeg'}">
+				          <span class="card-title"  id="userHomeHeader" th:text="${c.name}"></span>
+				        </div>
+			        </a>
+			      </div>
+			    </div>
+			  </div>
+		 </div>
+	 </div>
+	 <div class="content">
+	  <div id="userHomeHeader">Discover Recipes By Diet</div>
+		  <div class="scrolling-wrapper-flexbox">
+				<div class="cardInfo" th:each="d : ${diets}">
+			    <div class="col s3">
+			      <div style="border-radius:20px" class="card">
+			        <a th:href="@{'/users/viewByDiet/' + ${d.id}}">
+				         <div class="card-image">
+				          <img style="opacity: 0.7; width:300px; height:200px; border-radius:20px" th:src="@{'/images/diets/'+ ${d.dietType} +'.jpeg'}">
+				          <span class="card-title"  id="userHomeHeader" th:text="${d.dietType}"></span>
+				        </div>
+			        </a>
+			      </div>
+			    </div>
+			  </div>
+		 </div>
+	 </div>
+	 <div class="content">
+	  <div id="userHomeHeader">Discover Recipes By Meal Type</div>
+		  <div class="scrolling-wrapper-flexbox">
+				<div class="cardInfo" th:each="m : ${meals}">
+			    <div class="col s3">
+			      <div style="border-radius:20px" class="card">
+			        <a th:href="@{'/users/viewByMeal/' + ${m.id}}">
+				         <div class="card-image">
+				          <img style="opacity: 0.7; width:300px; height:200px; border-radius:20px" th:src="@{'/images/mealtypes/' + ${m.mealName} + '.jpeg'}">
+				          <span class="card-title"  id="userHomeHeader" th:text="${m.mealName}"></span>
+				        </div>
+			        </a>
+			      </div>
+			    </div>
+			  </div>
+		 </div>
+	 </div>
+</main>
+</body>
+</html>

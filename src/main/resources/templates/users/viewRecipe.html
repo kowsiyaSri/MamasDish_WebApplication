@@ -11,19 +11,19 @@
 <title>Insert title here</title>
 </head>
 <body>
-<header>
-
+	<header>
 		<div class="navbar-fixed" id="centerNav">
-
 			<nav class="homeNav fixed" id="centerNav">
 				<div class="nav-wrapper" id="centerNav">
 					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
 					src="/images/logo.png" /></a> -->
 					<ul style="width: 100%" id="centerNav"
 						class="hide-on-med-and-down">
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
 						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
 					</ul>
 				</div>
@@ -34,15 +34,14 @@
 		<div style="margin: auto; align-items: center; width: 50%;">
 			<div class="row"
 				style="margin: auto; align-items: center; width: 100%;">
-				<div class="card" style="margin-top: 5%">
+				<div class="card" style="margin-top: 5%; border-radius:15px">
 					<div class="card-image">
-						<img id="recipeImg"
-							src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/epic-summer-salad-7539748.jpg">
+						<img id="recipeImg" style="height:350px" th:if="${recipe.recipeImg != null}" th:src="@{'/images/recipes/' + ${recipe.recipeImg} + '.jpeg'}">
+						<img id="recipeImg" th:unless="${recipe.recipeImg != null}" style="opacity:0.6; height:350px " th:src="@{/images/shakshuka.png}">
 					</div>
 					<div class="card-content">
 						<h2 id="recipeTitle"
 							th:text="${recipe.title}">Pizza</h2>
-							<!--th:text="Recipe By:  " + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}  -->
 						<span> 
 							<span id="chefFont" th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span> 
 							<span style="float: right">

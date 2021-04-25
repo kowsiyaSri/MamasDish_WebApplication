@@ -88,7 +88,7 @@ public class RecipeController {
 		return "loginPage.html";
 	}
 
-	@GetMapping("/userHome")
+	@GetMapping("/users/userHome")
 	public String UserHome(Model model){
 		
 		//finds list of countries which contain recipes
@@ -129,7 +129,7 @@ public class RecipeController {
 			suggestRecipes.add(allRecipes.get(i));
 		}
 		model.addAttribute("suggest", suggestRecipes);
-		return "userHome.html";
+		return "/users/userHome.html";
 	}
 	
 	private String encodePassword(String password) {
@@ -192,7 +192,7 @@ public class RecipeController {
 		return "/error/access-denied.html";
 	}
 
-	@GetMapping("/uploadRecipe")
+	@GetMapping("/chefs/uploadRecipe")
 	public String goUploadRecipe(Model model, Authentication auth) {
 		model.addAttribute("recipe", new Recipe());
 		model.addAttribute("countries", countryRepo.findByOrderByName());
@@ -205,7 +205,7 @@ public class RecipeController {
 		return "/chefs/recipe.html";
 	}
 
-	@PostMapping("/addRecipe")
+	@PostMapping("/chefs/addRecipe")
 	public String addRecipe(@ModelAttribute Recipe recipe, @RequestParam String prep, @RequestParam String cook,
 			Model model, @RequestParam int chefId) {
 
@@ -254,26 +254,19 @@ public class RecipeController {
 
 	}
 
-	@GetMapping("/ingr")
-	public String addIngredient(Model model) {
-		model.addAttribute("measurements", measureRepo.findAll());
-		model.addAttribute("proteins", proteinRepo.findAll());
-		return "/chefs/ingredient.html";
-	}
-
-	@GetMapping("/addInstructions/{recipeId}")
+	@GetMapping("/chefs/addInstructions/{recipeId}")
 	public String addInstructions(@PathVariable int recipeId, Model model) {
 		model.addAttribute("recipeId", recipeId);
 		return "/chefs/instruction.html";
 	}
 
-	@GetMapping("/viewAllRecipe")
+	@GetMapping("/users/viewAllRecipe")
 	public String viewAllRecipes(Model model) {
 		model.addAttribute("recipes", recipeRepo.findAll());
 		return "/users/viewAllRecipes.html";
 	}
 
-	@GetMapping("/viewRecipe/{recipeId}")
+	@GetMapping("/users/viewRecipe/{recipeId}")
 	public String viewRecipe(@PathVariable int recipeId, Model model) {
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
@@ -283,7 +276,7 @@ public class RecipeController {
 		return "/users/viewRecipe.html";
 	}
 
-	@PostMapping("/searchRecipes")
+	@PostMapping("/users/searchRecipes")
 	public String searchRecipes(Model model, @RequestParam String search, @RequestParam int searchBy) {
 
 		switch (searchBy) {
@@ -309,25 +302,25 @@ public class RecipeController {
 		return "/users/viewAllRecipes.html";
 	}
 
-	@GetMapping("/viewRecipesByCountry/{name}")
+	@GetMapping("/users/viewRecipesByCountry/{name}")
 	public String viewRecipesByCountry(@PathVariable String name, Model model) {
 		model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(name));
 		return "/users/viewAllRecipes.html";
 	}
 	
-	@GetMapping("/viewByDiet/{id}")
+	@GetMapping("/users/viewByDiet/{id}")
 	public String viewRecipesByDiet(@PathVariable int id, Model model) {
 		model.addAttribute("recipes", recipeRepo.findByDiet_Id(Long.valueOf(id)));
 		return"/users/viewAllRecipes.html";
 	}
 	
-	@GetMapping("/viewByMeal/{id}")
+	@GetMapping("/users/viewByMeal/{id}")
 	public String viewRecipesByMeal(@PathVariable int id, Model model) {
 		model.addAttribute("recipes", recipeRepo.findByMealtype_id(Long.valueOf(id)));
 		return"/users/viewAllRecipes.html";
 	}
 	
-	@GetMapping("/chefIndex")
+	@GetMapping("/chefs/chefIndex")
 	public String chefIndex(Model model, Authentication auth) {
 
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
@@ -336,7 +329,7 @@ public class RecipeController {
 
 	}
 	
-	@GetMapping("/map")
+	@GetMapping("/users/discover")
 	public String getMap() {
 		return "/users/map.html";
 	}

@@ -18,18 +18,18 @@
 </head>
 <body>
 	<header>
-
 		<div class="navbar-fixed" id="centerNav">
-
 			<nav class="homeNav fixed" id="centerNav">
 				<div class="nav-wrapper" id="centerNav">
 					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
 					src="/images/logo.png" /></a> -->
 					<ul style="width: 100%" id="centerNav"
 						class="hide-on-med-and-down">
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
 						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
 					</ul>
 				</div>
@@ -48,16 +48,14 @@
 	 <div th:if="${!chef.recipes.empty and chef.recipes !=null}">
 	  <div th:each="r: ${chef.recipes}">
 	    <div class="col s4">
-	    <a class="link" th:href="@{/viewRecipe/{id}(id=${r.id})}">
-	      <div class="card" style="height:600px;margin:15px; ">
+	    <a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
+	      <div class="card" style="height:350px; margin:15px; border-radius:15px; ">
 	        <div class="card-image">
-	          <img id="recipeImg" src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/epic-summer-salad-7539748.jpg">
+	          <img id="recipeImg" th:if="${r.recipeImg != null}" th:src="@{'/images/recipes/' + ${r.recipeImg} + '.jpeg'}">
+	          <img id="recipeImg" th:unless="${r.recipeImg != null}" style="opacity:0.6" th:src="@{/images/shakshuka.png}">
 	        </div>
-	        <div class="card-content">
-	                	<p id="recipeCountry" th:text=${r.country.name}></p>
-	        
-	                  <span class="card-title" id="recipeCard"  th:text="${r.title}"></span>
-				<p id="recipeDescription" th:text="${r.description}"></p>
+	        <div class="card-content">	        
+	             <span class="card-title" id="recipeCard"  th:text="${r.title}"></span>
 	        </div>
 	     
 	      </div>

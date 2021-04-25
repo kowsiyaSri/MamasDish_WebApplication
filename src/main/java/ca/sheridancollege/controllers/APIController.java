@@ -138,6 +138,7 @@ public class APIController {
 				RecipeDescription description = new RecipeDescription();
 				description.setRecipeId(r.getId());
 				description.setRecipeTitle(r.getTitle());
+				description.setRecipeImg(r.getRecipeImg());
 				marker.getRecipes().add(description);
 			}	
 			recipeMarkers.add(marker);
