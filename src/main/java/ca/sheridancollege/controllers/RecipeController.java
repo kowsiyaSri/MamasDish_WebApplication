@@ -1,6 +1,7 @@
 package ca.sheridancollege.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -22,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ca.sheridancollege.beans.Chef;
 import ca.sheridancollege.beans.Country;
+import ca.sheridancollege.beans.Diet;
 import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Instruction;
+import ca.sheridancollege.beans.MealType;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.User;
 import ca.sheridancollege.repositories.ChefRepository;
@@ -96,10 +99,36 @@ public class RecipeController {
 				displayCountries.add(c);
 			}
 		}
-		
-		//finds list of diets which containt recipes
-		
 		model.addAttribute("countries", displayCountries);
+		
+		//finds list of diets which contains recipes
+		List<Diet> diets =  new ArrayList<Diet>();
+		for(Diet d : dietRepo.findAll()) {
+			List<Recipe> recipes = recipeRepo.findByDiet_Id(d.getId());
+			if(recipes.size() > 0) {
+				diets.add(d);
+			}
+		}
+		model.addAttribute("diets", diets);
+		
+		//find list of meal types which contain recipes
+		List<MealType> meals = new ArrayList<MealType>();
+		for(MealType m: mealRepo.findAll()) {
+			List<Recipe> recipes = recipeRepo.findByMealtype_id(m.getId());
+			if(recipes.size() > 0) {
+				meals.add(m);
+			}
+		}
+		model.addAttribute("meals", meals);
+		
+		//suggest recipes
+		List<Recipe> allRecipes = recipeRepo.findAll();
+		Collections.shuffle(allRecipes);
+		List<Recipe> suggestRecipes = new ArrayList<Recipe>();
+		for(int i=0; i < 5; i++) {
+			suggestRecipes.add(allRecipes.get(i));
+		}
+		model.addAttribute("suggest", suggestRecipes);
 		return "userHome.html";
 	}
 	
@@ -284,6 +313,18 @@ public class RecipeController {
 	public String viewRecipesByCountry(@PathVariable String name, Model model) {
 		model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(name));
 		return "/users/viewAllRecipes.html";
+	}
+	
+	@GetMapping("/viewByDiet/{id}")
+	public String viewRecipesByDiet(@PathVariable int id, Model model) {
+		model.addAttribute("recipes", recipeRepo.findByDiet_Id(Long.valueOf(id)));
+		return"/users/viewAllRecipes.html";
+	}
+	
+	@GetMapping("/viewByMeal/{id}")
+	public String viewRecipesByMeal(@PathVariable int id, Model model) {
+		model.addAttribute("recipes", recipeRepo.findByMealtype_id(Long.valueOf(id)));
+		return"/users/viewAllRecipes.html";
 	}
 	
 	@GetMapping("/chefIndex")
