@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ca.sheridancollege.beans.Chef;
+import ca.sheridancollege.beans.Country;
 import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.Recipe;
@@ -84,6 +85,24 @@ public class RecipeController {
 		return "loginPage.html";
 	}
 
+	@GetMapping("/userHome")
+	public String UserHome(Model model){
+		
+		//finds list of countries which contain recipes
+		List<Country> displayCountries  =  new ArrayList<Country>();
+		for(Country c : countryRepo.findAll()) {
+			List<Recipe> recipes = recipeRepo.findByCountry_nameContainingIgnoreCase(c.getName());
+			if(recipes.size() > 0) {
+				displayCountries.add(c);
+			}
+		}
+		
+		//finds list of diets which containt recipes
+		
+		model.addAttribute("countries", displayCountries);
+		return "userHome.html";
+	}
+	
 	private String encodePassword(String password) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder.encode(password);
@@ -280,4 +299,5 @@ public class RecipeController {
 	public String getMap() {
 		return "/users/map.html";
 	}
+	
 }

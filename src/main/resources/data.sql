@@ -195,7 +195,7 @@ INSERT INTO country (country_code, Latitude, Longitude, Name) VALUES
             ('CC', -12.164165, 96.870956, 'Cocos [Keeling] Islands'),
             ('CD', -4.038333, 21.758664, 'Congo [DRC]'),
             ('CF', 6.611111, 20.939444, 'Central African Republic'),
-            ('CG', -0.228021, 15.827659, 'Congo [Republic]'),
+            ('CG', -0.228021, 15.827659, 'Congo Republic'),
             ('CH', 46.818188, 8.227512, 'Switzerland'),
             ('CI', 7.539989, -5.54708, 'Côte d''Ivoire'),
             ('CK', -21.236736, -159.777671, 'Cook Islands'),
