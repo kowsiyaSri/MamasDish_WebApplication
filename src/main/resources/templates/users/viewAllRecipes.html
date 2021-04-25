@@ -70,7 +70,7 @@
     <a class="link" th:href="@{/viewRecipe/{id}(id=${r.id})}">
       <div class="card" style="height:600px;margin:15px; ">
         <div class="card-image">
-          <img id="recipeImg" src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/epic-summer-salad-7539748.jpg">
+          <img id="recipeImg" th:src="@{'images/recipes/' + ${r.recipeImg} + '.jpeg'}">
         </div>
         <div class="card-content">
                 	<p id="recipeCountry" th:text=${r.country.name}></p>

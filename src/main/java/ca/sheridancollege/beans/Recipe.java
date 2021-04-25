@@ -29,66 +29,66 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder 
+@Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Recipe {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-    private int iconPic;
-    
-    //temp image for recipe
-    private String recipeImg;
-    
-    @NotNull(message="Title is Mandatory.")
-    @Size(min=1, max=100, message="Title must be between 1-100 characters.")
-    private String title;
-    
-    private float duration;
-    
-    private float rating;
-    
-    @OneToMany
-    private List<Rating> ratings;
-    
-    @NotNull(message="Serving size is Mandatory!")
-    @Min(value=1, message="Serving size muat be atleast 1")
-    private int servingSize;
-    
-    private float cookTime;
-    
-    private float prepTime;
-    
-    @NotNull(message="Summary is Mandatory.")
-    @Size(min=1, max=100, message="Summary must be at least 1 character in length.")
-    @Lob
-    private String description;
-    
+
+	private int iconPic;
+
+	// temp image for recipe
+	private String recipeImg;
+
+	@NotNull(message = "Title is Mandatory.")
+	@Size(min = 1, max = 100, message = "Title must be between 1-100 characters.")
+	private String title;
+
+	private float duration;
+
+	private float rating;
+
+	@OneToMany
+	private List<Rating> ratings;
+
+	@NotNull(message = "Serving size is Mandatory!")
+	@Min(value = 1, message = "Serving size muat be atleast 1")
+	private int servingSize;
+
+	private float cookTime;
+
+	private float prepTime;
+
+	@NotNull(message = "Summary is Mandatory.")
+	@Size(min = 1, max = 100, message = "Summary must be at least 1 character in length.")
+	@Lob
+	private String description;
+
 	@ManyToOne
-    private Chef chef;
-    
-	@NotNull(message="MealType is Mandatory!")
+	private Chef chef;
+
+	@NotNull(message = "MealType is Mandatory!")
 	@OneToOne
-    private MealType mealtype;
-    
-	@NotNull(message="Country is Mandatory!")
-	
+	private MealType mealtype;
+
+	@NotNull(message = "Country is Mandatory!")
+
 	@OneToOne
-    private Country country;    
-	    
+	private Country country;
+
 	@OneToOne
-    private Cuisine cuisine;
-    
+	private Cuisine cuisine;
+
 	@OneToOne
-    private Diet diet;
-	
-	@OneToMany(mappedBy="recipe", cascade= CascadeType.ALL)
+	private Diet diet;
+
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
 	private List<RecipeIngredient> ingredients;
-	
-	@OneToMany(cascade= CascadeType.ALL)
+
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Instruction> instructions;
-	
+
 }
