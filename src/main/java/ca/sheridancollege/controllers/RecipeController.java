@@ -333,7 +333,7 @@ public class RecipeController {
 
 	}
 	
-	//GIT TEST
+	//hi this is a test
 	@GetMapping("/users/discover")
 	public String getMap() {
 		return "/users/map.html";
