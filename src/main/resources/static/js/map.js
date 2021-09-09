@@ -107,7 +107,7 @@ fetch('http://localhost:8080/mamasdish/countryRecipes')
 					if(data[i].recipes[x].recipeImg == null){
 						recipeImg = "shakshuka.png"
 					} else {
-						recipeImg = data[i].recipes[x].recipeImg + ".jpeg"
+						recipeImg = data[i].recipes[x].recipeImg + "-min.jpeg"
 					}
 					if (x < MAX_SIZE){
 						contentString += "<li style='border:0px; padding:0px; margin-left:0px; width:400px;'>"
