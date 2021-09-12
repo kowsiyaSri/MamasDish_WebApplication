@@ -36,14 +36,16 @@
 			</nav>
 		</div>
 	</header>
+	
 	<main>
+	 <div class="container">
 	
 	<h3 id="recipeHeader">HELLO, <span th:text="${chef.enduser.firstName}"></span></h3> 
 	
 		<h5 id="recipeHeader" style="font-size:20px">Here are your recipes: </h5> 
 	
 		 	
-	<div class="row" style="padding:5px 50px; width:85%">
+	<div class="row">
 	 
 	 <div th:if="${!chef.recipes.empty and chef.recipes !=null}">
 	  <div th:each="r: ${chef.recipes}">
@@ -66,6 +68,7 @@
 	  </div>
  
   
+ </div>
  </div>
  </main>
 </body>

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import ca.sheridancollege.FileUploadUtil;
 import ca.sheridancollege.beans.Chef;
 import ca.sheridancollege.beans.Country;
 import ca.sheridancollege.beans.Diet;
@@ -210,10 +211,20 @@ public class RecipeController {
 	}
 
 	@PostMapping("/chefs/addRecipe")
-	public String addRecipe(@ModelAttribute Recipe recipe, @RequestParam String prep, @RequestParam String cook,
+	public String addRecipe(@ModelAttribute Recipe recipe,@RequestParam("image") MultipartFile multipartFile, @RequestParam String prep, @RequestParam String cook,
 			Model model, @RequestParam int chefId) {
 
 		Chef chef = chefRepo.findById(Long.valueOf(chefId)).get();
+		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        //user.setPhotos(fileName);
+		String uploadDir = "images/recipes";
+		try {
+			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 
 		String ptime[] = prep.split(":");
 		float phr = Float.parseFloat(ptime[0]) * 60;

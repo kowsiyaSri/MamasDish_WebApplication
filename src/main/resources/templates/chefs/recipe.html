@@ -43,22 +43,28 @@
 	</header>
 	<main >
 	
-	<div id="center" >
+	 <div class="container center-align" >
 	<h3 style="text-align:center" id="recipeHeader">Enter Recipe Information:</h3>
 		
-	<div style="margin-left:400px" class="row" >
+	<div class="row" >
 		
 		
     <div class="col s12" style="width:800px;" id="center">
       <div class="card white" >
         <div class="card-content white-text">
 			<div style="color:red; margin-top:10px" th:each="error: ${errorMessage}" th:text="${error}"></div>
-			<form method="POST" th:object="${recipe}" th:action="@{/chefs/addRecipe}">
+			<form method="POST" th:object="${recipe}" th:action="@{/chefs/addRecipe}" enctype="multipart/form-data">
 				<input type="hidden" th:value="${chef.id}" name="chefId"/>
 				<div class="row">
 					<div class="input-field col s12">
 						<input id="title" type="text" th:field="*{title}" required> 
 						<label for="title">Title</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+    				<input type="file" name="image" accept="image/png, image/jpeg" />
+					<label for="image">Image</label>
 					</div>
 				</div>
 				<div class="row">
