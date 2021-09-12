@@ -215,15 +215,7 @@ public class RecipeController {
 			Model model, @RequestParam int chefId) {
 
 		Chef chef = chefRepo.findById(Long.valueOf(chefId)).get();
-		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        //user.setPhotos(fileName);
-		String uploadDir = "images/recipes";
-		try {
-			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 
 
 		String ptime[] = prep.split(":");
@@ -258,6 +250,19 @@ public class RecipeController {
 
 		recipe.setChef(chef);
 		Recipe savedRecipe = recipeRepo.save(recipe);
+		
+		String fileName = savedRecipe.getId() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        //user.setPhotos(fileName);
+		
+		savedRecipe.setRecipeImg(fileName);
+		String uploadDir = "src\\main\\resources\\static\\images\\recipes";
+		try {
+			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		recipeRepo.save(savedRecipe);
 		chef.getRecipes().add(savedRecipe);
 		chefRepo.save(chef);
 

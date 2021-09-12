@@ -70,7 +70,7 @@
     <a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
       <div class="card" style="height:600px; margin:15px; border-radius:15px">
         <div class="card-image">
-	          <img id="recipeImg" style="height:300px" th:if="${r.recipeImg != null}" th:src="@{'/images/recipes/' + ${r.recipeImg} + '-min.jpeg'}">
+	          <img id="recipeImg" style="height:300px" th:if="${r.recipeImg != null}" th:src="@{'/images/recipes/' + ${r.recipeImg}}">
 	          <img id="recipeImg" th:unless="${r.recipeImg != null}" style="opacity:0.6; height:300px" th:src="@{/images/shakshuka.png}">
         </div>
         <div class="card-content">
