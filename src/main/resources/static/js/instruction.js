@@ -73,7 +73,13 @@ function saveInstruction() {
 			counter++;
 		}
 		
-		window.open('/chefs/chefIndex/' ,  '_self');
+		fetch('http://localhost:8080/mamasdish/admin/approvalRequest/' + recipeId)
+				.then(data => data.json())
+				.then(function(data) {
+					console.log(data);
+				});
+		
+				window.open('/chefs/chefIndex/' ,  '_self');
 		
 	}
 }

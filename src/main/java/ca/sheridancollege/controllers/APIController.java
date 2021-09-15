@@ -2,7 +2,6 @@ package ca.sheridancollege.controllers;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,7 @@ import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.RecipeDescription;
 import ca.sheridancollege.beans.RecipeIngredient;
 import ca.sheridancollege.beans.RecipeMarker;
+import ca.sheridancollege.email.Email;
 import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.IngredientRepository;
 import ca.sheridancollege.repositories.InstructionRepository;
@@ -43,6 +43,10 @@ public class APIController {
 	@Autowired
 	@Lazy
 	private IngredientRepository ingredientRepo;
+	
+	@Autowired
+	@Lazy
+	private Email email;
 
 	@Autowired
 	@Lazy
@@ -133,6 +137,37 @@ public class APIController {
 		
 		recipe.setAuth(true);
 		recipeRepo.save(recipe);
+		
+		return 1;
+	}
+	
+	@GetMapping(value = "/admin/approvalRequest/{id}")
+	public int sendAuthEmail(Model model, @PathVariable int id) {
+		
+		Recipe recipe = recipeRepo.findById(Long.valueOf(id)).get();
+		
+		String chefEmail = recipe.getChef().getEnduser().getEmail();
+		String subject = "Thank You from Mamas Dish";
+		String body = "Thank you for adding your authentic recipe to Mamas Dish.";
+		body += "Please allow 24-48 hrs for approval from our authentication team.";
+	
+		email.sendEmail(chefEmail, subject, body);
+		
+		
+		return 1;
+	}
+	
+	@GetMapping(value = "/admin/RecipeApproval/{id}")
+	public int sendApprovalEmail(Model model, @PathVariable int id) {
+		
+		Recipe recipe = recipeRepo.findById(Long.valueOf(id)).get();
+		
+		String chefEmail = recipe.getChef().getEnduser().getEmail();
+		String subject = recipe.getTitle() + " has been Approved!";
+		String body = "Your recipe has now been approved!";
+	
+		email.sendEmail(chefEmail, subject, body);
+		
 		
 		return 1;
 	}

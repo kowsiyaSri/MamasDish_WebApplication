@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import ca.sheridancollege.beans.Instruction;
+import ca.sheridancollege.email.Email;
 import ca.sheridancollege.repositories.RecipeRepository;
 
 @Controller
@@ -17,6 +18,9 @@ public class AdminController {
 	
 	@Autowired
 	private RecipeRepository recipeRepo;
+	
+	@Autowired
+	private Email email;
 	
 	@GetMapping("/admin")
 	public String index(Model model) {

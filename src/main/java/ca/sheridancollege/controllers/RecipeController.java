@@ -32,6 +32,7 @@ import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.MealType;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.User;
+import ca.sheridancollege.email.Email;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.CuisineRepository;
@@ -79,6 +80,9 @@ public class RecipeController {
 
 	@Autowired
 	private ChefRepository chefRepo;
+	
+	@Autowired
+	private Email email;
 
 	@GetMapping("/")
 	public String home(Model model) {
@@ -263,6 +267,8 @@ public class RecipeController {
 		chef.getRecipes().add(savedRecipe);
 		chefRepo.save(chef);
 
+		
+		
 		model.addAttribute("recipeId", savedRecipe.getId());
 		model.addAttribute("measurements", measureRepo.findAll());
 		model.addAttribute("proteins", proteinRepo.findAll());
@@ -279,7 +285,7 @@ public class RecipeController {
 
 	@GetMapping("/users/viewAllRecipe")
 	public String viewAllRecipes(Model model) {
-		model.addAttribute("recipes", recipeRepo.findAll());
+		model.addAttribute("recipes", recipeRepo.findByAuthTrue());
 		return "/users/viewAllRecipes.html";
 	}
 
