@@ -282,6 +282,14 @@ ul.dropdown-content.select-dropdown li span {
 	font-weight: 900px;
 }
 
+#approveText {
+	margin-top: 0px;
+	margin-bottom: 30px;
+	font-family: 'Mulish', sans-serif;
+	font-size: 30px;
+	font-weight: 900px;
+}
+
 h1 {
 	font-family: Carme;
 	font-size: 24px;
