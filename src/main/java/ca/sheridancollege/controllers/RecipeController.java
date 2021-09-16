@@ -139,61 +139,6 @@ public class RecipeController {
 		return "/users/userHome.html";
 	}
 	
-	private String encodePassword(String password) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder.encode(password);
-	}
-
-	@PostMapping("/register")
-	public String processRegister(@RequestParam String email, @RequestParam String fname, @RequestParam String lname,
-			@RequestParam String password, @RequestParam(required = false) boolean isChef,
-			@RequestParam(required = false) String description, @RequestParam String password2, Model model) {
-
-		if (!password.equals(password2)) {
-
-			model.addAttribute("errMssg", "Passwords MUST match.");
-			model.addAttribute("emailInput", email);
-			model.addAttribute("fNameInput", fname);
-			model.addAttribute("lNameInput", lname);
-
-			return "register.html";
-
-		} else if(userRepo.findByUsername(email) != null){
-			
-			model.addAttribute("errMssg", "Email already registered.");
-			model.addAttribute("emailInput", email);
-			model.addAttribute("fNameInput", fname);
-			model.addAttribute("lNameInput", lname);
-
-
-			return "register.html";
-		} else {
-			EndUser endUser = EndUser.builder().firstName(fname).lastName(lname).email(email).password(password)
-					.build();
-			User user = new User(email, encodePassword(password));
-			endUserRepo.save(endUser);
-			if (isChef) {
-				Chef chef = Chef.builder().description(description).recipes(new ArrayList<Recipe>()).enduser(endUser)
-						.build();
-				user.getRoles().add(roleRepo.findByRolename("ROLE_CHEF"));
-				chefRepo.save(chef);
-			} else {
-				user.getRoles().add(roleRepo.findByRolename("ROLE_USER"));
-
-			}
-
-			userRepo.save(user);
-
-			return "home.html";
-		}
-
-	}
-
-	@GetMapping("/register")
-	public String Register() {
-		return "register.html";
-	}
-
 	@GetMapping("/access-denied")
 	public String toAccessDenied() {
 		return "/error/access-denied.html";
