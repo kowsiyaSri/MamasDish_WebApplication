@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ca.sheridancollege.beans.Protein;
 
 public interface ProteinRepository extends JpaRepository<Protein, Long> {
-
+	
+	public Protein findByProteinType(String protein);
 }

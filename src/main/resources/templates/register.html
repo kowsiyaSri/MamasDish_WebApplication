@@ -91,7 +91,7 @@ body {
 					<label>Country</label><br><br>
 					<select class="browser-default" id="countryPref" name="countryPref">
 						<option th:text="Country" style="color:#5085A5" value="" selected disabled></option>
-						<option th:each="c : ${countries}" th:value="${c.id}" th:text="${c.name}"></option>
+						<option th:each="c : ${countries}" th:value="${c.name}" th:text="${c.name}"></option>
 					</select>
 				</div>
 	
@@ -99,7 +99,7 @@ body {
 					<label>Cuisine</label><br><br>
 					<select class="browser-default" id="cuisinePref" name="cuisinePref">
 						<option th:text="Cuisine" value="" selected></option>
-						<option th:each="c : ${cuisines}" th:value="${c.id}" th:text="${c.cuisineName}"></option>
+						<option th:each="c : ${cuisines}" th:value="${c.cuisineName}" th:text="${c.cuisineName}"></option>
 					</select>
 				</div>
 				
@@ -107,7 +107,7 @@ body {
 					<label>Diet Type</label><br><br>
 					<select class="browser-default" id="dietPref" name="dietPref">
 						<option th:text="'Diet Type'" value="" selected></option>
-						<option th:each="d : ${diets}" th:value="${d.id}" th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
+						<option th:each="d : ${diets}" th:value="${d.dietType}" th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
 					</select>
 				</div>
 				
@@ -115,7 +115,7 @@ body {
 					<label>Protien</label><br><br>
 					<select class="browser-default" id="proteinPref" name="proteinPref">
 						<option th:text="'Protein Type'" value="" selected></option>
-						<option th:each="p : ${proteins}" th:value="${p.id}" th:text="${#strings.capitalize(#strings.toLowerCase(p.proteinType))}"></option>
+						<option th:each="p : ${proteins}" th:value="${p.proteinType}" th:text="${#strings.capitalize(#strings.toLowerCase(p.proteinType))}"></option>
 					</select>
 					<br>
 				</div>

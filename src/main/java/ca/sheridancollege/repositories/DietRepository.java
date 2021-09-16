@@ -8,5 +8,5 @@ import ca.sheridancollege.beans.Diet;
 
 public interface DietRepository extends JpaRepository<Diet, Long> {
 	
-
+	public Diet findByDietType(String diet);
 }

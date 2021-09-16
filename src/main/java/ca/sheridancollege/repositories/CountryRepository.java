@@ -9,5 +9,7 @@ import ca.sheridancollege.beans.Country;
 public interface CountryRepository extends JpaRepository<Country, Long> {
 	
 	public List<Country> findByOrderByName();
+	
+	public Country findByName(String country);
 
 }
