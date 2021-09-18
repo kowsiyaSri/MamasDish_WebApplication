@@ -26,13 +26,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Recipe {
+	
+	public Recipe() {
+		this.auth = false;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,6 +64,8 @@ public class Recipe {
 	private float cookTime;
 
 	private float prepTime;
+	
+	private boolean auth;
 
 	@NotNull(message = "Summary is Mandatory.")
 	@Size(min = 1, max = 100, message = "Summary must be at least 1 character in length.")

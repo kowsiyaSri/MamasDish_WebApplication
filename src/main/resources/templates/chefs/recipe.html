@@ -2,23 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet"
-	type="text/css">
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
-<script data-require="jquery@1.12.4" data-semver="1.12.4"
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.js"></script>
+<script data-require="jquery@1.12.4" data-semver="1.12.4" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.js"></script>
 <title>View Recipe</title>
 </head>
 <body>
@@ -43,13 +35,13 @@
 	</header>
 	<main >
 	
-	 <div class="container center-align" >
+	 <div class="container" >
 	<h3 style="text-align:center" id="recipeHeader">Enter Recipe Information:</h3>
 		
 	<div class="row" >
 		
 		
-    <div class="col s12" id="center">
+    <div class="col s12">
       <div class="card white" >
         <div class="card-content white-text">
 			<div style="color:red; margin-top:10px" th:each="error: ${errorMessage}" th:text="${error}"></div>
@@ -61,12 +53,21 @@
 						<label for="title">Title</label>
 					</div>
 				</div>
+				
 				<div class="row">
-					<div class="input-field col s12">
-    				<input type="file" name="image" accept="image/png, image/jpeg" />
-					<label for="image">Image</label>
-					</div>
-				</div>
+        			<div class="col s12">
+					<span style="color:#5085A5">Upload Recipe Image</span>
+	          			<div class="input-field">
+	            		<label for="file-upload" class="custom-file-upload">
+	            		Choose File
+					</label>
+    				<input type="file" id="file-upload" name="image" accept="image/png, image/jpeg" onchange="loadFile(event)" required/>
+					<br>
+	         			 </div>
+        			</div>
+      			</div>
+				
+				<img id="output" style="display:none"/>
 				<div class="row">
 					<div class="input-field col s12">
 						<textarea th:field="*{description}" id="textarea1" class="materialize-textarea" required></textarea>
@@ -142,4 +143,34 @@
 		</div>
 	</main>
 </body>
+
+	<script>
+			  var loadFile = function(event) {
+			  var output = document.getElementById('output');
+			  var fi = document.getElementById('file-upload');
+	
+			  if (fi.files.length > 0) {
+		            for (const i = 0; i <= fi.files.length - 1; i++) {
+		  
+		                const fsize = fi.files.item(i).size;
+		                console.log(fsize);
+		                // The size of the file.
+		                if (fsize >= 1048576) {
+		                    alert(
+		                      "File too Big, please select a file less than 1 mb");
+		                } else {
+		                	output.src = URL.createObjectURL(event.target.files[0]);
+		    			    output.onload = function() {
+		    			      URL.revokeObjectURL(output.src) // free memory
+		    			    }
+		    			    document.getElementById('output').style.display = "block";
+
+		                }
+		            }
+		        }
+			  
+			  
+			    
+			  };
+		</script>
 </html>

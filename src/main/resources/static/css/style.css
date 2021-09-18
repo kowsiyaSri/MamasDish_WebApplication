@@ -282,6 +282,14 @@ ul.dropdown-content.select-dropdown li span {
 	font-weight: 900px;
 }
 
+#approveText {
+	margin-top: 0px;
+	margin-bottom: 30px;
+	font-family: 'Mulish', sans-serif;
+	font-size: 30px;
+	font-weight: 900px;
+}
+
 h1 {
 	font-family: Carme;
 	font-size: 24px;
@@ -441,4 +449,19 @@ pre {
 #formLogin {
 	background-color: white;
 	padding: 30px;
+}
+
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+#output{
+	height:100px;
+	width: 100px
 }
