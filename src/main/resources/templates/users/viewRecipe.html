@@ -32,19 +32,16 @@
 	</header>
 	<main>
 		<div style="margin: auto; align-items: center; width: 50%;">
-			<div sec:authorize="hasRole('CHEF')">
-				<a class="waves-effect waves-light btn">Edit Recipe</a>
-			</div>
-			<div class="row"
-				style="margin: auto; align-items: center; width: 100%;">
+			<div class="row" style="margin: auto; align-items: center; width: 100%;">
 				<div class="card" style="margin-top: 5%; border-radius:15px">
 					<div class="card-image">
 						<img id="recipeImg" style="height:350px" th:if="${recipe.recipeImg != null}" th:src="@{'/images/recipes/' + ${recipe.recipeImg} + '-min.jpeg'}">
 						<img id="recipeImg" th:unless="${recipe.recipeImg != null}" style="opacity:0.6; height:350px " th:src="@{/images/shakshuka.png}">
 					</div>
 					<div class="card-content">
-						<h2 id="recipeTitle"
-							th:text="${recipe.title}">Pizza</h2>
+						<!-- Edit Recipe button only shown for chefs -->
+						<a sec:authorize="hasRole('CHEF')" class="waves-effect waves-light btn blue lighten-4 black-text" style="float: right;" th:href="">Edit Recipe</a>
+						<h2 id="recipeTitle" th:text="${recipe.title}">Pizza</h2>
 						<span> 
 							<span id="chefFont" th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span> 
 							<span style="float: right">
@@ -53,10 +50,8 @@
 						</span>
 						<hr>
 						<div style="padding: 20px 0px">
-							Course: <strong
-								th:text="${recipe.mealtype.mealName.toLowerCase()}">main</strong>
-							&nbsp&nbsp&nbsp&nbsp/&nbsp&nbsp&nbsp&nbsp Country: <strong
-								th:text="${recipe.country.name.toLowerCase()}">italian</strong>
+							Course: <strong th:text="${recipe.mealtype.mealName.toLowerCase()}">main</strong>
+							&nbsp&nbsp&nbsp&nbsp/&nbsp&nbsp&nbsp&nbsp Country: <strong th:text="${recipe.country.name.toLowerCase()}">italian</strong>
 						</div>
 						<div
 							style="margin-top: 5px; border: 1px dashed lightgrey; height: 100px;"
