@@ -32,6 +32,9 @@
 	</header>
 	<main>
 		<div style="margin: auto; align-items: center; width: 50%;">
+			<div sec:authorize="hasRole('CHEF')">
+				<a class="waves-effect waves-light btn">Edit Recipe</a>
+			</div>
 			<div class="row"
 				style="margin: auto; align-items: center; width: 100%;">
 				<div class="card" style="margin-top: 5%; border-radius:15px">
