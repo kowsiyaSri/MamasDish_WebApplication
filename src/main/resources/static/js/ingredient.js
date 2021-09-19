@@ -19,6 +19,13 @@ function saveRecipe() {
 	}
 
 	if (ingredientCheck) {
+		
+				 fetch('http://localhost:8080/mamasdish/delete/' + recipeId )
+				.then(data => data.json())
+				.then(function(data) {
+					console.log(data);
+				});	
+
 	
 
 		for(let ingrDivs of $('[id^="ingredientDiv"]').children()){
@@ -27,6 +34,7 @@ function saveRecipe() {
 			var ingredient = $("#"+ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
 			var measurement = $("#"+ingrDivs.id).find('select[id^="measurement"]').get(0).value;
 			var quantity = $("#"+ingrDivs.id).find('input[id^="quantity"]').get(0).value;
+			console.log(quantity)
 			var protein = $("#"+ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
 
 			
