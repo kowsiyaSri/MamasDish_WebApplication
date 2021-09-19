@@ -40,7 +40,7 @@
 					</div>
 					<div class="card-content">
 						<!-- Edit Recipe button only shown for chefs -->
-						<a sec:authorize="hasRole('CHEF')" class="waves-effect waves-light btn blue lighten-4 black-text" style="float: right;" th:href="">Edit Recipe</a>
+						<a sec:authorize="hasRole('CHEF')" class="waves-effect waves-light btn blue lighten-4 black-text" style="float: right;">Edit Recipe</a>
 						<h2 id="recipeTitle" th:text="${recipe.title}">Pizza</h2>
 						<span> 
 							<span id="chefFont" th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span> 
