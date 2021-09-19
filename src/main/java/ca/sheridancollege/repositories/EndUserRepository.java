@@ -6,4 +6,6 @@ import ca.sheridancollege.beans.EndUser;
 
 public interface EndUserRepository extends CrudRepository<EndUser, Long> {
 
+	public EndUser findByEmail(String name);
+
 }

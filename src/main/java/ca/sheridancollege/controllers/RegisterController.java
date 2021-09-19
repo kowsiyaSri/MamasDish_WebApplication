@@ -152,6 +152,7 @@ public class RegisterController {
 		return "register.html";
 	}
 	
+	
 	private String encodePassword(String password) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder.encode(password);

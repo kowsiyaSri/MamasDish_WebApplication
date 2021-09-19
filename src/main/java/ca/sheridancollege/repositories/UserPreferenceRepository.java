@@ -5,4 +5,6 @@ import ca.sheridancollege.beans.UserPreference;
 
 public interface UserPreferenceRepository extends JpaRepository<UserPreference, Long> {
 	
+	public UserPreference findByEnduser_id(long id);
+	
 }
