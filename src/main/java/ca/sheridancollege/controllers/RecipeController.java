@@ -353,6 +353,7 @@ public class RecipeController {
 		recipeUpdated.setDescription(recipe.getDescription());
 		recipeUpdated.setServingSize(recipe.getServingSize());
 		recipeUpdated.setTitle(recipe.getTitle());
+		
 		recipeUpdated.setRecipeImg(recipe.getRecipeImg());
 
 		recipeRepo.save(recipeUpdated);
@@ -420,6 +421,16 @@ public class RecipeController {
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
 		return "/chefs/chefIndex";
+	}
+	
+	@GetMapping("/chefs/viewRecipe/{recipeId}")
+	public String viewChefRecipe(@PathVariable int recipeId, Model model) {
+		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
+		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
+		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
+		model.addAttribute("instructions", instruct);
+
+		return "/chefs/viewRecipe.html";
 	}
 
 	// hi this is a test

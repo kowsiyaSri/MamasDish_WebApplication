@@ -39,6 +39,9 @@
 						<img id="recipeImg" th:unless="${recipe.recipeImg != null}" style="opacity:0.6; height:350px " th:src="@{/images/shakshuka.png}">
 					</div>
 					<div class="card-content">
+						<!-- Edit Recipe button only shown for chefs -->
+						 <a class="waves-effect waves-light btn blue lighten-4 black-text" 
+							th:href="@{/users/editRecipePartOne/{id}(id=${recipe.id})}" style="float: right;">Edit Recipe</a>
 						<h2 id="recipeTitle" th:text="${recipe.title}">Pizza</h2>
 						<span> 
 							<span id="chefFont" th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span> 
