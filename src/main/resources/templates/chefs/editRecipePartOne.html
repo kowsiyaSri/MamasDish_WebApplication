@@ -2,15 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet"
+	type="text/css">
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
-<script data-require="jquery@1.12.4" data-semver="1.12.4" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.js"></script>
+<script data-require="jquery@1.12.4" data-semver="1.12.4"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.js"></script>
 <title>View Recipe</title>
 </head>
 <body>
@@ -20,158 +28,179 @@
 				<div class="nav-wrapper" id="centerNav">
 					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
 					src="/images/logo.png" /></a> -->
-					<ul style="width: 100%" id="centerNav"
-						class="hide-on-med-and-down">
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+					<ul style="width: 100%" id="centerNav" class="hide-on-med-and-down">
+						<li style="padding-right: 70px"><a style="padding: 0px 30px"
+							th:href="@{/users/userHome}" id="homeNavTxt">Home</a></li>
+						<li style="padding-right: 70px"><a style="padding: 0px 30px"
+							th:href="@{/users/viewAllRecipe}" id="homeNavTxt">All Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding: 0px 30px"
+							th:href="@{/users/discover}" id="homeNavTxt">Discover Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding: 0px 30px"
+							th:href="@{/chefs/chefIndex}" id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding: 0px 30px"
+							th:href="@{/chefs/uploadRecipe}" id="homeNavTxt">Upload
+								Recipe</a></li>
+						<li><a style="padding: 0px 30px" th:href="@{/logout}"
+							id="homeNavTxt">Logout</a></li>
 					</ul>
 				</div>
 			</nav>
 		</div>
 	</header>
-	<main >
-	
-	 <div class="container" >
-	<h3 style="text-align:center" id="recipeHeader">Enter Recipe Information:</h3>
-		
-	<div class="row" >
-		
-		
-    <div class="col s12">
-      <div class="card white" >
-        <div class="card-content white-text">
-			<div style="color:red; margin-top:10px" th:each="error: ${errorMessage}" th:text="${error}"></div>
-			<form method="POST" th:object="${recipe}" th:action="@{/chefs/editRecipe}" enctype="multipart/form-data">
-				<input type="hidden" th:value="${chef.id}" name="chefId"/>
-				<input type="hidden"  name="recipeId" th:value="${recipeId}">
-				<div class="row">
-					<div class="input-field col s12">
-						<input id="title" type="text" th:field="*{title}" required value="${recipe.title}"> 
-						<label for="title">Title</label>
+	<main>
+
+		<div class="container">
+			<h3 style="text-align: center" id="recipeHeader">Enter Recipe
+				Information:</h3>
+
+			<div class="row">
+
+
+				<div class="col s12">
+					<div class="card white">
+						<div class="card-content white-text">
+							<div style="color: red; margin-top: 10px"
+								th:each="error: ${errorMessage}" th:text="${error}"></div>
+							<form method="POST" th:object="${recipe}"
+								th:action="@{/chefs/editRecipe}" enctype="multipart/form-data">
+								<input type="hidden" th:value="${chef.id}" name="chefId" /> <input
+									type="hidden" name="recipeId" th:value="${recipeId}">
+								<div class="row">
+									<div class="input-field col s12">
+										<input id="title" type="text" th:field="*{title}" required
+											value="${recipe.title}"> <label for="title">Title</label>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col s12">
+										<span style="color: #5085A5">Upload Recipe Image</span>
+										<div class="input-field">
+											<label for="file-upload" class="custom-file-upload">
+												Choose File </label>      <input type="file" id="file-upload"
+												name="image" accept="image/png, image/jpeg"
+												onchange="loadFile(event)" /> <br>
+										</div>
+									</div>
+								</div>
+
+								<img id="output" style="display: none" />
+								<div class="row">
+									<div class="input-field col s12">
+										<textarea th:field="*{description}" id="textarea1"
+											class="materialize-textarea" required></textarea>
+										<label for="textarea1">Summary</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s3">
+										<input id="serving" type="number" th:field="*{servingSize}"
+											min="1"> <label for="serving">Serving Size</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col s3">
+										<input type="text" th:value="${prep}" id="prep" name="prep"
+											title="Please enter in hh:mm format. Ex. 00:25"
+											pattern="^([0-5][0-9]):([0-5][0-9])$" required /> <label
+											for="prep">Prep Time</label>
+									</div>
+									<div class="col s3">
+										<input type="text" th:value="${cook}" id="cook" name="cook"
+											pattern="^([0-5][0-9]):([0-5][0-9])$" required /> <label
+											for="cook">Cook Time</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12">
+										<label>Meal Type</label><br>
+										<br> <select class="browser-default" name="mealtype"
+											id="mealtype" required>
+											<option th:text="'Meal Type'" style="color: #5085A5" value=""
+												selected disabled></option>
+											<option th:each="m : ${meals}" th:selected="${m.id}"
+												th:value="${m.id}"
+												th:text="${#strings.capitalize(#strings.toLowerCase(m.mealName))}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12">
+										<label>Country</label><br>
+										<br> <select class="browser-default" name="country"
+											id="country" required>
+											<option th:text="Country" style="color: #5085A5" value="" disabled></option>
+											<option th:each="c : ${countries}" th:selected="${c.id}"
+												th:value="${c.id}" th:text="${c.name}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12">
+										<label>Cuisine</label><br>
+										<br> <select class="browser-default" name="cuisine"
+											id="cuisine">
+											<option th:text="Cuisine" value="" ></option>
+											<option th:each="c : ${cuisines}" th:selected="${c.id}"
+												th:value="${c.id}" th:text="${c.cuisineName}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12">
+										<label>Diet Type</label><br>
+										<br> <select class="browser-default" name="diet"
+											id="diet">
+											<option th:text="'Diet Type'" value="" ></option>
+											<option th:each="d : ${diets}" th:selected="${d.id}"
+												th:value="${d.id}"
+												th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12">
+										<button class="btn waves-effect waves-teal"
+											style="width: 41%; background-color: #5085A5" type="submit"
+											name="action">
+											Next : Add Ingredients <i class="material-icons right">send</i>
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
-				
-				<div class="row">
-        			<div class="col s12">
-					<span style="color:#5085A5">Upload Recipe Image</span>
-	          			<div class="input-field">
-	            		<label for="file-upload" class="custom-file-upload">
-	            		Choose File
-					</label>
-    				<input type="file" id="file-upload" name="image" accept="image/png, image/jpeg" onchange="loadFile(event)" />
-					<br>
-	         			 </div>
-        			</div>
-      			</div>
-				
-				<img id="output" style="display:none"/>
-				<div class="row">
-					<div class="input-field col s12">
-						<textarea th:field="*{description}" id="textarea1" class="materialize-textarea" required></textarea>
-						<label for="textarea1">Summary</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s3">
-						<input id="serving" type="number" th:field="*{servingSize}" min="1"> 
-						<label for="serving">Serving Size</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col s3">
- 						<input type="text" th:value="${prep}"  id="prep" name="prep" title="Please enter in hh:mm format. Ex. 00:25" pattern="^([0-5][0-9]):([0-5][0-9])$" required/>
-						<label for="prep">Prep Time</label>
-					</div>
-					<div class="col s3">
-						<input type="text" th:value="${cook}"  id="cook" name="cook" pattern="^([0-5][0-9]):([0-5][0-9])$" required/>
-						<label for="cook">Cook Time</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<label>Meal Type</label><br><br>
-						<select class="browser-default" th:field="*{mealtype}" required>
-							<option th:text="'Meal Type'" style="color:#5085A5" value="" selected disabled></option>
-							<option th:each="m : ${meals}" th:value="${m.id}" th:text="${#strings.capitalize(#strings.toLowerCase(m.mealName))}"></option>
-						</select>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<label>Country</label><br><br>
-						<select class="browser-default" th:field="*{country}" required>
-							<option th:text="Country" style="color:#5085A5" value="" selected disabled></option>
-							<option th:each="c : ${countries}" th:value="${c.id}" th:text="${c.name}"></option>
-						</select>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<label>Cuisine</label><br><br>
-						<select class="browser-default" th:field="*{cuisine}">
-							<option th:text="Cuisine" value="" selected></option>
-							<option th:each="c : ${cuisines}" th:value="${c.id}" th:text="${c.cuisineName}"></option>
-						</select>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<label>Diet Type</label><br><br>
-						<select class="browser-default" th:field="*{diet}">
-							<option th:text="'Diet Type'" value="" selected></option>
-							<option th:each="d : ${diets}" th:value="${d.id}" th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
-						</select>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<button class="btn waves-effect waves-teal"
-							style="width: 41%; background-color: #5085A5" type="submit" name="action">
-							Next : Add Ingredients <i class="material-icons right">send</i>
-						</button>
-					</div>
-				</div>
-			</form>
-		</div>
-		</div>
-		</div>
-		</div>
-		
+			</div>
+
 		</div>
 	</main>
 </body>
 
-	<script>
-			  var loadFile = function(event) {
-			  var output = document.getElementById('output');
-			  var fi = document.getElementById('file-upload');
-	
-			  if (fi.files.length > 0) {
-		            for (const i = 0; i <= fi.files.length - 1; i++) {
-		  
-		                const fsize = fi.files.item(i).size;
-		                console.log(fsize);
-		                // The size of the file.
-		                if (fsize >= 1048576) {
-		                    alert(
-		                      "File too Big, please select a file less than 1 mb");
-		                } else {
-		                	output.src = URL.createObjectURL(event.target.files[0]);
-		    			    output.onload = function() {
-		    			      URL.revokeObjectURL(output.src) // free memory
-		    			    }
-		    			    document.getElementById('output').style.display = "block";
+<script>
+	var loadFile = function(event) {
+		var output = document.getElementById('output');
+		var fi = document.getElementById('file-upload');
 
-		                }
-		            }
-		        }
-			  
-			  
-			    
-			  };
-		</script>
+		if (fi.files.length > 0) {
+			for (const i = 0; i <= fi.files.length - 1; i++) {
+
+				const fsize = fi.files.item(i).size;
+				console.log(fsize);
+				// The size of the file.
+				if (fsize >= 1048576) {
+					alert("File too Big, please select a file less than 1 mb");
+				} else {
+					output.src = URL.createObjectURL(event.target.files[0]);
+					output.onload = function() {
+						URL.revokeObjectURL(output.src) // free memory
+					}
+					document.getElementById('output').style.display = "block";
+
+				}
+			}
+		}
+
+	};
+</script>
 </html>

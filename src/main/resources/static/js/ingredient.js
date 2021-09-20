@@ -18,15 +18,7 @@ function saveRecipe() {
 
 	}
 
-	if (ingredientCheck) {
-		
-				 fetch('http://localhost:8080/mamasdish/delete/' + recipeId )
-				.then(data => data.json())
-				.then(function(data) {
-					console.log(data);
-				});	
-
-	
+	if (ingredientCheck) {		
 
 		for(let ingrDivs of $('[id^="ingredientDiv"]').children()){
 
@@ -34,11 +26,9 @@ function saveRecipe() {
 			var ingredient = $("#"+ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
 			var measurement = $("#"+ingrDivs.id).find('select[id^="measurement"]').get(0).value;
 			var quantity = $("#"+ingrDivs.id).find('input[id^="quantity"]').get(0).value;
-			console.log(quantity)
+			//console.log($("#"+ingrDivs.id).find('input[id^="quantity"]').get());
+			console.log($("#"+ingrDivs.id).find('select[id^="proteinType"]').get());
 			var protein = $("#"+ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
-
-			
-			console.log(measurement)
 			
 			var el = $("#"+ingrDivs.id).find('input[id^="protein"]').get(0);
 			if (el.checked) {
@@ -86,7 +76,92 @@ function saveRecipe() {
 		window.open('/chefs/addInstructions/' + recipeId, '_self');
 
 	}
+}
 
+function editRecipe() {
+
+	var recipeId = $("#recipeId").html();
+
+	var ingredientNames = $('[id^="ingredientName"]');
+	var ingredientCheck = true;
+
+	for (let ingrName of ingredientNames) {
+
+			if (ingrName.value == "") {
+	
+				ingredientCheck = false;
+				$("#errId").show();
+				
+				break;
+				
+			}
+
+	}
+
+	if (ingredientCheck) {		
+
+		fetch('http://localhost:8080/mamasdish/deleteIngredients/' + recipeId )
+			.then(data => data.json())
+			.then(function(data) {
+			console.log(data);
+		});
+		
+		for(let ingrDivs of $('[id^="ingredientDiv"]').children()){
+
+
+			var ingredient = $("#"+ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
+			var measurement = $("#"+ingrDivs.id).find('select[id^="measurement"]').get(0).value;
+			var quantity = $("#"+ingrDivs.id).find('input[id^="quantity"]').get(0).value;
+			//console.log($("#"+ingrDivs.id).find('input[id^="quantity"]').get());
+			console.log($("#"+ingrDivs.id).find('select[id^="proteinType"]').get());
+			var protein = $("#"+ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
+			
+			var el = $("#"+ingrDivs.id).find('input[id^="protein"]').get(0);
+			if (el.checked) {
+				console.log(protein)
+				if (protein == null) {
+					protein = 0;
+				} else {
+					protein = parseInt(protein)
+				}
+			} else {
+				protein = 0;
+			}
+
+
+
+			if (measurement == "") {
+				measurement = 0;
+			} else {
+				measurement = parseInt(measurement)
+			}
+
+
+			if (quantity == "") {
+				quantity = 0;
+			} else {
+				quantity = parseInt(quantity)
+			}
+
+			console.log(ingredient);
+			console.log("measurement: " + measurement);
+			console.log("quantity:" + quantity);
+			console.log("protein:" + protein);
+
+
+			fetch('http://localhost:8080/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
+				.then(data => data.json())
+				.then(function(data) {
+					console.log(data);
+				});
+
+
+		}
+
+		//go to instruction page
+		window.open('/chefs/editInstructions/' +recipeId, '_self');
+
+	}
 }
 
 function showProtein(el) {

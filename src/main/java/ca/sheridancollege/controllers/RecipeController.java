@@ -85,7 +85,7 @@ public class RecipeController {
 	private ChefRepository chefRepo;
 
 	@Autowired
-	private RecipeIngredientRepository RecipeIngredientRepo;
+	private RecipeIngredientRepository recipeIngredientRepo;
 
 	@Autowired
 	private Email email;
@@ -408,17 +408,11 @@ public class RecipeController {
 		recipeUpdated.setRecipeImg(recipe.getRecipeImg());
 
 		recipeRepo.save(recipeUpdated);
-
-		model.addAttribute("ings", RecipeIngredientRepo.findByRecipe(Long.valueOf(recipeId)).size());
-		model.addAttribute("quan", RecipeIngredientRepo.findQuantity(Long.valueOf(recipeId)));
-		model.addAttribute("names", RecipeIngredientRepo.findIngredientName(Long.valueOf(recipeId)));
-		model.addAttribute("prots", RecipeIngredientRepo.findProtien(Long.valueOf(recipeId)));
-		model.addAttribute("recipeId", recipeUpdated.getId());
-		model.addAttribute("recipe", recipeUpdated);
+		
+		model.addAttribute("recipeIngredients", recipeUpdated.getIngredients());
 		model.addAttribute("measurements", measureRepo.findAll());
 		model.addAttribute("proteins", proteinRepo.findAll());
-
-		System.out.print("Prot" + RecipeIngredientRepo.findProtien(Long.valueOf(recipeId)));
+		model.addAttribute("recipeId", recipeUpdated.getId());
 
 		return "/chefs/editRecipePartTwo.html";
 
@@ -447,7 +441,14 @@ public class RecipeController {
 
 		return "/users/viewAllRecipes.html";
 	}
-
+	
+	@GetMapping("/chefs/editInstructions/{id}")
+	public String goEditRecipe(@PathVariable long id, Model model) {
+		Recipe recipe = recipeRepo.findById(id).get();
+		model.addAttribute("recipe", recipe);
+		return "/chefs/editInstruction.html";
+	}
+	
 	@GetMapping("/users/viewRecipesByCountry/{name}")
 	public String viewRecipesByCountry(@PathVariable String name, Model model) {
 		model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(name));
@@ -468,16 +469,9 @@ public class RecipeController {
 
 	@GetMapping("/chefs/chefIndex")
 	public String chefIndex(Model model, Authentication auth) {
-		System.out.print(RecipeIngredientRepo.findByRecipe(Long.valueOf(7)));
-
-		System.out.print(RecipeIngredientRepo.findQuantity(Long.valueOf(7)));
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
-		model.addAttribute("quan", RecipeIngredientRepo.findQuantity(Long.valueOf(7)));
-		model.addAttribute("protiens", RecipeIngredientRepo.findProtien(Long.valueOf(7)));
-		System.out.print("Prot" + RecipeIngredientRepo.findProtien(Long.valueOf(7)));
 		return "/chefs/chefIndex";
-
 	}
 
 	// hi this is a test

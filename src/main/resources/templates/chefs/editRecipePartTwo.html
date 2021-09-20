@@ -47,50 +47,75 @@
 		<h3 style="text-align:center" id="recipeHeader">Add your ingredients:</h3>
 		<div style="display: none; text-align:center; margin-bottom:5px;" id="errId">Please ensure all ingredients are named</div>
 			
-		<div id="ingredientDiv"   >
-			<div class="row" style="margin-left:33%; margin-top:20px" th:id="'ingredientBox' + ${c}" th:each="c: ${#numbers.sequence(1, ings)}">
+		<div id="ingredientDiv"  >
+			<div class="row" style="margin-left:33%; margin-top:20px"  th:each="ingredient : ${recipeIngredients}" th:id="'ingredientBox'+${ingredient.id}">
 				<div class="col s12 m6">
 					<div class="card" style="border-radius: 15px">
 						<div class="card-content">
 							<div class="row">
 								<div class="input-field col s2">
-									<input th:id="'quantity'+${c}" type="number" name="quantity" min="1" th:value="${quan[c-1]}">
+									<input th:id="'quantity' + ${ingredient.id}" type="number" name="quantity" min="1" th:value="${ingredient.quantity}">
 									<label for="quantity">Quantity</label>
 								</div>
-								<div class="input-field col s4">
-									<select th:id="'measurement'+${c}" style="color:#5085A5" class="browser-default"
-										name="measurement" required>
+								<div th:if="${ingredient.measurement}" class="input-field col s4">
+									<select th:id="'measurement' + ${ingredient.id}" style="color:#5085A5" class="browser-default"
+										name="measurement">
 										<option th:text="Measurement" style="color:#5085A5" value=""></option>
-										<option th:each="m : ${measurements}" th:value="${m.id}" th:selected=""
+										<option th:each="m : ${measurements}" th:value="${m.id}" th:selected="${ingredient.measurement.id} == ${m.id}"
+											th:text="${#strings.capitalize(m.measurementType)}"></option>
+									</select>
+								</div>
+								<div th:unless="${ingredient.measurement}" class="input-field col s4">
+									<select th:id="'measurement'+ ${ingredient.id}" style="color:#5085A5" class="browser-default"
+										name="measurement" required>
+										<option th:text="Measurement" style="color:#5085A5" value="" selected></option>
+										<option th:each="m : ${measurements}" th:value="${m.id}" 
 											th:text="${#strings.capitalize(m.measurementType)}"></option>
 									</select>
 								</div>
 								<div class="input-field col s6">
-									<input th:id="ingredientName+${c}" required type="text" name="ingredient" th:value="${names[c-1]}">
+									<input th:id="'ingredientName' + ${ingredient.id}" required type="text" name="ingredient" th:value="${ingredient.ingredient.ingredientName}">
 									<label for="ingredient">Ingredient</label>
 								</div>
-							</div>
-							<div class="row" style="padding-bottom: 10px; padding-left: 380px;">
-								<div class="input-field">	
-									<label> <input type="checkbox" th:id="'protein'+${c}" class="filled-in checkbox-blue-grey"
-										name="protein1" onClick="showProtein(this)"/> 
-										<span>Protein</span>
-									</label>
 								</div>
-							</div>
-							<div class="row" id="proteinDiv1" style="display: none">
-								<label>Protein</label> <br><br> 
-								<select th:id="'proteinType'+${c}" class="browser-default" th:name="'proteinType'+${c}" required>
-									<option th:each="p : ${proteins}" th:value="${p.id}" th:text="${p.proteinType}"></option>
-								</select>
-							</div>
-							
-							
+								<div th:if="${ingredient.ingredient.protein}">
+								<div class="row" style="padding-bottom: 10px; padding-left: 380px;">
+									<div class="input-field">
+										<label> 
+											<input type="checkbox" th:id="protein + ${ingredient.id}" class="filled-in checkbox-blue-grey"
+												th:name="protein + ${ingredient.id}" onClick="showProtein(this)" checked/> 
+											<span>Protein</span>
+										</label>
+									</div>
+								</div>
+								<div class="row" th:id="'proteinDiv' + ${ingredient.id}" style="display: block">
+									<label>Protein</label> <br><br> 
+									<select th:id="proteinType + ${ingredient.id}" class="browser-default" th:name="proteinType + ${ingredient.id}">
+										<option th:each="p : ${proteins}" th:value="${p.id}" th:text="${p.proteinType}"></option>
+									</select>
+								</div>	
+							</div>	
+							<div th:unless="${ingredient.ingredient.protein}">
+								<div class="row" style="padding-bottom: 10px; padding-left: 380px;">
+									<div class="input-field">
+										<label> <input type="checkbox" th:id="protein + ${ingredient.id}" class="filled-in checkbox-blue-grey"
+											th:name="'protein' + ${ingredient.id}" onClick="showProtein(this)"/> 
+											<span>Protein</span>
+										</label>
+									</div>
+								</div>
+								<div class="row" th:id="proteinDiv + ${ingredient.id}" style="display: none">
+									<label>Protein</label> <br><br> 
+									<select id="proteinType+ ${ingredient.id}" class="browser-default" th:name="proteinType +  ${ingredient.id}">
+										<option th:each="p : ${proteins}" th:value="${p.id}" th:text="${p.proteinType}"></option>
+									</select>
+								</div>	
+							</div>			
 						</div>
 					</div>
 				</div>
 				<div class="col s6" style="padding-top: 90px">
-				<a class="btn-floating" id="deleteBtn" th:onclick="'javascript:deleteIngredient(' + ${c} + ');'" >
+				<a class="btn-floating" id="deleteBtn" th:onclick="'javascript:deleteIngredient(' + ${ingredient.id} + ');'" >
 					<i class="material-icons">delete_forever</i>
 					</a>
 				</div>
@@ -112,7 +137,7 @@
 
 	<div id="footer">
 		<a style="float: right;background-color:#5085A5"
-		 onclick="saveRecipe()" class="waves-effect waves-light btn">NEXT: ADD INSTRUCTIONS</a>
+		 onclick="editRecipe()" class="waves-effect waves-light btn">NEXT: ADD INSTRUCTIONS</a>
 	</div>
 
 

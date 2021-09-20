@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.ui.Model;
@@ -116,9 +118,23 @@ public class APIController {
 	 * return 1; }
 	 */
 
-	@RequestMapping(value = "/deleteIngredient/{recipeId}", method = { RequestMethod.DELETE, RequestMethod.GET })
-	public int deleteIngredient(@PathVariable int recipeId) {
-		recipeIngredientRepo.deleteIngredientsRecords(Long.valueOf(recipeId));
+	@Transactional
+	@GetMapping(value = "/deleteIngredients/{recipeId}")
+	public long deleteIngredient(@PathVariable long recipeId) {
+		Recipe recipe = recipeRepo.findById(recipeId).get();
+		recipe.getIngredients().clear();
+		recipeRepo.save(recipe);
+		
+		long deletedRecords = recipeIngredientRepo.deleteByRecipeId(recipeId);
+		return deletedRecords;
+	}
+	
+	@Transactional
+	@GetMapping(value="/deleteInstructions/{recipeId}")
+	public long deleteInstruction(@PathVariable long recipeId) {
+		Recipe recipe = recipeRepo.findById(recipeId).get();
+		recipe.getInstructions().clear();
+		recipeRepo.save(recipe);
 		return 1;
 	}
 
