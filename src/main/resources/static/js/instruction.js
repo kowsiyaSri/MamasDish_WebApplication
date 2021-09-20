@@ -84,6 +84,62 @@ function saveInstruction() {
 	}
 }
 
+function editInstruction() {
+
+	var recipeId = $("#recipeId").html();
+
+	var instructions = $('[id^="instructionValue"]');
+	var instructionCheck = true;
+
+	for (let instruct of instructions) {
+
+		if (instruct.value == "") {
+
+			instructionCheck = false;
+			$("#errId").show();
+			
+			break;
+		}
+
+	}
+
+	if (instructionCheck) {
+		let counter = 1;
+		
+		fetch('http://localhost:8080/mamasdish/deleteInstructions/' + recipeId )
+			.then(data => data.json())
+			.then(function(data) {
+			console.log(data);
+		});
+		
+		for(let instructDivs of $('[id^="instructionDiv"]').children()){
+			console.log(instructDivs)
+			console.log($("#"+instructDivs.id).find('textarea[id^="instructionValue"]'));
+			var instruction = $("#"+instructDivs.id).find('textarea[id^="instructionValue"]').get(0).value;
+			fetch('http://localhost:8080/mamasdish/addInstructions/' + recipeId, {
+				method: 'post',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ stepNumber: counter, description: instruction })
+			}).then(res => res.json())
+				.then(
+				res => console.log(res));
+			counter++;
+		}
+		
+		fetch('http://localhost:8080/mamasdish/admin/approvalRequest/' + recipeId)
+				.then(data => data.json())
+				.then(function(data) {
+					console.log(data);
+				});
+		
+				window.open('/chefs/chefIndex/' ,  '_self');
+		
+	}
+}
+
 function addInstruction() {
 	var divID = getNewId();
 	$("#instructionDiv").append("<div class='row' id='instructionBox" + divID + "'> <div class='col s10 m6' style='margin-left:400px'> <div class='card' style='border-radius: 15px'>" +

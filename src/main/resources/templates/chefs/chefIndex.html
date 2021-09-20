@@ -50,6 +50,10 @@
 	 <div th:if="${!chef.recipes.empty and chef.recipes !=null}">
 	  <div th:each="r: ${chef.recipes}">
 	    <div class="col s4">
+	    
+	 <a class="btn-floating" id="deleteBtn" th:href="@{/users/editRecipePartOne/{id}(id=${r.id})}"  >
+					<i class="material-icons">delete_forever</i>
+	</a>
 	    <a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
 	      <div class="card" style="height:350px; margin:15px; border-radius:15px; ">
 	        <div class="card-image">
