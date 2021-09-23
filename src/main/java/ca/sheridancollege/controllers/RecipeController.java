@@ -102,6 +102,7 @@ public class RecipeController {
 	}
 
 	@GetMapping("/users/userHome")
+<<<<<<< HEAD
 	public String UserHome(Model model) {
 
 		// finds list of countries which contain recipes
@@ -142,6 +143,23 @@ public class RecipeController {
 			suggestRecipes.add(allRecipes.get(i));
 		}
 		model.addAttribute("suggest", suggestRecipes);
+=======
+	public String UserHome(Model model){
+		
+		//finds list of countries which contain recipes
+
+		model.addAttribute("countries", countryRepo.findTop5ByOrderById());
+		
+	
+		model.addAttribute("diets", dietRepo.findAll());
+		
+	
+		model.addAttribute("meals", mealRepo.findAll());
+		
+
+		model.addAttribute("suggest", recipeRepo.findTop5ByOrderByIdDesc());
+		
+>>>>>>> portiaDev
 		return "/users/userHome.html";
 	}
 	
