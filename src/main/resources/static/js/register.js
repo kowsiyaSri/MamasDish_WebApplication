@@ -4,11 +4,7 @@ var selectCuisine;
 var selectDiet;
 
 $(document).ready(function() {
-	console.log(proteins);
-	console.log(countries);
-	console.log(diets);
-	console.log(cuisines);
-	
+
 	selectProtein = sellect("#my-protein", {
 		originList: listProtein,
 		destinationList: [],
@@ -17,7 +13,7 @@ $(document).ready(function() {
 	});
 
 	selectProtein.init();
-	
+
 	selectDiet = sellect("#my-diet", {
 		originList: listDiet,
 		destinationList: [],
@@ -26,7 +22,7 @@ $(document).ready(function() {
 	});
 
 	selectDiet.init();
-	
+
 	selectCuisine = sellect("#my-cuisine", {
 		originList: listCuisine,
 		destinationList: [],
@@ -35,7 +31,7 @@ $(document).ready(function() {
 	});
 
 	selectCuisine.init();
-	
+
 	selectCountry = sellect("#my-country", {
 		originList: listCountry,
 		destinationList: [],
@@ -66,10 +62,15 @@ function updateProteinLists(event, item) {
 
 	selectedArr = selectProtein.getSelected();
 
-	selectedArr.forEach(function(item, index, arr) {
-		var span = document.createElement('span');
-		span.innerText = item;
+selectedArr.forEach(function(item, index, arr) {
+		var span = document.createElement('input');
+		span.setAttribute("name", "proteins[]");
+		span.setAttribute("type", "text");
+		span.style.display = 'none';
+		span.setAttribute("value", item);
+		console.log(span);
 		selectedList.appendChild(span);
+		
 	});
 
 }
@@ -86,11 +87,15 @@ function updateDietLists(event, item) {
 	selectedArr = selectDiet.getSelected();
 
 	selectedArr.forEach(function(item, index, arr) {
-		var span = document.createElement('span');
-		span.innerText = item;
+		var span = document.createElement('input');
+		span.setAttribute("name", "diets[]");
+		span.setAttribute("type", "text");
+		span.style.display = 'none';
+		span.setAttribute("value", item);
+		console.log(span);
 		selectedList.appendChild(span);
+		
 	});
-
 }
 
 //to return lists that were selected
@@ -105,9 +110,14 @@ function updateCuisineLists(event, item) {
 	selectedArr = selectCuisine.getSelected();
 
 	selectedArr.forEach(function(item, index, arr) {
-		var span = document.createElement('span');
-		span.innerText = item;
+		var span = document.createElement('input');
+		span.setAttribute("name", "cuisines[]");
+		span.setAttribute("type", "text");
+		span.style.display = 'none';
+		span.setAttribute("value", item);
+		console.log(span);
 		selectedList.appendChild(span);
+
 	});
 
 }
@@ -124,9 +134,14 @@ function updateCountryLists(event, item) {
 	selectedArr = selectCountry.getSelected();
 
 	selectedArr.forEach(function(item, index, arr) {
-		var span = document.createElement('span');
-		span.innerText = item;
+		var span = document.createElement('input');
+		span.setAttribute("name", "countries[]");
+		span.setAttribute("type", "text");
+		span.style.display = 'none';
+		span.setAttribute("value", item);
+		console.log(span);
 		selectedList.appendChild(span);
+
 	});
 
 }

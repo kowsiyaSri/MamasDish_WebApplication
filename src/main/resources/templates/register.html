@@ -6,13 +6,12 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:300'
-	rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 <link href='css/style.css' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" th:href="@{/css/sellect.css}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="../static/js/sellect.js" th:src="@{/js/sellect.js}"></script>
 <script src="../static/js/register.js" th:src="@{/js/register.js}"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -99,6 +98,13 @@ body {
 					   <input type="text" id="my-country">
 						<div id="selected-country" class="demo-list selected-list"></div>
 				</div>
+				
+				<div class="input-field col s12" style="display:none">
+					   <input type="text" id="country" >
+						<div id="selected-country" class="demo-list selected-list"></div>
+				</div>
+				
+				
 				<div class="input-field col s12">
 					<label>Cuisine</label><br>
 				</div>
@@ -125,10 +131,9 @@ body {
 				<div class="input-field col s12">
 					   <input type="text" id="my-protein">
 						<div id="selected-protein" class="demo-list selected-list"></div>
-					</div>
-					 </div>
-					 </div>
-
+				</div>
+			
+				
 				<p style="padding-left:10px;">
 					<input type="checkbox" name="isChef" id="test6" onClick="showDescription(this)" /> 
 						<label for="test6">Sign up as a CHEF </label>
@@ -138,13 +143,14 @@ body {
 					<label>Tell us about yourself: </label>
 					<textarea name="description"  class="materialize-textarea"></textarea>					
 				</div>
+				
 				<p id="loginBtn" >
 					<input type="submit" value="Register"  class="blue darken-4 btn"/>
 				</p>
-			
-	</form>
-		</div>
-		</div>
+				 </form>
+				 </div>
+				 </div>
+				
 			<script th:inline="javascript">
 							var listProtein = [];
 							var proteins = /*[[${proteins}]]*/{};
