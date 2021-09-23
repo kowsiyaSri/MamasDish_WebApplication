@@ -16,14 +16,12 @@ import ca.sheridancollege.beans.Cuisine;
 import ca.sheridancollege.beans.Diet;
 import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Protein;
-import ca.sheridancollege.beans.UserPreference;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.CuisineRepository;
 import ca.sheridancollege.repositories.DietRepository;
 import ca.sheridancollege.repositories.EndUserRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
-import ca.sheridancollege.repositories.UserPreferenceRepository;
 import ca.sheridancollege.repositories.UserRepository;
 
 @Controller
@@ -34,9 +32,6 @@ public class UserController {
 	
 	@Autowired
 	private EndUserRepository endUserRepo;
-	
-	@Autowired
-	private UserPreferenceRepository userPrefRepo;
 	
 	@Autowired
 	private CountryRepository countryRepo;
@@ -59,7 +54,7 @@ public class UserController {
 	public String goViewProfile(Model model, Authentication auth) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		model.addAttribute("user", user);
-		model.addAttribute("userPref", userPrefRepo.findByEnduser_id(user.getId()));
+		//model.addAttribute("userPref", userPrefRepo.findByEnduser_id(user.getId()));
 		
 		Chef chef = chefRepo.findByEnduser_Email(user.getEmail());
 		if(chef != null) {
@@ -83,7 +78,7 @@ public class UserController {
 		user.setLastName(lastName);
 		endUserRepo.save(user);
 		
-		//save changes for userPreferece
+		/*save changes for userPreferece
 		UserPreference userPref = userPrefRepo.findByEnduser_id(id);
 		
 		Country country = null;
@@ -110,7 +105,7 @@ public class UserController {
 		}
 		userPref.setProtein(protein);
 		
-		userPrefRepo.save(userPref);
+		userPrefRepo.save(userPref);*/
 		
 		//if user is a chef
 		Chef chef = chefRepo.findByEnduser_Email(user.getEmail());
@@ -122,7 +117,7 @@ public class UserController {
 		
 		//go back to view profile
 		model.addAttribute("user", user);
-		model.addAttribute("userPref", userPrefRepo.findByEnduser_id(user.getId()));
+		//model.addAttribute("userPref", userPrefRepo.findByEnduser_id(user.getId()));
 		
 		return "/users/viewProfile.html";	
 	}
@@ -132,7 +127,7 @@ public class UserController {
 	public String goEditProfile(Model model, @RequestParam long id){
 		EndUser user = endUserRepo.findById(id).get();
 		model.addAttribute("user", user);
-		model.addAttribute("userPref", userPrefRepo.findByEnduser_id(id));
+		//model.addAttribute("userPref", userPrefRepo.findByEnduser_id(id));
 		model.addAttribute("countries", countryRepo.findByOrderByName());
 		model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
 		model.addAttribute("diets", dietRepo.findAll());

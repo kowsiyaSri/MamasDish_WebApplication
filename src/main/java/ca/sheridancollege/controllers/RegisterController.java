@@ -20,7 +20,6 @@ import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Protein;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.User;
-import ca.sheridancollege.beans.UserPreference;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.CuisineRepository;
@@ -28,7 +27,6 @@ import ca.sheridancollege.repositories.DietRepository;
 import ca.sheridancollege.repositories.EndUserRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RoleRepository;
-import ca.sheridancollege.repositories.UserPreferenceRepository;
 import ca.sheridancollege.repositories.UserRepository;
 
 @Controller
@@ -57,9 +55,6 @@ public class RegisterController {
 
 	@Autowired
 	private ProteinRepository proteinRepo;
-	
-	@Autowired
-	private UserPreferenceRepository userPrefRepo;
 
 	// method to register user
 	@PostMapping("/register")
@@ -120,9 +115,9 @@ public class RegisterController {
 			}
 			
 			//save users preferences
-			UserPreference userPref = UserPreference.builder().enduser(endUser).
+			/*UserPreference userPref = UserPreference.builder().enduser(endUser).
 					country(country).cuisine(cuisine).diet(diet).protein(protein).build();
-			userPrefRepo.save(userPref);
+			userPrefRepo.save(userPref);*/
 			
 			//if chef is selected will create a chef 
 			if (isChef) {

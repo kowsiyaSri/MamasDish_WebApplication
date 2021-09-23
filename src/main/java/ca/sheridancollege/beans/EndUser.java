@@ -2,6 +2,7 @@ package ca.sheridancollege.beans;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -38,4 +39,16 @@ public class EndUser {
 
 	@OneToMany
 	private List<Recent> recent;
+	
+	@OneToMany
+	private List<Cuisine> cuisine;
+
+	@OneToMany
+	private List<Country> country;
+
+	@OneToMany
+	private List<Diet> diet;
+
+	@OneToMany
+	private List<Protein> protein;
 }
