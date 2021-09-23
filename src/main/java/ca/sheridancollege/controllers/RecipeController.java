@@ -99,43 +99,18 @@ public class RecipeController {
 	public String UserHome(Model model){
 		
 		//finds list of countries which contain recipes
-		List<Country> displayCountries  =  new ArrayList<Country>();
-		for(Country c : countryRepo.findAll()) {
-			List<Recipe> recipes = recipeRepo.findByCountry_nameContainingIgnoreCase(c.getName());
-			if(recipes.size() > 0) {
-				displayCountries.add(c);
-			}
-		}
-		model.addAttribute("countries", displayCountries);
+
+		model.addAttribute("countries", countryRepo.findTop5ByOrderById());
 		
-		//finds list of diets which contains recipes
-		List<Diet> diets =  new ArrayList<Diet>();
-		for(Diet d : dietRepo.findAll()) {
-			List<Recipe> recipes = recipeRepo.findByDiet_Id(d.getId());
-			if(recipes.size() > 0) {
-				diets.add(d);
-			}
-		}
-		model.addAttribute("diets", diets);
+	
+		model.addAttribute("diets", dietRepo.findAll());
 		
-		//find list of meal types which contain recipes
-		List<MealType> meals = new ArrayList<MealType>();
-		for(MealType m: mealRepo.findAll()) {
-			List<Recipe> recipes = recipeRepo.findByMealtype_id(m.getId());
-			if(recipes.size() > 0) {
-				meals.add(m);
-			}
-		}
-		model.addAttribute("meals", meals);
+	
+		model.addAttribute("meals", mealRepo.findAll());
 		
-		//suggest recipes
-		List<Recipe> allRecipes = recipeRepo.findAll();
-		Collections.shuffle(allRecipes);
-		List<Recipe> suggestRecipes = new ArrayList<Recipe>();
-		for(int i=0; i < 5; i++) {
-			suggestRecipes.add(allRecipes.get(i));
-		}
-		model.addAttribute("suggest", suggestRecipes);
+
+		model.addAttribute("suggest", recipeRepo.findTop5ByOrderByIdDesc());
+		
 		return "/users/userHome.html";
 	}
 	

@@ -36,7 +36,7 @@
 			      <div style="border-radius:20px" class="card">
 			        <a th:href="@{'/users/viewRecipe/' + ${s.id}}">
 				         <div class="card-image">
-				          	<img id="userHomeImage" style="border-radius:20px" th:if="${s.recipeImg != null}" th:src="@{'/images/recipes/'+ ${s.recipeImg} +'-min.jpeg'}">
+				          	<img id="userHomeImage" style="border-radius:20px" th:if="${s.recipeImg != null}" th:src="@{'/images/recipes/'+ ${s.recipeImg}}">
 							<img id="userHomeImage" style="border-radius:20px" th:unless="${s.recipeImg != null}" th:src="@{/images/shakshuka.png}">
 				          <span class="card-title"  id="userHomeTitle" th:text="${s.title}"></span>
 				        </div>
@@ -54,7 +54,7 @@
 			      <div style="border-radius:20px" class="card">
 			        <a th:href="@{'/users/viewRecipesByCountry/' + ${c.name}}">
 				         <div class="card-image">
-				          <img id="userHomeImage" style="border-radius:20px" th:src="@{'/images/countries/' + ${c.name} + '-min.jpeg'}">
+				          <img id="userHomeImage" style="border-radius:20px" th:src="@{'/images/countries/' + ${c.name} + '.jpeg'}">
 				          <span class="card-title"  id="userHomeTitle" th:text="${c.name}"></span>
 				        </div>
 			        </a>

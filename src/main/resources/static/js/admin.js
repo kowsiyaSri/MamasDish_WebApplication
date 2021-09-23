@@ -1,3 +1,8 @@
+$( document ).ready(function() {
+
+});
+
+
 function approveRecipe(id) {
 	fetch('http://localhost:8080/mamasdish/admin/approveRecipe/' + id)
 		.then(data => data.json())
