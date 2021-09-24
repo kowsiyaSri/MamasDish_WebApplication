@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
@@ -38,6 +39,9 @@ public class EndUser {
 
 	@OneToMany
 	private List<Recent> recent;
+	
+	@OneToMany
+	private List<Recipe> recipe;
 	
 	@OneToMany
 	private List<Cuisine> cuisine;

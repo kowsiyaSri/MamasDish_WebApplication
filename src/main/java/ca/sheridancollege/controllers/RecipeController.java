@@ -101,6 +101,7 @@ public class RecipeController {
 		return "loginPage.html";
 	}
 
+	
 	@GetMapping("/users/userHome")
 	public String UserHome(Model model){
 		
@@ -115,7 +116,7 @@ public class RecipeController {
 		model.addAttribute("meals", mealRepo.findAll());
 		
 
-		model.addAttribute("suggest", recipeRepo.findTop5ByOrderByIdDesc());
+		model.addAttribute("suggest", recipeRepo.suggestRecipes(10));
 		
 		return "/users/userHome.html";
 	}
