@@ -47,6 +47,7 @@ import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
 import ca.sheridancollege.repositories.RoleRepository;
 import ca.sheridancollege.repositories.UserRepository;
+import okhttp3.*;
 
 @Controller
 public class RecipeController {
@@ -238,12 +239,44 @@ public class RecipeController {
 	}
 
 	@GetMapping("/users/viewRecipe/{recipeId}")
-	public String viewRecipe(@PathVariable int recipeId, Model model) {
+	public String viewRecipe(@PathVariable int recipeId, Model model) throws IOException {
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		model.addAttribute("instructions", instruct);
-
+		
+		// Nutrition Part
+		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		
+		// Looping through ingredients
+		for (RecipeIngredient ingredients : recipe.getIngredients()) {
+			System.out.println(ingredients.getQuantity());
+//			if (ingredients.getMeasurement().getMeasurementType() != null) {
+//				System.out.println(ingredients.getMeasurement().getMeasurementType());
+//			} else {
+//				System.out.println("");
+//			}
+			System.out.println(ingredients.getIngredient().getIngredientName());
+		}
+		
+		String ingredientName = recipe.getIngredients().get(recipeId).getIngredient().getIngredientName();
+		float ingredientQuantity = recipe.getIngredients().get(recipeId).getQuantity();
+		String ingredientMeasurement = recipe.getIngredients().get(recipeId).getMeasurement().getMeasurementType();
+		
+		OkHttpClient client = new OkHttpClient().newBuilder().build();
+		MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+		RequestBody body = RequestBody.create(mediaType, "query="+ ingredientQuantity + ", " + ingredientMeasurement + ", " + ingredientName + "&timezone=US/Eastern");
+		Request request = new Request.Builder()
+				.url("https://trackapi.nutritionix.com/v2/natural/nutrients")
+				.method("POST", body)
+	            .addHeader("x-app-id", "52c550ac")
+	            .addHeader("x-app-key", " c9873f02bd95c74d5de0934edd09ff7a")
+	            .addHeader("content", "application/json")
+	            .addHeader("Content-Type", "application/x-www-form-urlencoded")
+	            .build();
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+		
 		return "/users/viewRecipe.html";
 	}
 
