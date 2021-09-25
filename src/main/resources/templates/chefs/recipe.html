@@ -57,11 +57,14 @@
 				<div class="row">
         			<div class="col s12">
 					<span style="color:#5085A5">Upload Recipe Image</span>
-	          			<div class="input-field">
+	          			<div class="file-field input-field">
 	            		<label for="file-upload" class="custom-file-upload">
 	            		Choose File
 					</label>
     				<input type="file" id="file-upload" name="image" accept="image/png, image/jpeg" onchange="loadFile(event)" required/>
+					  <div class="file-path-wrapper">
+        				<input class="file-path validate" type="text" placeholder="Upload one or more files">
+      				</div>
 					<br>
 	         			 </div>
         			</div>

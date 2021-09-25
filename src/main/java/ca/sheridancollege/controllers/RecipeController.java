@@ -230,6 +230,7 @@ public class RecipeController {
 		// model.addAttribute("instructions", instruct);
 		// model.addAttribute("recipe", new Recipe());
 		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		recipe.setAuth(false);
 
 		model.addAttribute("countries", countryRepo.findByContryName(recipe.getCountry().getName()));
 		model.addAttribute("meals", mealRepo.findByMealName(recipe.getMealtype().getMealName()));
@@ -413,4 +414,10 @@ public class RecipeController {
 	public String getMap() {
 		return "/users/map.html";
 	}
+	
+	@GetMapping("/awaitApproval")
+	public String awaitApproval() {
+		return "/chefs/awaitApproval";
+	}
+	
 }
