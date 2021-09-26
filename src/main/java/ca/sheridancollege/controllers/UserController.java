@@ -52,15 +52,56 @@ public class UserController {
 	//method to view the profile
 	@GetMapping("/viewProfile")
 	public String goViewProfile(Model model, Authentication auth) {
-		EndUser user = endUserRepo.findByEmail(auth.getName());
-		model.addAttribute("user", user);
-		//model.addAttribute("userPref", userPrefRepo.findByEnduser_id(user.getId()));
 		
+		//get user
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		model.addAttribute("user", user);		
+	
+		//get user preferences
+		String proteins = "";
+		for(Protein p : user.getProtein()) {
+			proteins += p.getProteinType() + ", ";
+		}
+		
+		if(proteins != "") {
+			proteins = proteins.substring(0, proteins.length() - 2);
+		}
+		
+		String cuisines = "";
+		for (Cuisine c : user.getCuisine()) {
+			cuisines += c.getCuisineName() + ", ";
+		}
+		if(cuisines != "") {
+			cuisines = cuisines.substring(0, cuisines.length() - 2);
+		}
+		
+		String countries = "";
+		for(Country c : user.getCountry()) {
+			countries += c.getName() + ", "; 
+		}
+		if(countries != "") {
+			countries = countries.substring(0, countries.length() - 2);
+		}
+		
+		String diets = "";
+		for(Diet d : user.getDiet()) {
+			diets += d.getDietType() + ", ";
+		}
+		if(diets != "") {
+			diets = diets.substring(0, diets.length() - 2);
+		}
+	
+		model.addAttribute("countries", countries);
+		model.addAttribute("proteins", proteins);
+		model.addAttribute("cuisines", cuisines);
+		model.addAttribute("diets", diets);
+		
+		//get chef info
 		Chef chef = chefRepo.findByEnduser_Email(user.getEmail());
 		if(chef != null) {
 			model.addAttribute("chef", chef);
 		}
-		
+			
 		return "/users/viewProfile.html";
 	}
 	
