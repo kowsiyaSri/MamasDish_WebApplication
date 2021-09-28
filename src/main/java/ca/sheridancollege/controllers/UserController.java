@@ -108,59 +108,63 @@ public class UserController {
 	//Method to save changes
 	@PostMapping("/viewProfile")
 	public String saveProfileChanges(@RequestParam long id, @RequestParam String firstName, @RequestParam String lastName,
-			@RequestParam(required = false, defaultValue ="") String countryPref, @RequestParam(required = false, defaultValue ="") String cuisinePref, 
-			@RequestParam(required = false, defaultValue ="") String dietPref, @RequestParam(required = false, defaultValue ="") String proteinPref,
-			@RequestParam String description, Model model) {
+			@RequestParam(required = false, value = "countries[]") String[] countries, @RequestParam(required = false, value = "proteins[]") String[] proteins,
+			@RequestParam(required = false, value = "diets[]") String[] diets, @RequestParam(required = false, value = "cuisines[]") String[] cuisines,
+			@RequestParam (required = false) String description, Model model) {
 		
 		EndUser user = endUserRepo.findById(id).get();
 		
 		//save changes for user
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
+		
+		//save changes to preferences
+		if(proteins != null) {
+			user.getProtein().clear();
+			if (proteins.length != 0) {
+				for (String p : proteins) {
+					user.getProtein().add(proteinRepo.findByProteinType(p));
+				}
+			}
+		}
+		
+		if(cuisines != null) {
+			user.getCuisine().clear();
+			if (cuisines.length != 0) {
+				for (String cuisine : cuisines) {
+					user.getCuisine().add(cuisineRepo.findByCuisineName(cuisine));
+				}
+			}
+		}
+			
+		if(countries != null) {
+			user.getCountry().clear();
+			if (countries.length != 0) {
+				for (String country : countries) {
+					user.getCountry().add(countryRepo.findByName(country));
+				}
+			}
+		}
+		
+		if(diets != null) {
+			user.getDiet().clear();
+			if (diets.length != 0) {
+				for (String diet : diets) {
+					user.getDiet().add(dietRepo.findByDietType(diet));
+				}
+			}
+		}
 		endUserRepo.save(user);
-		
-		/*save changes for userPreferece
-		UserPreference userPref = userPrefRepo.findByEnduser_id(id);
-		
-		Country country = null;
-		if (countryPref != ""){
-			country = countryRepo.findByName(countryPref);
-		}
-		userPref.setCountry(country);
-		
-		Cuisine cuisine = null;
-		if(cuisinePref != ""){
-			cuisine = cuisineRepo.findByCuisineName(cuisinePref);
-		}
-		userPref.setCuisine(cuisine);
-		
-		Diet diet = null;
-		if(dietPref != "") {
-			diet = dietRepo.findByDietType(dietPref);
-		}
-		userPref.setDiet(diet);
-		
-		Protein protein = null;
-		if(proteinPref != "") {
-			protein = proteinRepo.findByProteinType(proteinPref);
-		}
-		userPref.setProtein(protein);
-		
-		userPrefRepo.save(userPref);*/
-		
+				
 		//if user is a chef
 		Chef chef = chefRepo.findByEnduser_Email(user.getEmail());
 		if(chef != null) {
 			chef.setDescription(description);
 			chefRepo.save(chef);
 			model.addAttribute("chef", chef);
-		}
+		}		
 		
-		//go back to view profile
-		model.addAttribute("user", user);
-		//model.addAttribute("userPref", userPrefRepo.findByEnduser_id(user.getId()));
-		
-		return "/users/viewProfile.html";	
+		return "redirect:/viewProfile";	
 	}
 	
 	//method to go to the edit profile page
@@ -168,7 +172,7 @@ public class UserController {
 	public String goEditProfile(Model model, @RequestParam long id){
 		EndUser user = endUserRepo.findById(id).get();
 		model.addAttribute("user", user);
-		//model.addAttribute("userPref", userPrefRepo.findByEnduser_id(id));
+
 		model.addAttribute("countries", countryRepo.findByOrderByName());
 		model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
 		model.addAttribute("diets", dietRepo.findAll());

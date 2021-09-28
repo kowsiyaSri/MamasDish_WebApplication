@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 	selectProtein = sellect("#my-protein", {
 		originList: listProtein,
-		destinationList: [],
+		destinationList: userProtein,
 		onInsert: updateProteinLists,
 		onRemove: updateProteinLists
 	});
@@ -16,7 +16,7 @@ $(document).ready(function() {
 
 	selectDiet = sellect("#my-diet", {
 		originList: listDiet,
-		destinationList: [],
+		destinationList: userDiet,
 		onInsert: updateDietLists,
 		onRemove: updateDietLists
 	});
@@ -25,7 +25,7 @@ $(document).ready(function() {
 
 	selectCuisine = sellect("#my-cuisine", {
 		originList: listCuisine,
-		destinationList: [],
+		destinationList: userCuisine,
 		onInsert: updateCuisineLists,
 		onRemove: updateCuisineLists
 	});
@@ -34,22 +34,13 @@ $(document).ready(function() {
 
 	selectCountry = sellect("#my-country", {
 		originList: listCountry,
-		destinationList: [],
+		destinationList: userCountry,
 		onInsert: updateCountryLists,
 		onRemove: updateCountryLists
 	});
 
 	selectCountry.init();
 });
-
-function showDescription(el) {
-	if (el.checked) {
-		$("#descriptionBox").css("display", "block")
-	}
-	else {
-		$("#descriptionBox").css("display", "none")
-	}
-}
 
 //to return lists that were selected
 function updateProteinLists(event, item) {
@@ -69,7 +60,7 @@ function updateProteinLists(event, item) {
 		span.style.display = 'none';
 		span.setAttribute("value", item);
 		console.log(span);
-		selectedList.appendChild(span);		
+		selectedList.appendChild(span);
 	});
 
 }
@@ -93,7 +84,7 @@ function updateDietLists(event, item) {
 		span.setAttribute("value", item);
 		console.log(span);
 		selectedList.appendChild(span);
-		
+
 	});
 }
 

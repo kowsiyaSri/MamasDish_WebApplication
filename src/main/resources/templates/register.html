@@ -6,6 +6,7 @@
 	rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -94,52 +95,42 @@ body {
 				</div>
 				<div class="input-field col s12">
 					<label>Country</label><br>
-				</div>
-					
+				</div>			
 				<div class="input-field col s12">
-					   <input type="text" id="my-country">
-						<div id="selected-country" class="demo-list selected-list"></div>
+			    	<input type="text" id="my-country">
+					<div id="selected-country" class="demo-list selected-list"></div>
 				</div>
-				
-				<div class="input-field col s12" style="display:none">
-					   <input type="text" id="country" >
-						<div id="selected-country" class="demo-list selected-list"></div>
-				</div>
-				
-				
+								
 				<div class="input-field col s12">
 					<label>Cuisine</label><br>
-				</div>
-					
+				</div>					
 				<div class="input-field col s12">
-					   <input type="text" id="my-cuisine">
-						<div id="selected-cuisine" class="demo-list selected-list"></div>
+					<input type="text" id="my-cuisine">
+					<div id="selected-cuisine" class="demo-list selected-list"></div>
 				</div>
 				
-
 				<div class="input-field col s12">
 					<label>Diet</label><br>
-				</div>
-					
+				</div>					
 				<div class="input-field col s12">
-					   <input type="text" id="my-diet">
-						<div id="selected-diet" class="demo-list selected-list"></div>
+					<input type="text" id="my-diet">
+					<div id="selected-diet" class="demo-list selected-list"></div>
 				</div>
 
 				<div class="input-field col s12">
 					<label>Protein</label><br>
-				</div>
-					
+				</div>	
 				<div class="input-field col s12">
-					   <input type="text" id="my-protein">
-						<div id="selected-protein" class="demo-list selected-list"></div>
+					<input type="text" id="my-protein">
+					<div id="selected-protein" class="demo-list selected-list"></div>
 				</div>
 			
-				
-				<p style="padding-left:10px;">
-					<input type="checkbox" name="isChef" id="test6" onClick="showDescription(this)" /> 
+				<div class="input-field col s12">
+					<p style="padding-left:10px;">
+						<input type="checkbox" name="isChef" id="test6" onClick="showDescription(this)" /> 
 						<label for="test6">Sign up as a CHEF </label>
-				</p>
+					</p>
+				</div>
 				
 				<div class="input-field col s12 " id="descriptionBox" style="display: none">
 					<label>Tell us about yourself: </label>
@@ -177,7 +168,7 @@ body {
 							countries.forEach(element=>
 								listCountry.push(element.name)
 							);
-						</script>
+			</script>
 </body>
 
 

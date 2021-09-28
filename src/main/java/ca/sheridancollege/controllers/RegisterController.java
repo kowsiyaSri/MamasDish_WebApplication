@@ -127,7 +127,7 @@ public class RegisterController {
 				}
 			}
 
-			EndUser newUser = endUserRepo.save(endUser);
+			endUserRepo.save(endUser);
 
 			if (isChef) {
 				Chef chef = Chef.builder().description(description).recipes(new ArrayList<Recipe>()).enduser(endUser)
