@@ -30,10 +30,26 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	public List<Recipe> findByMealtype_id(Long id);
 	
 	@Query
-	(value = "CALL SuggestRecipes(:user_id)" , nativeQuery = true)
+	(value = "CALL SuggestRecipe(:user_id)" , nativeQuery = true)
 	public List<Recipe> suggestRecipes(@Param("user_id") int user_id);
 	
 	@Query
 	(value = "CALL BasicSearch(:searchInput)" , nativeQuery = true)
 	public List<Recipe> basicSearch(@Param("searchInput") String searchInput);
+	
+	@Query
+	(value = "CALL SuggestDiet(:user_id)" , nativeQuery = true)
+	public List<Recipe> suggestDiet(@Param("user_id") int user_id);
+	
+	@Query
+	(value = "CALL SuggestCuisine(:user_id)" , nativeQuery = true)
+	public List<Recipe> suggestCuisine(@Param("user_id") int user_id);
+	
+	@Query
+	(value = "CALL SuggestCountry(:user_id)" , nativeQuery = true)
+	public List<Recipe> suggestCountry(@Param("user_id") int user_id);
+	
+	@Query
+	(value = "CALL SuggestProtein(:user_id)" , nativeQuery = true)
+	public List<Recipe> suggestProtein(@Param("user_id") int user_id);
 }
