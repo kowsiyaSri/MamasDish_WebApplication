@@ -19,6 +19,8 @@ function saveRecipe() {
 	}
 
 	if (ingredientCheck) {		
+		
+		//add variables 
 
 		for(let ingrDivs of $('[id^="ingredientDiv"]').children()){
 
