@@ -102,47 +102,23 @@ public class RecipeController {
 		return "loginPage.html";
 	}
 
+	
 	@GetMapping("/users/userHome")
-	public String UserHome(Model model) {
+	public String UserHome(Model model){
+		
+		//finds list of countries which contain recipes
 
-		// finds list of countries which contain recipes
-		List<Country> displayCountries = new ArrayList<Country>();
-		for (Country c : countryRepo.findAll()) {
-			List<Recipe> recipes = recipeRepo.findByCountry_nameContainingIgnoreCase(c.getName());
-			if (recipes.size() > 0) {
-				displayCountries.add(c);
-			}
-		}
-		model.addAttribute("countries", displayCountries);
+		model.addAttribute("countries", countryRepo.findTop5ByOrderById());
+		
+	
+		model.addAttribute("diets", dietRepo.findAll());
+		
+	
+		model.addAttribute("meals", mealRepo.findAll());
+		
 
-		// finds list of diets which contains recipes
-		List<Diet> diets = new ArrayList<Diet>();
-		for (Diet d : dietRepo.findAll()) {
-			List<Recipe> recipes = recipeRepo.findByDiet_Id(d.getId());
-			if (recipes.size() > 0) {
-				diets.add(d);
-			}
-		}
-		model.addAttribute("diets", diets);
-
-		// find list of meal types which contain recipes
-		List<MealType> meals = new ArrayList<MealType>();
-		for (MealType m : mealRepo.findAll()) {
-			List<Recipe> recipes = recipeRepo.findByMealtype_id(m.getId());
-			if (recipes.size() > 0) {
-				meals.add(m);
-			}
-		}
-		model.addAttribute("meals", meals);
-
-		// suggest recipes
-		List<Recipe> allRecipes = recipeRepo.findAll();
-		Collections.shuffle(allRecipes);
-		List<Recipe> suggestRecipes = new ArrayList<Recipe>();
-		for (int i = 0; i < 5; i++) {
-			suggestRecipes.add(allRecipes.get(i));
-		}
-		model.addAttribute("suggest", suggestRecipes);
+		model.addAttribute("suggest", recipeRepo.suggestRecipes(10));
+		
 		return "/users/userHome.html";
 	}
 	
@@ -288,6 +264,7 @@ public class RecipeController {
 		// model.addAttribute("instructions", instruct);
 		// model.addAttribute("recipe", new Recipe());
 		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		recipe.setAuth(false);
 
 		model.addAttribute("countries", countryRepo.findByContryName(recipe.getCountry().getName()));
 		model.addAttribute("meals", mealRepo.findByMealName(recipe.getMealtype().getMealName()));
@@ -471,4 +448,10 @@ public class RecipeController {
 	public String getMap() {
 		return "/users/map.html";
 	}
+	
+	@GetMapping("/awaitApproval")
+	public String awaitApproval() {
+		return "/chefs/awaitApproval";
+	}
+	
 }

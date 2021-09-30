@@ -20,7 +20,6 @@ import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Protein;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.User;
-import ca.sheridancollege.beans.UserPreference;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.CuisineRepository;
@@ -28,12 +27,11 @@ import ca.sheridancollege.repositories.DietRepository;
 import ca.sheridancollege.repositories.EndUserRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RoleRepository;
-import ca.sheridancollege.repositories.UserPreferenceRepository;
 import ca.sheridancollege.repositories.UserRepository;
 
 @Controller
 public class RegisterController {
-	
+
 	@Autowired
 	private EndUserRepository endUserRepo;
 
@@ -42,10 +40,10 @@ public class RegisterController {
 
 	@Autowired
 	private RoleRepository roleRepo;
-	
+
 	@Autowired
 	private ChefRepository chefRepo;
-	
+
 	@Autowired
 	private CountryRepository countryRepo;
 
@@ -57,74 +55,80 @@ public class RegisterController {
 
 	@Autowired
 	private ProteinRepository proteinRepo;
-	
-	@Autowired
-	private UserPreferenceRepository userPrefRepo;
 
 	// method to register user
 	@PostMapping("/register")
 	public String processRegister(@RequestParam String email, @RequestParam String fname, @RequestParam String lname,
 			@RequestParam String password, @RequestParam String password2,
-			@RequestParam(required = false, defaultValue ="") String countryPref, @RequestParam(required = false, defaultValue ="") String cuisinePref, 
-			@RequestParam(required = false, defaultValue ="") String dietPref, @RequestParam(required = false, defaultValue ="") String proteinPref, 
 			@RequestParam(required = false) boolean isChef, @RequestParam(required = false) String description,
-			Model model) {
+			@RequestParam(value = "countries[]") String[] countries,
+			@RequestParam(value = "proteins[]") String[] proteins, @RequestParam(value = "diets[]") String[] diets,
+			@RequestParam(value = "cuisines[]") String[] cuisines, Model model) {
 
-		//checks if passwords match
+		// checks if passwords match
 		if (!password.equals(password2)) {
 
 			model.addAttribute("errMssg", "Passwords MUST match.");
 			model.addAttribute("emailInput", email);
 			model.addAttribute("fNameInput", fname);
 			model.addAttribute("lNameInput", lname);
+			model.addAttribute("countries", countryRepo.findByOrderByName());
+			model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
+			model.addAttribute("diets", dietRepo.findAll());
+			model.addAttribute("proteins", proteinRepo.findAll());
 
 			return "register.html";
 
-		} //checks if email is already registered
-		else if(userRepo.findByUsername(email) != null){
-			
+		} // checks if email is already registered
+		else if (userRepo.findByUsername(email) != null) {
+
 			model.addAttribute("errMssg", "Email already registered.");
 			model.addAttribute("emailInput", email);
 			model.addAttribute("fNameInput", fname);
 			model.addAttribute("lNameInput", lname);
-
+			model.addAttribute("countries", countryRepo.findByOrderByName());
+			model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
+			model.addAttribute("diets", dietRepo.findAll());
+			model.addAttribute("proteins", proteinRepo.findAll());
 
 			return "register.html";
 		} else {
-			
-			//creates and saves a new user
-			EndUser endUser = EndUser.builder().firstName(fname).lastName(lname).email(email).password(password)
+
+			// creates and saves a new user
+			EndUser endUser = EndUser.builder().firstName(fname).lastName(lname).email(email).password(password).country(new ArrayList<Country>())
+					.protein(new ArrayList<Protein>()).cuisine(new ArrayList<Cuisine>()).diet(new ArrayList<Diet>())
 					.build();
 			User user = new User(email, encodePassword(password));
-			EndUser newUser = endUserRepo.save(endUser);
-			
-			//Retrieves users preferences
-			Country country = null;
-			if (countryPref != ""){
-				country = countryRepo.findByName(countryPref);
+
+			if (proteins.length != 0) {
+				for (String p : proteins) {
+					endUser.getProtein().add(proteinRepo.findByProteinType(p));
+				}
+			}
+
+			if (cuisines.length != 0) {
+
+				for (String cuisine : cuisines) {
+					endUser.getCuisine().add(cuisineRepo.findByCuisineName(cuisine));
+				}
+			}
+
+			if (countries.length != 0) {
+
+				for (String country : countries) {
+					endUser.getCountry().add(countryRepo.findByName(country));
+				}
 			}
 			
-			Cuisine cuisine = null;
-			if(cuisinePref != ""){
-				cuisine = cuisineRepo.findByCuisineName(cuisinePref);
+			if (diets.length != 0) {
+
+				for (String diet : diets) {
+					endUser.getDiet().add(dietRepo.findByDietType(diet));
+				}
 			}
-			
-			Diet diet = null;
-			if(dietPref != "") {
-				diet = dietRepo.findByDietType(dietPref);
-			}
-			
-			Protein protein = null;
-			if(proteinPref != "") {
-				protein = proteinRepo.findByProteinType(proteinPref);
-			}
-			
-			//save users preferences
-			UserPreference userPref = UserPreference.builder().enduser(endUser).
-					country(country).cuisine(cuisine).diet(diet).protein(protein).build();
-			userPrefRepo.save(userPref);
-			
-			//if chef is selected will create a chef 
+
+			endUserRepo.save(endUser);
+
 			if (isChef) {
 				Chef chef = Chef.builder().description(description).recipes(new ArrayList<Recipe>()).enduser(endUser)
 						.build();
@@ -144,15 +148,14 @@ public class RegisterController {
 
 	@GetMapping("/register")
 	public String Register(Model model) {
-		
+
 		model.addAttribute("countries", countryRepo.findByOrderByName());
 		model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
 		model.addAttribute("diets", dietRepo.findAll());
 		model.addAttribute("proteins", proteinRepo.findAll());
 		return "register.html";
 	}
-	
-	
+
 	private String encodePassword(String password) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder.encode(password);

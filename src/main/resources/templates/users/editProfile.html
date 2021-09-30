@@ -4,16 +4,23 @@
 <head>
 <link href="http://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:300'
-	rel='stylesheet' type='text/css'>
-<link href='css/style.css' rel='stylesheet' type='text/css'>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" th:href="@{/css/sellect.css}">
+<link href='css/style.css' th:href=@{css/style.css} rel='stylesheet' type='text/css'>
+
+<script src="../static/js/sellect.js" th:src="@{/js/sellect.js}"></script>
+<script src="../static/js/editProfile.js" th:src="@{/js/editProfile.js}"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>View Profile</title>
+
+<title>Edit Profile</title>
 <style>
 .tabs .indicator {
 	background-color: #0d47a1;
@@ -57,7 +64,7 @@ body {
 				<div class="col s12">
 					<ul class="tabs">
 						<li class="tab col s3"><a href="#test1"
-							class="active blue-text text-darken-4">View Profile</a></li>
+							class="active blue-text text-darken-4">Edit Profile</a></li>
 					</ul>
 				</div>
 			</div>
@@ -81,64 +88,38 @@ body {
 				<div class="input-field col s12 ">
 					<label>Selected Preferences:</label><br><br>
 				</div>
-				<div th:if="${userPref.country}" class="input-field col s12 ">
-					<label>Country</label><br><br>
-					<select class="browser-default" id="countryPref" name="countryPref">
-						<option th:text="'No Preference'" value=""></option>
-						<option th:each="c : ${countries}" th:value="${c.name}" th:selected="${userPref.country.id} == ${c.id}" th:text="${c.name}"></option>
-					</select>
-				</div>
-				<div th:unless="${userPref.country}" class="input-field col s12 ">
+				<div class="input-field col s12">
 					<label>Country</label><br>
-					<select class="browser-default" id="countryPref" name="countryPref">
-						<option th:text="'No Preference'" value="" selected></option>
-						<option th:each="c : ${countries}" th:value="${c.name}" th:text="${c.name}"></option>
-					</select>
+				</div>			
+				<div class="input-field col s12">
+					<input type="text" id="my-country">
+					<div id="selected-country" class="demo-list selected-list"></div>
 				</div>
-				<div th:if="${userPref.cuisine}" class="input-field col s12">
-					<label>Cuisine</label><br><br>
-					<select class="browser-default" id="cuisinePref" name="cuisinePref">
-						<option th:text="'No Preference'" value="" ></option>
-						<option th:each="c : ${cuisines}" th:value="${c.cuisineName}" th:selected="${userPref.cuisine.id} == ${c.id}" th:text="${c.cuisineName}"></option>
-					</select>
+				
+				<div class="input-field col s12">
+					<label>Cuisine</label><br>
+				</div>				
+				<div class="input-field col s12">
+					<input type="text" id="my-cuisine">
+					<div id="selected-cuisine" class="demo-list selected-list"></div>
 				</div>
-				<div th:unless="${userPref.cuisine}" class="input-field col s12">
-					<label>Cuisine</label><br><br>
-					<select class="browser-default" id="cuisinePref" name="cuisinePref">
-						<option th:text="'No Preference'" value="" selected></option>
-						<option th:each="c : ${cuisines}" th:value="${c.cuisineName}" th:text="${c.cuisineName}"></option>
-					</select>
+				
+				<div class="input-field col s12">
+					<label>Diet</label><br>
+				</div>		
+				<div class="input-field col s12">
+					<input type="text" id="my-diet">
+					<div id="selected-diet" class="demo-list selected-list"></div>
 				</div>
-				<div th:if="${userPref.diet}" class="input-field col s12">
-					<label>Diet Type</label><br><br>
-					<select class="browser-default" id="dietPref" name="dietPref">
-						<option th:text="'No Preference'" value=""></option>
-						<option th:each="d : ${diets}" th:value="${d.dietType}" th:selected="${userPref.diet.id} == ${d.id}" th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
-					</select>
+
+				<div class="input-field col s12">
+					<label>Protein</label><br>
+				</div>			
+				<div class="input-field col s12">
+					<input type="text" id="my-protein">
+					<div id="selected-protein" class="demo-list selected-list"></div>
 				</div>
-				<div th:unless="${userPref.diet}" class="input-field col s12">
-					<label>Diet Type</label><br><br>
-					<select class="browser-default" id="dietPref" name="dietPref">
-						<option th:text="No Preference" value="" selected></option>
-						<option th:each="d : ${diets}" th:value="${d.dietType}" th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
-					</select>
-				</div>
-				<div th:if="${userPref.protein}" class="input-field col s12">
-					<label>Protein</label><br><br>
-					<select class="browser-default" id="proteinPref" name="proteinPref">
-						<option th:text="'No Preference'" value=""></option>
-						<option th:each="p : ${proteins}" th:value="${p.proteinType}" th:selected="${userPref.protein.id} == ${p.id}" th:text="${#strings.capitalize(#strings.toLowerCase(p.proteinType))}"></option>
-					</select>
-					<br>
-				</div>
-				<div th:unless="${userPref.protein}" class="input-field col s12">
-					<label>Protein</label><br><br>
-					<select class="browser-default" id="proteinPref" name="proteinPref">
-						<option th:text="'No Preference'" value="" selected></option>
-						<option th:each="p : ${proteins}" th:value="${p.proteinType}" th:text="${#strings.capitalize(#strings.toLowerCase(p.proteinType))}"></option>
-					</select>
-					<br>
-				</div>
+				
 				<div th:if="${chef}" class="input-field col s12">
 					<label>Chef Profile Description</label><br>
 					<textarea id="description" name="description" class="materialize-textarea" th:text=${chef.description}></textarea>		
@@ -149,6 +130,56 @@ body {
 		</form>
 		</div>
 		</div>
+			<script th:inline="javascript">
+							var listProtein = [];
+							var proteins = /*[[${proteins}]]*/{};
+							proteins.forEach(element=>
+								listProtein.push(element.proteinType)
+							);
+						  
+							var listDiet = [];
+							var diets = /*[[${diets}]]*/{};
+							diets.forEach(element=>
+								listDiet.push(element.dietType)
+							);
+							
+							var listCuisine = [];
+							var cuisines = /*[[${cuisines}]]*/{};
+							cuisines.forEach(element=>
+								listCuisine.push(element.cuisineName)
+							);
+						
+							var listCountry = [];
+							var countries = /*[[${countries}]]*/{};
+							countries.forEach(element=>
+								listCountry.push(element.name)
+							);
+							
+							//user preferences
+							var userProtein=[];
+							var userProteins = /*[[${user.protein}]]*/{};
+							userProteins.forEach(element=>
+								userProtein.push(element.proteinType)
+							);
+							
+							var userDiet = [];
+							var userDiets = /*[[${user.diet}]]*/{};
+							userDiets.forEach(element=>
+								userDiet.push(element.dietType)
+							);
+							
+							var userCuisine=[]
+							var userCuisines = /*[[${user.cuisine}]]*/{};
+							userCuisines.forEach(element=>
+								userCuisine.push(element.cuisineName)
+							);
+							
+							var userCountry = [];
+							var userCountries = /*[[${user.country}]]*/{};
+							userCountries.forEach(element=>
+								userCountry.push(element.name)
+							);
+			</script>
 </body>
 
 

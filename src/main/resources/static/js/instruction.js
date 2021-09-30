@@ -79,7 +79,7 @@ function saveInstruction() {
 					console.log(data);
 				});
 		
-				window.open('/chefs/chefIndex/' ,  '_self');
+				window.open('/awaitApproval' ,  '_self');
 		
 	}
 }
@@ -135,7 +135,7 @@ function editInstruction() {
 					console.log(data);
 				});
 		
-				window.open('/chefs/chefIndex/' ,  '_self');
+				window.open('/awaitApproval' ,  '_self');
 		
 	}
 }

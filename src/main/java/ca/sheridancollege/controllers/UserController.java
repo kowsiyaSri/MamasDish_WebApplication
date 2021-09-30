@@ -16,14 +16,12 @@ import ca.sheridancollege.beans.Cuisine;
 import ca.sheridancollege.beans.Diet;
 import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Protein;
-import ca.sheridancollege.beans.UserPreference;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.CuisineRepository;
 import ca.sheridancollege.repositories.DietRepository;
 import ca.sheridancollege.repositories.EndUserRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
-import ca.sheridancollege.repositories.UserPreferenceRepository;
 import ca.sheridancollege.repositories.UserRepository;
 
 @Controller
@@ -34,9 +32,6 @@ public class UserController {
 	
 	@Autowired
 	private EndUserRepository endUserRepo;
-	
-	@Autowired
-	private UserPreferenceRepository userPrefRepo;
 	
 	@Autowired
 	private CountryRepository countryRepo;
@@ -57,74 +52,119 @@ public class UserController {
 	//method to view the profile
 	@GetMapping("/viewProfile")
 	public String goViewProfile(Model model, Authentication auth) {
-		EndUser user = endUserRepo.findByEmail(auth.getName());
-		model.addAttribute("user", user);
-		model.addAttribute("userPref", userPrefRepo.findByEnduser_id(user.getId()));
 		
+		//get user
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		model.addAttribute("user", user);		
+	
+		//get user preferences
+		String proteins = "";
+		for(Protein p : user.getProtein()) {
+			proteins += p.getProteinType() + ", ";
+		}
+		
+		if(proteins != "") {
+			proteins = proteins.substring(0, proteins.length() - 2);
+		}
+		
+		String cuisines = "";
+		for (Cuisine c : user.getCuisine()) {
+			cuisines += c.getCuisineName() + ", ";
+		}
+		if(cuisines != "") {
+			cuisines = cuisines.substring(0, cuisines.length() - 2);
+		}
+		
+		String countries = "";
+		for(Country c : user.getCountry()) {
+			countries += c.getName() + ", "; 
+		}
+		if(countries != "") {
+			countries = countries.substring(0, countries.length() - 2);
+		}
+		
+		String diets = "";
+		for(Diet d : user.getDiet()) {
+			diets += d.getDietType() + ", ";
+		}
+		if(diets != "") {
+			diets = diets.substring(0, diets.length() - 2);
+		}
+	
+		model.addAttribute("countries", countries);
+		model.addAttribute("proteins", proteins);
+		model.addAttribute("cuisines", cuisines);
+		model.addAttribute("diets", diets);
+		
+		//get chef info
 		Chef chef = chefRepo.findByEnduser_Email(user.getEmail());
 		if(chef != null) {
 			model.addAttribute("chef", chef);
 		}
-		
+			
 		return "/users/viewProfile.html";
 	}
 	
 	//Method to save changes
 	@PostMapping("/viewProfile")
 	public String saveProfileChanges(@RequestParam long id, @RequestParam String firstName, @RequestParam String lastName,
-			@RequestParam(required = false, defaultValue ="") String countryPref, @RequestParam(required = false, defaultValue ="") String cuisinePref, 
-			@RequestParam(required = false, defaultValue ="") String dietPref, @RequestParam(required = false, defaultValue ="") String proteinPref,
-			@RequestParam String description, Model model) {
+			@RequestParam(required = false, value = "countries[]") String[] countries, @RequestParam(required = false, value = "proteins[]") String[] proteins,
+			@RequestParam(required = false, value = "diets[]") String[] diets, @RequestParam(required = false, value = "cuisines[]") String[] cuisines,
+			@RequestParam (required = false) String description, Model model) {
 		
 		EndUser user = endUserRepo.findById(id).get();
 		
 		//save changes for user
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
+		
+		//save changes to preferences
+		if(proteins != null) {
+			user.getProtein().clear();
+			if (proteins.length != 0) {
+				for (String p : proteins) {
+					user.getProtein().add(proteinRepo.findByProteinType(p));
+				}
+			}
+		}
+		
+		if(cuisines != null) {
+			user.getCuisine().clear();
+			if (cuisines.length != 0) {
+				for (String cuisine : cuisines) {
+					user.getCuisine().add(cuisineRepo.findByCuisineName(cuisine));
+				}
+			}
+		}
+			
+		if(countries != null) {
+			user.getCountry().clear();
+			if (countries.length != 0) {
+				for (String country : countries) {
+					user.getCountry().add(countryRepo.findByName(country));
+				}
+			}
+		}
+		
+		if(diets != null) {
+			user.getDiet().clear();
+			if (diets.length != 0) {
+				for (String diet : diets) {
+					user.getDiet().add(dietRepo.findByDietType(diet));
+				}
+			}
+		}
 		endUserRepo.save(user);
-		
-		//save changes for userPreferece
-		UserPreference userPref = userPrefRepo.findByEnduser_id(id);
-		
-		Country country = null;
-		if (countryPref != ""){
-			country = countryRepo.findByName(countryPref);
-		}
-		userPref.setCountry(country);
-		
-		Cuisine cuisine = null;
-		if(cuisinePref != ""){
-			cuisine = cuisineRepo.findByCuisineName(cuisinePref);
-		}
-		userPref.setCuisine(cuisine);
-		
-		Diet diet = null;
-		if(dietPref != "") {
-			diet = dietRepo.findByDietType(dietPref);
-		}
-		userPref.setDiet(diet);
-		
-		Protein protein = null;
-		if(proteinPref != "") {
-			protein = proteinRepo.findByProteinType(proteinPref);
-		}
-		userPref.setProtein(protein);
-		
-		userPrefRepo.save(userPref);
-		
+				
 		//if user is a chef
 		Chef chef = chefRepo.findByEnduser_Email(user.getEmail());
 		if(chef != null) {
 			chef.setDescription(description);
 			chefRepo.save(chef);
 			model.addAttribute("chef", chef);
-		}
+		}		
 		
-		//go back to view profile
-		model.addAttribute("user", user);
-		model.addAttribute("userPref", userPrefRepo.findByEnduser_id(user.getId()));
-		
-		return "/users/viewProfile.html";	
+		return "redirect:/viewProfile";	
 	}
 	
 	//method to go to the edit profile page
@@ -132,7 +172,7 @@ public class UserController {
 	public String goEditProfile(Model model, @RequestParam long id){
 		EndUser user = endUserRepo.findById(id).get();
 		model.addAttribute("user", user);
-		model.addAttribute("userPref", userPrefRepo.findByEnduser_id(id));
+
 		model.addAttribute("countries", countryRepo.findByOrderByName());
 		model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
 		model.addAttribute("diets", dietRepo.findAll());

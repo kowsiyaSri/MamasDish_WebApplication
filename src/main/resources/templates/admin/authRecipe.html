@@ -4,11 +4,15 @@
 <meta charset="ISO-8859-1">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<script src="../static/js/admin.js" th:src="@{/js/admin.js}"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
+<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="../static/js/admin.js" th:src="@{/js/admin.js}"></script>
+<link rel="stylesheet" th:href="@{/css/sellect.css}">
+<script src="../static/js/sellect.js" th:src="@{/js/sellect.js}"></script>
 
 <title>View Recipe</title>
 </head>
@@ -107,9 +111,42 @@
 					
 					<div class="row">
 					<div class="input-field col s12">
-						<a id="authBtn" class="btn waves-effect waves-teal" style="width: 100%; background-color: #5085A5" th:onclick="'javascript:approveRecipe(' + ${recipe.id} + ')'">
+						<a id="authBtn" class="btn waves-effect waves-teal" style="width: 100%; background-color: green" th:onclick="'javascript:approveRecipe(' + ${recipe.id} + ')'">
 							Authenticate Recipe <i class="material-icons right">check</i>
 						</a>
+					</div>
+					
+					<div class="input-field col s12">
+						<a id="authBtn" class="btn waves-effect waves-teal" style="width: 100%; background-color: red" th:onclick="'javascript:rejectRecipe(' + ${recipe.id} + ')'">
+							Reject Recipe <i class="material-icons right">close</i>
+						</a>
+					</div>
+					<div style="display: none" id="rejectionBox">
+						<form th:action="@{/reject}" method="post">	
+						
+						<input style="display: none" id="recipeId" name="recipeId" th:value="${recipe.id}">
+						
+					
+							<div class="input-field col s12">
+								<label>Reasons for Rejection:</label>
+								</div>
+								
+								<div class="input-field col s12">
+							    <input type="text" id="my-element">
+								<div id="selected-list" class="demo-list selected-list"></div>
+								
+								<div class="row">
+							        <div class="input-field col s12">
+							          <textarea id="textarea1" name="expl" class="materialize-textarea"></textarea>
+							          <label for="textarea1">Rejection Explanation:</label>
+							        </div>
+						      	</div>
+						      	
+						      	<p id="loginBtn" >
+									<input type="submit" value="Reject Recipe"  class="blue darken-4 btn"/>
+								</p>
+							</div>	
+					 	</form>
 					</div>
 				</div>
 					

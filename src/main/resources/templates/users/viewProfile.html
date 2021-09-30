@@ -83,22 +83,22 @@ body {
 				</div>
 				<div class="input-field col s12 ">
 					<label>Country</label><br>
-					<input th:value="${userPref.country} == null ? 'Not Selected' : ${userPref.country.name}"  type="text" readonly> 
+					<input th:value="${countries} == '' ? 'Not Selected' : ${countries}"  type="text" readonly> 
 				</div>
 	
 				<div class="input-field col s12">
 					<label>Cuisine</label><br>
-					<input th:value="${userPref.cuisine} == null ? 'Not Selected' : ${userPref.cuisine.cuisineName}"  type="text" readonly> 
+					<input th:value="${cuisines} == '' ? 'Not Selected' : ${cuisines}"  type="text" readonly> 
 				</div>
 				
 				<div class="input-field col s12">
 					<label>Diet Type</label><br>
-					<input th:value="${userPref.diet} == null ? 'Not Selected' : ${userPref.diet.dietType}"  type="text" readonly> 
+					<input th:value="${diets} == '' ? 'Not Selected' : ${diets}"  type="text" readonly> 
 				</div>
 				
 				<div class="input-field col s12">
 					<label>Protein</label><br>
-					<input th:value="${userPref.protein} == null ? 'Not Selected' : ${userPref.protein.proteinType}"  type="text" readonly> 
+					<input th:value="${proteins} == '' ? 'Not Selected' : ${proteins}"  type="text" readonly> 
 				</div>
 				<div th:if="${chef}" class="input-field col s12">
 					<label>Chef Profile Description</label><br>

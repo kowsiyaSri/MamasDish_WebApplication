@@ -29,5 +29,5 @@ public class Recent {
 	private Date date;
 
 	@OneToOne
-	private Recipe recipeId;
+	private Recipe recipe;
 }
