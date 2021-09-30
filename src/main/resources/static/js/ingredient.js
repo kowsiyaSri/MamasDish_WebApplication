@@ -178,7 +178,6 @@ function showProtein(el) {
 }
 
 
-
 function getNewId(){
 
 	

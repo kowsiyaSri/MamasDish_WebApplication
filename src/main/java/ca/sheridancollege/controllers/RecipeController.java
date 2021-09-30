@@ -105,20 +105,24 @@ public class RecipeController {
 	@GetMapping("/users/userHome")
 	public String UserHome(Model model){
 		
-		//finds list of countries which contain recipes
-
 		model.addAttribute("countries", countryRepo.findTop5ByOrderById());
-		
-	
 		model.addAttribute("diets", dietRepo.findAll());
-		
+		model.addAttribute("meals", mealRepo.findAll());	
+		model.addAttribute("suggest", recipeRepo.suggestRecipes(10));
+				
+		return "/users/userHome.html";
+	}
 	
-		model.addAttribute("meals", mealRepo.findAll());
+	@GetMapping("/users/suggest")
+	public String SuggestPage(Model model){
 		
-
+		model.addAttribute("countries", recipeRepo.suggestCountry(10));
+		model.addAttribute("cuisines", recipeRepo.suggestCuisine(10));
+		model.addAttribute("diets", recipeRepo.suggestDiet(10));
+		model.addAttribute("proteins", recipeRepo.suggestProtein(10));	
 		model.addAttribute("suggest", recipeRepo.suggestRecipes(10));
 		
-		return "/users/userHome.html";
+		return "/users/suggestRecipes.html";
 	}
 	
 	@GetMapping("/access-denied")
