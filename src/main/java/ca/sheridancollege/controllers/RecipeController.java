@@ -216,6 +216,8 @@ public class RecipeController {
 	@GetMapping("/users/viewRecipe/{recipeId}")
 	public String viewRecipe(@PathVariable int recipeId, Model model) {
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
+		model.addAttribute("rating",20);
+		System.out.println("Rating"+recipeRepo.findById(Long.valueOf(recipeId)).get().getRating());
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		model.addAttribute("instructions", instruct);
@@ -403,6 +405,7 @@ public class RecipeController {
 	@GetMapping("/chefs/viewRecipe/{recipeId}")
 	public String viewChefRecipe(@PathVariable int recipeId, Model model) {
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
+		model.addAttribute("rating", recipeRepo.findById(Long.valueOf(recipeId)).get().getRating());
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		model.addAttribute("instructions", instruct);
@@ -419,6 +422,11 @@ public class RecipeController {
 	@GetMapping("/awaitApproval")
 	public String awaitApproval() {
 		return "/chefs/awaitApproval";
+	}
+	
+	@GetMapping("/review")
+	public String review() {
+		return "/chefs/reviews.html";
 	}
 	
 }

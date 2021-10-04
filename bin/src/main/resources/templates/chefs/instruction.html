@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+<script src="../static/js/instruction.js" th:src="@{/js/instruction.js}"></script>
+<script data-require="jquery@1.12.4" data-semver="1.12.4" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+	<header>
+		<div class="navbar-fixed" id="centerNav">
+			<nav class="homeNav fixed" id="centerNav">
+				<div class="nav-wrapper" id="centerNav">
+					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a> -->
+					<ul style="width: 100%" id="centerNav"
+						class="hide-on-med-and-down">
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</header>
+	<main>
+	
+	<h3 style="text-align:center" id="recipeHeader">Add your instructions:</h3>
+			
+				<div style="display: none; text-align:center" id="errId">Please ensure all ingredients are named</div>
+		
+		<div style="display: none" id="recipeId"  th:text="${recipeId}"></div>
+		<div id="instructionDiv">			
+			<div class="row" id="instructionBox1">
+				<div class="col 10 m6" style="margin-left:400px;">
+					<div class="card" style="border-radius: 15px">
+						<div class="card-content">
+							<div class="row">
+								<div class="input-field col s12">
+								 	<textarea id="instructionValue1" class="materialize-textarea" name="instruction"></textarea>
+									<label for="instruction">Instruction</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col s2" style="padding-top: 90px">
+				<a class="btn-floating" id="deleteBtn" onclick="deleteInstruction(1)">
+					<i class="material-icons">delete_forever</i>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s12">
+				<a style="margin-left: 30%; width:39%; background-color:#5085A5" onclick="addInstruction()" class="waves-effect waves-blue btn">
+					Add Instruction
+				</a>
+			</div>
+		</div>
+
+	</main>
+
+	<div id="footer">
+		<a style="float: right; margin-right: 100px; background-color:#5085A5"
+		 onclick="saveInstruction()" class="waves-effect waves-blue btn">Save Recipe</a>
+	</div>
+
+</body>
+
+
+	<script th:inline="javascript">
+		function getMeasurements() {
+			var data = /*[[${measurements}]]*/{};
+
+			return data;
+		}
+
+		function getProteins() {
+			var data = /*[[${proteins}]]*/{};
+
+			return data;
+
+		}
+	</script>
+</html>
