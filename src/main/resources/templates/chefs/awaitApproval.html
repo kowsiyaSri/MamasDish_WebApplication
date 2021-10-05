@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-<link rel="stylesheet" type="text/css" media="all"  href="../static/css/accDenied.css" th:href="@{/css/accDenied.css}" />
 <meta charset="ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta charset="UTF-8">
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="../static/js/nutrition.js" th:src="@{/js/nutrition.js}"></script>
+
 <link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
 
 <title>Awaiting Approval</title>
@@ -20,5 +24,12 @@
 			<a href="/chefs/chefIndex" class="w3-button w3-white w3-border w3-border-blue w3-round-large">View Your Recipes</a>
 		</h3>
 	</div>
+	
+	
 </body>
+<script th:inline="javascript">
+							var listIngredient = [];
+							var ingredients = /*[[${recipe}]]\*/{};
+							console.log(ingredients);
+			</script>
 </html>

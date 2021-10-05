@@ -29,6 +29,7 @@ import ca.sheridancollege.beans.Chef;
 import ca.sheridancollege.beans.Country;
 import ca.sheridancollege.beans.Diet;
 import ca.sheridancollege.beans.EndUser;
+import ca.sheridancollege.beans.Ingredient;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.MealType;
 import ca.sheridancollege.beans.Recipe;
@@ -102,30 +103,29 @@ public class RecipeController {
 		return "loginPage.html";
 	}
 
-	
 	@GetMapping("/users/userHome")
-	public String UserHome(Model model){
-		
+	public String UserHome(Model model) {
+
 		model.addAttribute("countries", countryRepo.findTop5ByOrderById());
 		model.addAttribute("diets", dietRepo.findAll());
-		model.addAttribute("meals", mealRepo.findAll());	
+		model.addAttribute("meals", mealRepo.findAll());
 		model.addAttribute("suggest", recipeRepo.suggestRecipes(10));
-				
+
 		return "/users/userHome.html";
 	}
-	
+
 	@GetMapping("/users/suggest")
-	public String SuggestPage(Model model){
-		
+	public String SuggestPage(Model model) {
+
 		model.addAttribute("countries", recipeRepo.suggestCountry(10));
 		model.addAttribute("cuisines", recipeRepo.suggestCuisine(10));
 		model.addAttribute("diets", recipeRepo.suggestDiet(10));
-		model.addAttribute("proteins", recipeRepo.suggestProtein(10));	
+		model.addAttribute("proteins", recipeRepo.suggestProtein(10));
 		model.addAttribute("suggest", recipeRepo.suggestRecipes(10));
-		
+
 		return "/users/suggestRecipes.html";
 	}
-	
+
 	@GetMapping("/access-denied")
 	public String toAccessDenied() {
 		return "/error/access-denied.html";
@@ -224,18 +224,13 @@ public class RecipeController {
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		model.addAttribute("instructions", instruct);
-		
+
 		// Nutrition Part
 		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
 		
 		// Looping through ingredients
 		for (RecipeIngredient ingredients : recipe.getIngredients()) {
 			System.out.println(ingredients.getQuantity());
-//			if (ingredients.getMeasurement().getMeasurementType() != null) {
-//				System.out.println(ingredients.getMeasurement().getMeasurementType());
-//			} else {
-//				System.out.println("");
-//			}
 			System.out.println(ingredients.getIngredient().getIngredientName());
 		}
 		
@@ -245,7 +240,7 @@ public class RecipeController {
 		
 		OkHttpClient client = new OkHttpClient().newBuilder().build();
 		MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-		RequestBody body = RequestBody.create(mediaType, "query="+ ingredientQuantity + ", " + ingredientMeasurement + ", " + ingredientName + "&timezone=US/Eastern");
+		RequestBody body = RequestBody.create(mediaType, "query="+ ingredientQuantity + ", " + ingredientMeasurement + ", " + ingredientName);
 		Request request = new Request.Builder()
 				.url("https://trackapi.nutritionix.com/v2/natural/nutrients")
 				.method("POST", body)
@@ -256,7 +251,8 @@ public class RecipeController {
 	            .build();
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
-		
+		 
+
 		return "/users/viewRecipe.html";
 	}
 
@@ -367,11 +363,11 @@ public class RecipeController {
 		recipeUpdated.setDescription(recipe.getDescription());
 		recipeUpdated.setServingSize(recipe.getServingSize());
 		recipeUpdated.setTitle(recipe.getTitle());
-		
+
 		recipeUpdated.setRecipeImg(recipe.getRecipeImg());
 
 		recipeRepo.save(recipeUpdated);
-		
+
 		model.addAttribute("recipeIngredients", recipeUpdated.getIngredients());
 		model.addAttribute("measurements", measureRepo.findAll());
 		model.addAttribute("proteins", proteinRepo.findAll());
@@ -404,14 +400,14 @@ public class RecipeController {
 
 		return "/users/viewAllRecipes.html";
 	}
-	
+
 	@GetMapping("/chefs/editInstructions/{id}")
 	public String goEditRecipe(@PathVariable long id, Model model) {
 		Recipe recipe = recipeRepo.findById(id).get();
 		model.addAttribute("recipe", recipe);
 		return "/chefs/editInstruction.html";
 	}
-	
+
 	@GetMapping("/users/viewRecipesByCountry/{name}")
 	public String viewRecipesByCountry(@PathVariable String name, Model model) {
 		model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(name));
@@ -436,7 +432,7 @@ public class RecipeController {
 		model.addAttribute("chef", chef);
 		return "/chefs/chefIndex";
 	}
-	
+
 	@GetMapping("/chefs/viewRecipe/{recipeId}")
 	public String viewChefRecipe(@PathVariable int recipeId, Model model) {
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
@@ -452,10 +448,13 @@ public class RecipeController {
 	public String getMap() {
 		return "/users/map.html";
 	}
-	
-	@GetMapping("/awaitApproval")
-	public String awaitApproval() {
+
+	@GetMapping("/awaitApproval/{recipeId}")
+	public String awaitApproval(@PathVariable int recipeId, Model model) {
+
+		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
+
 		return "/chefs/awaitApproval";
 	}
-	
+
 }

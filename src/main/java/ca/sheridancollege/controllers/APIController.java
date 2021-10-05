@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.ui.Model;
@@ -37,6 +40,8 @@ import ca.sheridancollege.repositories.MeasurementRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
+import okhttp3.*;
+import java.io.*;
 
 @RestController
 @RequestMapping("/mamasdish")
@@ -76,7 +81,7 @@ public class APIController {
 
 	@GetMapping(value = "/addIngredient/{ingredient}/{quantity}/{measurement}/{recipeId}/{proteinId}")
 	public int addIngredient(@PathVariable String ingredient, @PathVariable int quantity, @PathVariable int measurement,
-			@PathVariable int recipeId, @PathVariable int proteinId) {
+			@PathVariable int recipeId, @PathVariable int proteinId) throws IOException, JSONException {
 
 		Ingredient ingred = ingredientRepo.findByIngredientName(ingredient);
 		Measurement recipeMeasurement = null;
@@ -107,6 +112,25 @@ public class APIController {
 		newRecipe.getIngredients().add(recipeIngred);
 		recipeRepo.save(newRecipe);
 
+		// Nutrition Part
+//		OkHttpClient client = new OkHttpClient().newBuilder().build();
+//		MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+//		okhttp3.RequestBody body = okhttp3.RequestBody.create(mediaType,
+//				"query=" + quantity + ", " + recipeMeasurement.getMeasurementType() + ", " + ingredient + "&timezone=US/Eastern");
+//		Request request = new Request.Builder().url("https://trackapi.nutritionix.com/v2/natural/nutrients").method("POST", body)
+//				.addHeader("x-app-id", "52c550ac").addHeader("x-app-key", " c9873f02bd95c74d5de0934edd09ff7a")
+//				.addHeader("content", "application/json").addHeader("Content-Type", "application/x-www-form-urlencoded").build();
+//		Response response = client.newCall(request).execute();
+//		System.out.println(response.body().string());
+//
+//		JSONObject jsonObject = new JSONObject(response.body().toString());
+//
+//		JSONArray arr = jsonObject.getJSONArray("foods");
+//		for (int i = 0; i < arr.length(); i++) {
+//			String nf_calories = arr.getJSONObject(i).getString("nf_calories");
+//			System.out.println(nf_calories);
+//		}
+
 		return 1;
 	}
 
@@ -124,13 +148,13 @@ public class APIController {
 		Recipe recipe = recipeRepo.findById(recipeId).get();
 		recipe.getIngredients().clear();
 		recipeRepo.save(recipe);
-		
+
 		long deletedRecords = recipeIngredientRepo.deleteByRecipeId(recipeId);
 		return deletedRecords;
 	}
-	
+
 	@Transactional
-	@GetMapping(value="/deleteInstructions/{recipeId}")
+	@GetMapping(value = "/deleteInstructions/{recipeId}")
 	public long deleteInstruction(@PathVariable long recipeId) {
 		Recipe recipe = recipeRepo.findById(recipeId).get();
 		recipe.getInstructions().clear();
