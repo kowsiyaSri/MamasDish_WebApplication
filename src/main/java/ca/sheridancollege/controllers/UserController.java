@@ -1,5 +1,7 @@
 package ca.sheridancollege.controllers;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +17,14 @@ import ca.sheridancollege.beans.Country;
 import ca.sheridancollege.beans.Cuisine;
 import ca.sheridancollege.beans.Diet;
 import ca.sheridancollege.beans.EndUser;
+import ca.sheridancollege.beans.MessageSystem;
 import ca.sheridancollege.beans.Protein;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.CuisineRepository;
 import ca.sheridancollege.repositories.DietRepository;
 import ca.sheridancollege.repositories.EndUserRepository;
+import ca.sheridancollege.repositories.MessageRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.UserRepository;
 
@@ -48,6 +52,8 @@ public class UserController {
 	@Autowired
 	private ChefRepository chefRepo;
 	
+	@Autowired
+	private MessageRepository mssgRepo;
 	
 	//method to view the profile
 	@GetMapping("/viewProfile")
@@ -185,4 +191,19 @@ public class UserController {
 		
 		return "/users/editProfile.html";
 	}
+	
+	@GetMapping("/messages")
+	public String Messages(Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+		List<MessageSystem> mssgs = user.getMessages();
+		Collections.reverse(mssgs);
+		System.out.println(emailCount);
+		model.addAttribute("user", user);
+		model.addAttribute("messages", mssgs);
+		model.addAttribute("emails", emailCount);
+		
+		return "/users/inbox.html";
+	}
+	
 }

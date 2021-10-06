@@ -1,14 +1,12 @@
 package ca.sheridancollege.beans;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -23,41 +21,22 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class EndUser {
+public class MessageSystem {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-    
-    private String password;
-
-	@OneToMany
-	private List<Recent> recent;
+	private String subject;
 	
-	@OneToMany
-	private List<Recipe> recipe;
+	private String message;
 	
-	@OneToMany
-	private List<Cuisine> cuisine;
+	private String sender;
+	
+	private String receiver;
+	
+	private LocalDateTime dateSent;
+	
+	private boolean isNew;
 
-	@OneToMany
-	private List<Country> country;
-
-	@OneToMany
-	private List<Diet> diet;
-
-	@OneToMany
-	private List<Protein> protein;
-	
-	@OneToMany
-	private List<MessageSystem> messages;
-	
-	
-		
 }

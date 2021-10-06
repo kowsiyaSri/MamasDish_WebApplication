@@ -1,5 +1,6 @@
 package ca.sheridancollege.controllers;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +9,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +23,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.sheridancollege.beans.Country;
+import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Ingredient;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.Measurement;
+import ca.sheridancollege.beans.MessageSystem;
 import ca.sheridancollege.beans.Protein;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.RecipeDescription;
@@ -31,12 +35,15 @@ import ca.sheridancollege.beans.RecipeIngredient;
 import ca.sheridancollege.beans.RecipeMarker;
 import ca.sheridancollege.email.Email;
 import ca.sheridancollege.repositories.CountryRepository;
+import ca.sheridancollege.repositories.EndUserRepository;
 import ca.sheridancollege.repositories.IngredientRepository;
 import ca.sheridancollege.repositories.InstructionRepository;
 import ca.sheridancollege.repositories.MeasurementRepository;
+import ca.sheridancollege.repositories.MessageRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
+import ca.sheridancollege.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/mamasdish")
@@ -73,6 +80,15 @@ public class APIController {
 	@Autowired
 	@Lazy
 	private CountryRepository countryRepo;
+	
+	@Autowired
+	private MessageRepository mssgRepo;
+	
+	@Autowired
+	private UserRepository userRepo;
+	
+	@Autowired
+	private EndUserRepository endUserRepo;
 
 	@GetMapping(value = "/addIngredient/{ingredient}/{quantity}/{measurement}/{recipeId}/{proteinId}")
 	public int addIngredient(@PathVariable String ingredient, @PathVariable int quantity, @PathVariable int measurement,
@@ -188,12 +204,26 @@ public class APIController {
 	public int sendApprovalEmail(Model model, @PathVariable int id) {
 
 		Recipe recipe = recipeRepo.findById(Long.valueOf(id)).get();
-
+		String recipeTitle = recipe.getTitle();
 		String chefEmail = recipe.getChef().getEnduser().getEmail();
-		String subject = recipe.getTitle() + " has been Approved!";
+		String subject = recipeTitle + " has been Approved!";
 		String body = "Your recipe has now been approved!";
 
 		email.sendEmail(chefEmail, subject, body);
+		
+		MessageSystem mssg = new MessageSystem();
+		mssg.setSubject(recipeTitle + " has been approved.");
+		mssg.setSender("Mamas Dish Admin");
+		mssg.setDateSent(LocalDateTime.now());
+		mssg.setReceiver(recipe.getChef().getEnduser().getFirstName() + " " + recipe.getChef().getEnduser().getLastName());
+		mssg.setNew(true);
+		mssg.setMessage(body);
+		
+		mssgRepo.save(mssg);
+		
+		EndUser endUser = recipe.getChef().getEnduser();
+		endUser.getMessages().add(mssg);
+		endUserRepo.save(endUser);
 
 		return 1;
 	}
@@ -217,5 +247,17 @@ public class APIController {
 			recipeMarkers.add(marker);
 		}
 		return recipeMarkers;
+	}
+	
+	@GetMapping("/checkEmail/{id}")
+	public int checkEmail(@PathVariable int id, Authentication auth) {
+		
+		MessageSystem mssg = mssgRepo.findById(Long.valueOf(id)).get();
+		mssg.setNew(false);
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		mssgRepo.save(mssg);
+		
+		return mssgRepo.emailCount(Long.valueOf(user.getId()));
+		
 	}
 }

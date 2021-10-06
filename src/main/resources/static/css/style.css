@@ -44,6 +44,7 @@ body {
 	text-shadow: 2px 2px grey;
 }
 
+
 #userHomeImage{
 	opacity: 0.7; 
 	width:300px; 
@@ -102,7 +103,6 @@ select#search::-ms-expand {
 
 .homeNav {
 	background-color: white;
-	height: 80px;
 	font-family: 'Roboto Condensed', sans-serif;
 }
 
@@ -111,7 +111,6 @@ select#search::-ms-expand {
 	font-variant: small-caps;
 	font-weight: 200;
 	color: grey;
-	padding: 60px;
 }
 
 #landNav {
@@ -465,3 +464,75 @@ input[type="file"] {
 	height:100px;
 	width: 100px
 }
+
+#emailSubject {
+	margin-bottom: 5px;
+	padding-top: 0px;
+	font-size: 15px;
+	font-weight:bold;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:black;
+	text-align: left;
+}
+
+#emailSender {
+	margin-bottom: 0px;
+	padding-top: 0px;
+	font-size: 15px;
+	font-weight:bold;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:black;
+	text-align: left;
+}
+
+#emailTime {
+	margin-bottom: 0px;
+	padding-top: 0px;
+	font-size: 15px;
+	font-weight:bold;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:blue;
+	text-align: right;
+}
+
+#emailSubject2 {
+	margin-bottom: 5px;
+	padding-top: 0px;
+	font-size: 15px;
+	font-weight:normal;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:black;
+	text-align: left;
+}
+
+#emailSender2 {
+	margin-bottom: 0px;
+	padding-top: 0px;
+	font-size: 15px;
+	font-weight:normal;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:black;
+	text-align: left;
+}
+
+#emailTime2 {
+	margin-bottom: 0px;
+	padding-top: 0px;
+	padding-left: 10px;
+	font-size: 15px;
+	font-weight:normal;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:black;
+	text-align: right;
+}
+
+#emailBody{
+	font-weight: bold;
+}
+

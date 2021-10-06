@@ -1,5 +1,6 @@
 package ca.sheridancollege.controllers;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -11,10 +12,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Instruction;
+import ca.sheridancollege.beans.MessageSystem;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.email.Email;
+import ca.sheridancollege.repositories.EndUserRepository;
+import ca.sheridancollege.repositories.MessageRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
+import ca.sheridancollege.repositories.UserRepository;
 
 @Controller
 public class AdminController {
@@ -24,6 +30,15 @@ public class AdminController {
 
 	@Autowired
 	private Email email;
+	
+	@Autowired
+	private MessageRepository mssgRepo;
+	
+	@Autowired
+	private UserRepository userRepo;
+	
+	@Autowired
+	private EndUserRepository endUserRepo;
 
 	@GetMapping("/admin")
 	public String index(Model model) {
@@ -65,6 +80,21 @@ public class AdminController {
 		email.sendEmail(chefEmail, subject, body);
 
 		model.addAttribute("recipes", recipeRepo.findByAuthFalse());
+		
+		MessageSystem mssg = new MessageSystem();
+		mssg.setSubject(recipeTitle + " has been rejected.");
+		mssg.setSender("Mamas Dish Admin");
+		mssg.setDateSent(LocalDateTime.now());
+		mssg.setReceiver(recipe.getChef().getEnduser().getFirstName() + " " + recipe.getChef().getEnduser().getLastName());
+		mssg.setNew(true);
+		mssg.setMessage(body);
+		
+		
+		mssgRepo.save(mssg);
+		
+		EndUser endUser = recipe.getChef().getEnduser();
+		endUser.getMessages().add(mssg);
+		endUserRepo.save(endUser);
 
 		return "/admin/index.html";
 	}

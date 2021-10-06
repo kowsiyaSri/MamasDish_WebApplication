@@ -108,7 +108,6 @@ function editRecipe() {
 		
 		for(let ingrDivs of $('[id^="ingredientDiv"]').children()){
 
-
 			var ingredient = $("#"+ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
 			var measurement = $("#"+ingrDivs.id).find('select[id^="measurement"]').get(0).value;
 			var quantity = $("#"+ingrDivs.id).find('input[id^="quantity"]').get(0).value;
