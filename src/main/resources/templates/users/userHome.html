@@ -14,16 +14,17 @@
 				<div class="nav-wrapper" id="centerNav">
 					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
 					src="/images/logo.png" /></a> -->
-					<ul style="width: 100%" id="centerNav"
-						class="hide-on-med-and-down">
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
-						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+					<ul style="width: 100%" id="centerNav" class="hide-on-med-and-down">
+						<li><a th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
+						<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+      					<li><a th:href="@{/messages}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount">4</span></a></li>
+						<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
 					</ul>
+				</div>
 				</div>
 			</nav>
 		</div>

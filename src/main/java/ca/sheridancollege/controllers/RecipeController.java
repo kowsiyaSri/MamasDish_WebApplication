@@ -31,6 +31,7 @@ import ca.sheridancollege.beans.Diet;
 import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.MealType;
+import ca.sheridancollege.beans.MessageSystem;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.RecipeIngredient;
 import ca.sheridancollege.beans.User;
@@ -42,6 +43,7 @@ import ca.sheridancollege.repositories.DietRepository;
 import ca.sheridancollege.repositories.EndUserRepository;
 import ca.sheridancollege.repositories.MealTypeRepository;
 import ca.sheridancollege.repositories.MeasurementRepository;
+import ca.sheridancollege.repositories.MessageRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
@@ -89,6 +91,9 @@ public class RecipeController {
 
 	@Autowired
 	private Email email;
+	
+	@Autowired
+	private MessageRepository mssgRepo;
 
 	@GetMapping("/")
 	public String home(Model model) {
@@ -102,22 +107,26 @@ public class RecipeController {
 	}
 
 	@GetMapping("/users/userHome")
-	public String UserHome(Model model){
+	public String UserHome(Model model, Authentication auth){
 		
 		//finds list of countries which contain recipes
-
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+		List<MessageSystem> mssgs = user.getMessages();
+		Collections.reverse(mssgs);
+		System.out.println(emailCount);
+		model.addAttribute("user", user);
+		model.addAttribute("messages", mssgs);
+		model.addAttribute("emails", emailCount);
 		model.addAttribute("countries", countryRepo.findTop5ByOrderById());
-		
-	
 		model.addAttribute("diets", dietRepo.findAll());
-		
-	
 		model.addAttribute("meals", mealRepo.findAll());
-		
-
 		model.addAttribute("suggest", recipeRepo.findTop5ByOrderByIdDesc());
 		
+		
 		return "/users/userHome.html";
+		
+		
 	}
 	
 	@GetMapping("/access-denied")
@@ -415,8 +424,13 @@ public class RecipeController {
 		return "/users/map.html";
 	}
 	
-	@GetMapping("/awaitApproval")
-	public String awaitApproval() {
+	@GetMapping("/awaitApproval/{recipeId}")
+	public String awaitApproval(@PathVariable int recipeId, Model model) {
+		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
+		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		model.addAttribute("ingredients", recipe.getIngredients());
+
+		
 		return "/chefs/awaitApproval";
 	}
 	

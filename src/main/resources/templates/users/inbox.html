@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<link href="css/home.css" th:href="@{/css/home.css}" rel="stylesheet" type="text/css">
+<link href="css/home.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="../static/js/messagesystem.js" th:src="@{/js/messagesystem.js}"></script>
+
+<title>Welcome to Mama's Dish</title>
+</head>
+<body style="background-color: #F5F5F5">
+	<header>
+		<div class="navbar-fixed" id="centerNav">
+			<nav class="homeNav fixed" id="centerNav">
+				<div class="nav-wrapper" id="centerNav">
+					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a> -->
+					<ul style="width: 100%" id="centerNav" class="hide-on-med-and-down">
+						<li><a th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
+						<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+      					<li><a href="" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount">4</span></a></li>
+						<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</header>
+<main>
+	<div class="content">
+	<br><br>
+	<ul class="collection z-depth-2">
+        <a href="#" th:onclick="'check('+${m.id}+')'" class="collection-item" th:each="m: ${messages}">
+        	
+        	
+        	<div th:if="${m.isNew}" th:id="mail+ ${m.id}">
+        		<p id="emailSender" th:text="${m.sender}"></p>
+        		
+        		<div><span id="emailSubject" th:text="${m.subject}"></span><span id="emailTime" th:text="${#temporals.format(m.dateSent, 'dd-MM-yyyy HH:mm a')}"></span></div>
+        		<h6 id="emailBody" class="truncate" th:text="${m.message}"></h6>
+        	</div>
+        	
+        	<div th:unless="${m.isNew}" th:id="mail+ ${m.id}">
+        		<p id="emailSender2" th:text="${m.sender}"></p>
+        		
+        		<div><span id="emailSubject2" th:text="${m.subject}"></span><span id="emailTime2" th:text="${#temporals.format(m.dateSent, 'dd-MM-yyyy HH:mm a')}"></span></div>
+        		<h6 class="truncate" th:text="${m.message}"></h6>
+        	</div>
+       	</a>
+      </ul>
+	</div>
+</main>
+</body>
+</html>
