@@ -21,7 +21,7 @@
 						<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
 						<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
 						<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
-      					<li><a th:href="@{/messages}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount">4</span></a></li>
+      					<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount">4</span></a></li>
 						<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
 					</ul>
 				</div>
@@ -29,7 +29,6 @@
 			</nav>
 		</div>
 	</header>
-<main>
 	<div class="content">
 	  <div id="userHomeHeader">Just For You</div>
 		  <div class="scrolling-wrapper-flexbox">
@@ -100,6 +99,5 @@
 			  </div>
 		 </div>
 	 </div>
-</main>
 </body>
 </html>
