@@ -1,10 +1,6 @@
 $( document ).ready(function() {
     $('.sidenav').sidenav();
-    
-   
-
-
-	
+    	
 
 });
 
@@ -17,6 +13,8 @@ function check(id) {
 					.then(data => data.json())
 					.then(function(data) {
 						$("#mailCount").text(data);
+						console.log(data);
+						
 					});
 				
 	$("#emailSender").css("font-weight", "regular");
@@ -36,13 +34,8 @@ function check(id) {
 	$('#emailTime' + id).css("font-weight", "regular")
 	$('#emailTime' + id).css("color", "black");
 	$("#newBadge" + id).css("display", "none");
-	var mailCnt = $("#mailCount").text();
-
-	$("#navCnt").text(mailCnt);
-
 
 	var recipe = $("#recipe" + id).text();
-	console.log(myArr);
 	$("#mssgSub").text(subject);
 	$("#mssgBody").text(body);
 	$('#mssgSndr').text(sender);

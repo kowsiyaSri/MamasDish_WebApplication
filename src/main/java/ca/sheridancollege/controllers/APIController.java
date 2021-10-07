@@ -282,7 +282,7 @@ public class APIController {
 		if(mssg.getReceiver().equals("Mama's Dish Admin")) {
 			return mssgRepo.getAdminDeletedEmails().size();
 		} else {
-			return mssgRepo.findByIsDeletedTrue().size();
+			return mssgRepo.getDeletedEmails(Long.valueOf(user.getId())).size();
 
 		}
 		
