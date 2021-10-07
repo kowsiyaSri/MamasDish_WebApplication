@@ -218,6 +218,7 @@ public class APIController {
 		mssg.setReceiver(recipe.getChef().getEnduser().getFirstName() + " " + recipe.getChef().getEnduser().getLastName());
 		mssg.setNew(true);
 		mssg.setMessage(body);
+		mssg.setRecipeId(recipe.getId());
 		
 		mssgRepo.save(mssg);
 		
@@ -258,6 +259,19 @@ public class APIController {
 		mssgRepo.save(mssg);
 		
 		return mssgRepo.emailCount(Long.valueOf(user.getId()));
+		
+	}
+	
+	@GetMapping("/deleteEmail/{id}")
+	public int deleteEmail(@PathVariable int id, Authentication auth) {
+		
+		MessageSystem mssg = mssgRepo.findById(Long.valueOf(id)).get();
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+
+		mssg.setDeleted(true);
+		mssgRepo.save(mssg);
+		
+		return mssgRepo.findByIsDeletedTrue().size();
 		
 	}
 }

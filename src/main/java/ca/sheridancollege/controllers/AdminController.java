@@ -88,7 +88,7 @@ public class AdminController {
 		mssg.setReceiver(recipe.getChef().getEnduser().getFirstName() + " " + recipe.getChef().getEnduser().getLastName());
 		mssg.setNew(true);
 		mssg.setMessage(body);
-		
+		mssg.setRecipeId(recipe.getId());		
 		
 		mssgRepo.save(mssg);
 		
