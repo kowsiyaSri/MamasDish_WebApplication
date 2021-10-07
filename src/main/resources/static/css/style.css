@@ -5,7 +5,7 @@
 	;
 
 body {
-	background-color: #BECEDD;
+	background-color: #f5f5f5;
 }
 
 #map {
@@ -43,6 +43,7 @@ body {
 	color: white;
 	text-shadow: 2px 2px grey;
 }
+
 
 #userHomeImage{
 	opacity: 0.7; 
@@ -102,16 +103,14 @@ select#search::-ms-expand {
 
 .homeNav {
 	background-color: white;
-	height: 80px;
 	font-family: 'Roboto Condensed', sans-serif;
 }
 
 #homeNavTxt {
-	font-size: 20px;
+	font-size: 17px;
 	font-variant: small-caps;
-	font-weight: 200;
+	font-weight: 400;
 	color: grey;
-	padding: 60px;
 }
 
 #landNav {
@@ -464,4 +463,150 @@ input[type="file"] {
 #output{
 	height:100px;
 	width: 100px
+}
+
+.emailSubject {
+	margin-bottom: 5px;
+	padding-top: 0px;
+	font-size: 15px;
+	font-weight:bold;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:black;
+	text-align: left;
+}
+
+.emailSender {
+	margin-bottom: 0px;
+	padding-top: 0px;
+	font-size: 15px;
+	font-weight:bold;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:black;
+	text-align: left;
+}
+
+.emailTime {
+	margin-bottom: 0px;
+	padding-top: 0px;
+	font-size: 15px;
+	font-weight:bold;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:blue;
+	text-align: right;
+}
+
+.emailSubject2 {
+	margin-bottom: 5px;
+	padding-top: 0px;
+	font-size: 15px;
+	font-weight:normal;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:black;
+	text-align: left;
+}
+
+.emailSender2 {
+	margin-bottom: 0px;
+	padding-top: 0px;
+	font-size: 15px;
+	font-weight:normal;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:black;
+	text-align: left;
+}
+
+.emailTime2 {
+	margin-bottom: 0px;
+	padding-top: 0px;
+	padding-left: 10px;
+	font-size: 15px;
+	font-weight:normal;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:black;
+	text-align: right;
+}
+
+.emailBody{
+	font-weight: bold;
+}
+
+.mssgSubject {
+	margin-bottom: 5px;
+	padding-top: 0px;
+	padding-bottom: 20px;
+	font-size: 20px;
+	font-weight:normal;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:black;
+}
+
+.mssgSender {
+	margin-bottom: 5px;
+	padding-top: 0px;
+	padding-bottom: 10px;
+	font-size: 15px;
+	font-weight:normal;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:#5085A5;
+}
+
+
+.mssgTime{
+	margin-bottom: 5px;
+	padding-top: 0px;
+	padding-bottom: 10px;
+	font-size: 12px;
+	font-weight:normal;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:#2c4758;
+}
+
+.mssgReceiver {
+	margin-bottom: 5px;
+	padding-top: 0px;
+	padding-bottom: 10px;
+	font-size: 15px;
+	font-weight:normal;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:grey;
+}
+
+.mssgBody {
+	margin-bottom: 5px;
+	padding-top: 0px;
+	padding-bottom: 10px;
+	font-size: 15px;
+	font-weight:normal;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:black;
+	line-height:30px;
+}
+
+.recipeLink{
+		margin-bottom: 5px;
+	padding-top: 0px;
+	padding-bottom: 10px;
+	font-size: 15px;
+	font-weight:normal;
+	font-family: "Roboto Condensed", sans-serif;
+	letter-spacing: 1px;
+	color:#9dbc0c;
+	line-height:30px;
+}
+
+  @media only screen and (min-width : 992px) {
+  .invisible-top {
+    top: 65px;
+  }
 }

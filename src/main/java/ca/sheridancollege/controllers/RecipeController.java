@@ -14,7 +14,6 @@ import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -26,15 +25,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ca.sheridancollege.FileUploadUtil;
 import ca.sheridancollege.beans.Chef;
-import ca.sheridancollege.beans.Country;
-import ca.sheridancollege.beans.Diet;
 import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Ingredient;
 import ca.sheridancollege.beans.Instruction;
-import ca.sheridancollege.beans.MealType;
+import ca.sheridancollege.beans.MessageSystem;
 import ca.sheridancollege.beans.Recipe;
-import ca.sheridancollege.beans.RecipeIngredient;
-import ca.sheridancollege.beans.User;
 import ca.sheridancollege.email.Email;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
@@ -43,6 +38,7 @@ import ca.sheridancollege.repositories.DietRepository;
 import ca.sheridancollege.repositories.EndUserRepository;
 import ca.sheridancollege.repositories.MealTypeRepository;
 import ca.sheridancollege.repositories.MeasurementRepository;
+import ca.sheridancollege.repositories.MessageRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
@@ -91,6 +87,9 @@ public class RecipeController {
 
 	@Autowired
 	private Email email;
+	
+	@Autowired
+	private MessageRepository mssgRepo;
 
 	@GetMapping("/")
 	public String home(Model model) {
@@ -104,13 +103,22 @@ public class RecipeController {
 	}
 
 	@GetMapping("/users/userHome")
-	public String UserHome(Model model) {
-
+	public String UserHome(Model model, Authentication auth){
+		
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+		List<MessageSystem> mssgs = user.getMessages();
+		Collections.reverse(mssgs);
+		System.out.println(emailCount);
+		model.addAttribute("user", user);
+		model.addAttribute("messages", mssgs);
+		model.addAttribute("emails", emailCount);
 		model.addAttribute("countries", countryRepo.findTop5ByOrderById());
 		model.addAttribute("diets", dietRepo.findAll());
 		model.addAttribute("meals", mealRepo.findAll());
 		model.addAttribute("suggest", recipeRepo.suggestRecipes(10));
 
+				
 		return "/users/userHome.html";
 	}
 
@@ -159,7 +167,7 @@ public class RecipeController {
 		float chr = Float.parseFloat(ctime[0]) * 60;
 		float cmin = Float.parseFloat(ctime[1]);
 		recipe.setCookTime(chr + cmin);
-
+		
 		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
 		Set<ConstraintViolation<Recipe>> validationErrors = validator.validate(recipe);
@@ -448,12 +456,14 @@ public class RecipeController {
 	public String getMap() {
 		return "/users/map.html";
 	}
-
+	
 	@GetMapping("/awaitApproval/{recipeId}")
 	public String awaitApproval(@PathVariable int recipeId, Model model) {
-
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
+		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		model.addAttribute("ingredients", recipe.getIngredients());
 
+		
 		return "/chefs/awaitApproval";
 	}
 

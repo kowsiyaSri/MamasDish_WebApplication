@@ -136,12 +136,9 @@ function editRecipe() {
 				console.log(data);
 			});
 
-		for (let ingrDivs of $('[id^="ingredientDiv"]').children()) {
-
-
-			var ingredient = $("#" + ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
-			var measurement = $("#" + ingrDivs.id).find('select[id^="measurement"]').get(0).value;
-			var quantity = $("#" + ingrDivs.id).find('input[id^="quantity"]').get(0).value;
+			var ingredient = $("#"+ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
+			var measurement = $("#"+ingrDivs.id).find('select[id^="measurement"]').get(0).value;
+			var quantity = $("#"+ingrDivs.id).find('input[id^="quantity"]').get(0).value;
 			//console.log($("#"+ingrDivs.id).find('input[id^="quantity"]').get());
 			console.log($("#" + ingrDivs.id).find('select[id^="proteinType"]').get());
 			var protein = $("#" + ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
