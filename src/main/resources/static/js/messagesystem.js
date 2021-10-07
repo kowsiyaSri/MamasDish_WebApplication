@@ -1,20 +1,72 @@
 $( document ).ready(function() {
-    console.log( "ready!" );
+    $('.sidenav').sidenav();
+
+	console.log($("#messagesPanel").height());
+	
+	$("#displayMssg").height($("#messagesPanel").height());
+
 });
 
 function check(id) {
-console.log(id);
-fetch('http://localhost:8080/mamasdish/checkEmail/' + id)
-				.then(data => data.json())
-				.then(function(data) {
-					console.log(data);
-					
-					$("#mailCount").text(data);
-					
-					
-				});
+	fetch('http://localhost:8080/mamasdish/checkEmail/' + id)
+					.then(data => data.json())
+					.then(function(data) {
+						$("#mailCount").text(data);
+					});
 				
 	$("#emailSender").css("font-weight", "regular");
+	$('#emailSender' + id).removeClass("emailSender");
+	$('#emailSender' + id).addClass("emailSender2");
+	var subject = $('#emailSubject' + id).text();
+	$('#emailSubject' + id).removeClass("emailSubject");
+	$('#emailSubject' + id).addClass("emailSubject2");
+	var body = $('#emailBody' + id).text();
+	$('#emailBody' + id).css("font-weight", "regular");
+	$('#emailBody' + id).removeClass("emailBody");
+	$('#emailBody' + id).addClass("emailBody2");
+	var sender = $('#emailSender' + id).text();
+	$('#emailSender' + id).css("font-weight", "regular");
+	var receiver = $('#emailReceiver' + id).text();
+	var date =$('#emailTime' + id).text();
+	$('#emailTime' + id).css("font-weight", "regular")
+	$('#emailTime' + id).css("color", "black");
+	$("#newBadge" + id).css("display", "none");
+	var mailCnt = $("#mailCount").text();
+
+	$("#navCnt").text(mailCnt);
+
+
+	var recipe = $("#recipe" + id).text();
+	console.log(recipe);
+	$("#mssgSub").text(subject);
+	$("#mssgBody").text(body);
+	$('#mssgSndr').text(sender);
+	$('#mssgDate').text(date);
+	$('#mssgRec').text("To:" + receiver)
+	$('#recipeLink').text("View Recipe");
+	$("#recipeLink").attr("href", "http://localhost:8080/chefs/viewRecipe/" + recipe);
+	$("#deleteBtn").css("display", "block");
+	
+	$( "#deleteBtn" ).click(function() {
+  fetch('http://localhost:8080/mamasdish/deleteEmail/' + id)
+				.then(data => data.json())
+				.then(function(data) {
+					$("#deletedNum").text(data);
+					});
+					
+					$('#mssgBox' + id).remove();
+					
+				$("#mssgSub").text("");
+				$("#mssgBody").text("");
+				$('#mssgSndr').text("");
+				$('#mssgDate').text("");
+				$('#mssgRec').text("");
+				$('#recipeLink').text("");
+				$("#recipeLink").removeAttr("href");
+				$("#deleteBtn").css("display", "none");
+
+});
 
 
 }
+

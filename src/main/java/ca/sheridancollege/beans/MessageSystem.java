@@ -38,5 +38,9 @@ public class MessageSystem {
 	private LocalDateTime dateSent;
 	
 	private boolean isNew;
+	
+	private boolean isDeleted;
+	
+	private Long recipeId;
 
 }

@@ -147,16 +147,29 @@ public class UserController {
 		return "/users/editProfile.html";
 	}
 	
-	@GetMapping("/messages")
+	@GetMapping("/messages/inbox")
 	public String Messages(Model model, Authentication auth) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		int emailCount = mssgRepo.emailCount(user.getId());
-		List<MessageSystem> mssgs = user.getMessages();
+		System.out.println(emailCount);
+		model.addAttribute("user", user);
+		model.addAttribute("messages", mssgRepo.getEmails(user.getId()));
+		model.addAttribute("emails", emailCount);
+		model.addAttribute("deleted", mssgRepo.getDeletedEmails(user.getId()).size());
+		return "/users/inbox.html";
+	}
+	
+	@GetMapping("/messages/deleted")
+	public String deletedMessages(Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+		List<MessageSystem> mssgs = mssgRepo.getDeletedEmails(user.getId());
 		Collections.reverse(mssgs);
 		System.out.println(emailCount);
 		model.addAttribute("user", user);
 		model.addAttribute("messages", mssgs);
 		model.addAttribute("emails", emailCount);
+		model.addAttribute("deleted", mssgs.size());
 		
 		return "/users/inbox.html";
 	}
