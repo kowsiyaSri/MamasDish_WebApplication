@@ -126,13 +126,6 @@ public class APIController {
 		return 1;
 	}
 
-	/*
-	 * @DeleteMapping(value = "/deleteIngredient/{recipeId}") public int deleteIngredient( @PathVariable int recipeId) {
-	 * 
-	 * recipeIngredientRepo.deleteIngredientsRecords(Long.valueOf(recipeId));
-	 * 
-	 * return 1; }
-	 */
 
 	@Transactional
 	@GetMapping(value = "/deleteIngredients/{recipeId}")
@@ -189,13 +182,22 @@ public class APIController {
 	public int sendAuthEmail(Model model, @PathVariable int id) {
 
 		Recipe recipe = recipeRepo.findById(Long.valueOf(id)).get();
-
-		String chefEmail = recipe.getChef().getEnduser().getEmail();
+		MessageSystem mssg = new MessageSystem();
+		EndUser chef = recipe.getChef().getEnduser();
+		String chefEmail = chef.getEmail();
 		String subject = "Thank You from Mamas Dish";
 		String body = "Thank you for adding your authentic recipe to Mamas Dish.";
 		body += "Please allow 24-48 hrs for approval from our authentication team.";
 
 		email.sendEmail(chefEmail, subject, body);
+		mssg.setSubject("Approval Needed for new Recipe");
+		mssg.setSender(chef.getFirstName() + " " + chef.getLastName());
+		mssg.setDateSent(LocalDateTime.now());
+		mssg.setReceiver("Mama's Dish Admin");
+		mssg.setNew(true);
+		mssg.setMessage("New recipe available for review");
+		mssg.setRecipeId(recipe.getId());
+		
 
 		return 1;
 	}
