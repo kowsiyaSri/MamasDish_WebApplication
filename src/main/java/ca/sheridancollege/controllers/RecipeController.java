@@ -166,7 +166,7 @@ public class RecipeController {
 		float chr = Float.parseFloat(ctime[0]) * 60;
 		float cmin = Float.parseFloat(ctime[1]);
 		recipe.setCookTime(chr + cmin);
-
+		
 		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
 		Set<ConstraintViolation<Recipe>> validationErrors = validator.validate(recipe);

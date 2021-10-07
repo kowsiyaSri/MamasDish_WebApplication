@@ -29,4 +29,17 @@ public interface MessageRepository extends JpaRepository<MessageSystem, Long> {
 	(value = "CALL get_emails(:user_id)" , nativeQuery = true)
 	public List<MessageSystem> getEmails(@Param("user_id") Long user_id);
 	
+	@Query
+	(value = "CALL get_admin_emails()" , nativeQuery = true)
+	public int getAdminEmailCount();	
+	
+	@Query
+	(value = "CALL get_deleted_admin_emails()" , nativeQuery = true)
+	public List<MessageSystem> getAdminDeletedEmails();
+	
+	@Query
+	(value = "CALL get_admin_email_list()" , nativeQuery = true)
+	public List<MessageSystem> getAdminEmailList();
+
+	public List<MessageSystem> findByReceiverLike(String string);
 }
