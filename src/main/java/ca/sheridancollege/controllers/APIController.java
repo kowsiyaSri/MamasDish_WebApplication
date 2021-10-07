@@ -197,7 +197,8 @@ public class APIController {
 		mssg.setNew(true);
 		mssg.setMessage("New recipe available for review");
 		mssg.setRecipeId(recipe.getId());
-		
+		mssgRepo.save(mssg);
+
 
 		return 1;
 	}
@@ -260,7 +261,12 @@ public class APIController {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		mssgRepo.save(mssg);
 		
-		return mssgRepo.emailCount(Long.valueOf(user.getId()));
+		if(mssg.getReceiver().equals("Mama's Dish Admin")) {
+			return mssgRepo.getAdminEmailCount();
+		} else {
+			return mssgRepo.emailCount(Long.valueOf(user.getId()));
+
+		}
 		
 	}
 	
@@ -273,7 +279,12 @@ public class APIController {
 		mssg.setDeleted(true);
 		mssgRepo.save(mssg);
 		
-		return mssgRepo.findByIsDeletedTrue().size();
+		if(mssg.getReceiver().equals("Mama's Dish Admin")) {
+			return mssgRepo.getAdminDeletedEmails().size();
+		} else {
+			return mssgRepo.findByIsDeletedTrue().size();
+
+		}
 		
 	}
 }

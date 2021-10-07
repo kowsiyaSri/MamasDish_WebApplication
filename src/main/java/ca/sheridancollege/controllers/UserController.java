@@ -1,9 +1,6 @@
 package ca.sheridancollege.controllers;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -13,12 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ca.sheridancollege.beans.Chef;
-import ca.sheridancollege.beans.Country;
-import ca.sheridancollege.beans.Cuisine;
-import ca.sheridancollege.beans.Diet;
 import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.MessageSystem;
-import ca.sheridancollege.beans.Protein;
+import ca.sheridancollege.beans.Role;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.CuisineRepository;
@@ -151,11 +145,29 @@ public class UserController {
 	public String Messages(Model model, Authentication auth) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		int emailCount = mssgRepo.emailCount(user.getId());
-		System.out.println(emailCount);
+		boolean isAdmin = false;
+		List<Role> roles = userRepo.findByUsername(auth.getName()).getRoles();
+		
+		for(Role role : roles) {
+			if(role.getRolename().equals("ROLE_ADMIN")) {
+				isAdmin = true;
+				break;
+			}
+		}
+		
+		if(isAdmin) {
+			model.addAttribute("messages", mssgRepo.getAdminEmailList());
+			model.addAttribute("emails", mssgRepo.getAdminEmailCount());
+			model.addAttribute("deleted", mssgRepo.getAdminDeletedEmails().size());
+
+		} else {
+			model.addAttribute("messages", mssgRepo.getEmails(user.getId()));
+			model.addAttribute("emails", emailCount);
+			model.addAttribute("deleted", mssgRepo.getDeletedEmails(user.getId()).size());
+		}
+		
 		model.addAttribute("user", user);
-		model.addAttribute("messages", mssgRepo.getEmails(user.getId()));
-		model.addAttribute("emails", emailCount);
-		model.addAttribute("deleted", mssgRepo.getDeletedEmails(user.getId()).size());
+
 		return "/users/inbox.html";
 	}
 	
@@ -164,12 +176,28 @@ public class UserController {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		int emailCount = mssgRepo.emailCount(user.getId());
 		List<MessageSystem> mssgs = mssgRepo.getDeletedEmails(user.getId());
-		Collections.reverse(mssgs);
-		System.out.println(emailCount);
+		List<Role> roles = userRepo.findByUsername(auth.getName()).getRoles();
+		boolean isAdmin = false;
+
+		for(Role role : roles) {
+			if(role.getRolename().equals("ROLE_ADMIN")) {
+				isAdmin = true;
+				break;
+			}
+		}
+		
+		if(isAdmin) {
+			model.addAttribute("messages", mssgRepo.getAdminDeletedEmails());
+			model.addAttribute("emails", mssgRepo.getAdminEmailCount());
+			model.addAttribute("deleted", mssgRepo.getAdminDeletedEmails().size());
+
+		} else {
+			model.addAttribute("messages", mssgRepo.getDeletedEmails(user.getId()));
+			model.addAttribute("emails", emailCount);
+			model.addAttribute("deleted", mssgRepo.getDeletedEmails(user.getId()).size());
+		}
+		
 		model.addAttribute("user", user);
-		model.addAttribute("messages", mssgs);
-		model.addAttribute("emails", emailCount);
-		model.addAttribute("deleted", mssgs.size());
 		
 		return "/users/inbox.html";
 	}

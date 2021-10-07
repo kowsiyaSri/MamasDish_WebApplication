@@ -1,13 +1,18 @@
 $( document ).ready(function() {
     $('.sidenav').sidenav();
+    
+   
 
-	console.log($("#messagesPanel").height());
+
 	
-	$("#displayMssg").height($("#messagesPanel").height());
 
 });
 
 function check(id) {
+	
+	var urlPath = window.location.pathname;
+	const myArr = urlPath.split("/");
+	
 	fetch('http://localhost:8080/mamasdish/checkEmail/' + id)
 					.then(data => data.json())
 					.then(function(data) {
@@ -37,15 +42,31 @@ function check(id) {
 
 
 	var recipe = $("#recipe" + id).text();
-	console.log(recipe);
+	console.log(myArr);
 	$("#mssgSub").text(subject);
 	$("#mssgBody").text(body);
 	$('#mssgSndr').text(sender);
 	$('#mssgDate').text(date);
 	$('#mssgRec').text("To:" + receiver)
 	$('#recipeLink').text("View Recipe");
-	$("#recipeLink").attr("href", "http://localhost:8080/chefs/viewRecipe/" + recipe);
-	$("#deleteBtn").css("display", "block");
+	
+	if(receiver == "Mama's Dish Admin"){
+			$("#recipeLink").attr("href", "http://localhost:8080/admin/authRecipe/" + recipe);
+
+	}else {
+			$("#recipeLink").attr("href", "http://localhost:8080/chefs/viewRecipe/" + recipe);
+
+	}
+	
+	if(myArr[2] == "deleted" || myArr[2] == "deleted#"){
+		
+			$("#deleteBtn").css("display", "none");
+
+	} else {
+		$("#deleteBtn").css("display", "block");
+
+
+	}
 	
 	$( "#deleteBtn" ).click(function() {
   fetch('http://localhost:8080/mamasdish/deleteEmail/' + id)
