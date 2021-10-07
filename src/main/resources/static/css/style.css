@@ -5,7 +5,7 @@
 	;
 
 body {
-	background-color: #BECEDD;
+	background-color: #f5f5f5;
 }
 
 #map {
@@ -107,9 +107,9 @@ select#search::-ms-expand {
 }
 
 #homeNavTxt {
-	font-size: 20px;
+	font-size: 17px;
 	font-variant: small-caps;
-	font-weight: 200;
+	font-weight: 400;
 	color: grey;
 }
 
@@ -603,4 +603,10 @@ input[type="file"] {
 	letter-spacing: 1px;
 	color:#9dbc0c;
 	line-height:30px;
+}
+
+  @media only screen and (min-width : 992px) {
+  .invisible-top {
+    top: 65px;
+  }
 }
