@@ -1,7 +1,6 @@
 $( document ).ready(function() {
     $('.sidenav').sidenav();
     	
-
 });
 
 function check(id) {

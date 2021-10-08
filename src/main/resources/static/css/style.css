@@ -52,8 +52,9 @@ body {
 }
 
 #recipeHeader {
-	margin-bottom: 30px;
-	padding: 20px;
+	margin-bottom: 15px;
+	margin-top:0px;
+	padding: 0px;
 	color: #42464A;
 	font-size: 30px;
 	font-weight: 700;
@@ -397,10 +398,10 @@ pre {
 
 #recipeCard {
 	font-family: 'Mulish', sans-serif;
-	font-size: 30px;
+	font-size: 25px;
 	font-variant: small-caps;
 	font-weight: 660;
-	padding-bottom: 20px;
+	padding-bottom: 5px;
 	text-align: center;
 	color: grey;
 }
@@ -412,7 +413,7 @@ pre {
 	font-weight: 500;
 	color: #ACACAC;
 	text-align: center;
-	padding-bottom: 20px;
+	padding-bottom: 5px;
 }
 
 #recipeDescription {
@@ -603,10 +604,4 @@ input[type="file"] {
 	letter-spacing: 1px;
 	color:#9dbc0c;
 	line-height:30px;
-}
-
-  @media only screen and (min-width : 992px) {
-  .invisible-top {
-    top: 65px;
-  }
 }
