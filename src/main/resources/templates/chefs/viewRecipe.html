@@ -2,13 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="../static/js/script.js" th:src="@{/js/startRating.js}"></script>
+<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet"
+	type="text/css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" >
+	
 
-
-	<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
 
 <title>View Recipe</title>
+<style>
+.stars-outer {
+	position: relative;
+	display: inline-block;
+}
+
+#stars-inner {
+	position: absolute;
+	top: 0;
+	left: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 100%;
+}
+
+.stars-outer:before {
+	content: "\f005 \f005 \f005 \f005 \f005";
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	color: #000000;
+}
+
+#stars-inner:before {
+	content: "\f005 \f005 \f005 \f005 \f005";
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	color: #f8ce0b;
+}
+</style>
 </head>
 <body>
 	<header>
@@ -17,14 +52,20 @@
 				<div class="nav-wrapper" id="centerNav">
 					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
 					src="/images/logo.png" /></a> -->
-					<ul style="width: 100%" id="centerNav"
-						class="hide-on-med-and-down">
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+					<ul style="width: 100%" id="centerNav" class="hide-on-med-and-down">
+						<li style="padding-right: 70px"><a style="padding: 0px 30px"
+							th:href="@{/users/userHome}" id="homeNavTxt">Home</a></li>
+						<li style="padding-right: 70px"><a style="padding: 0px 30px"
+							th:href="@{/users/viewAllRecipe}" id="homeNavTxt">All Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding: 0px 30px"
+							th:href="@{/users/discover}" id="homeNavTxt">Discover Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding: 0px 30px"
+							th:href="@{/chefs/chefIndex}" id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding: 0px 30px"
+							th:href="@{/chefs/uploadRecipe}" id="homeNavTxt">Upload
+								Recipe</a></li>
+						<li><a style="padding: 0px 30px" th:href="@{/logout}"
+							id="homeNavTxt">Logout</a></li>
 					</ul>
 				</div>
 			</nav>
@@ -32,27 +73,38 @@
 	</header>
 	<main>
 		<div style="margin: auto; align-items: center; width: 50%;">
-			<div class="row" style="margin: auto; align-items: center; width: 100%;">
-				<div class="card" style="margin-top: 5%; border-radius:15px">
+			<div class="row"
+				style="margin: auto; align-items: center; width: 100%;">
+				<div class="card" style="margin-top: 5%; border-radius: 15px">
 					<div class="card-image">
-						<img id="recipeImg" style="height:350px" th:if="${recipe.recipeImg != null}" th:src="@{'/images/recipes/' + ${recipe.recipeImg} + '.jpeg'}">
-						<img id="recipeImg" th:unless="${recipe.recipeImg != null}" style="opacity:0.6; height:350px " th:src="@{/images/shakshuka.png}">
+						<img id="recipeImg" style="height: 350px"
+							th:if="${recipe.recipeImg != null}"
+							th:src="@{'/images/recipes/' + ${recipe.recipeImg} + '.jpeg'}">
+						<img id="recipeImg" th:unless="${recipe.recipeImg != null}"
+							style="opacity: 0.6; height: 350px"
+							th:src="@{/images/shakshuka.png}">
 					</div>
 					<div class="card-content">
 						<!-- Edit Recipe button only shown for chefs -->
-						 <a class="waves-effect waves-light btn blue lighten-4 black-text" 
-							th:href="@{/users/editRecipePartOne/{id}(id=${recipe.id})}" style="float: right;">Edit Recipe</a>
+						<a class="waves-effect waves-light btn blue lighten-4 black-text"
+							th:href="@{/users/editRecipePartOne/{id}(id=${recipe.id})}"
+							style="float: right;">Edit Recipe</a>
 						<h2 id="recipeTitle" th:text="${recipe.title}">Pizza</h2>
-						<span> 
-							<span id="chefFont" th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span> 
+						<span> <span id="chefFont"
+							th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span>
 							<span style="float: right">
-								<img style="height: 20px" th:src="@{/images/threestars.png}" />
-							</span>
+								<div class="stars-outer">
+									<div id="stars-inner"></div>
+									<span class="number-rating"></span>
+								</div>
 						</span>
-						<hr>
+						</span>
+						<hr >
 						<div style="padding: 20px 0px">
-							Course: <strong th:text="${recipe.mealtype.mealName.toLowerCase()}">main</strong>
-							&nbsp&nbsp&nbsp&nbsp/&nbsp&nbsp&nbsp&nbsp Country: <strong th:text="${recipe.country.name.toLowerCase()}">italian</strong>
+							Course: <strong
+								th:text="${recipe.mealtype.mealName.toLowerCase()}">main</strong>
+							&nbsp&nbsp&nbsp&nbsp/&nbsp&nbsp&nbsp&nbsp Country: <strong
+								th:text="${recipe.country.name.toLowerCase()}">italian</strong>
 						</div>
 						<div
 							style="margin-top: 5px; border: 1px dashed lightgrey; height: 100px;"
@@ -65,9 +117,9 @@
 							<div id="srvDiv" class="col s4">
 								<img class="icon" th:src="@{/images/time.png}">
 								<p id="iconlbl">Prep Time:</p>
-								<p th:text="${#numbers.formatDecimal(recipe.prepTime, 0, 0)} + ' mins'">
-									10 mins
-								</p>
+								<p
+									th:text="${#numbers.formatDecimal(recipe.prepTime, 0, 0)} + ' mins'">
+									10 mins</p>
 							</div>
 							<div class="col s4" id="center" style="padding: 10px">
 								<img class="icon" th:src="@{/images/cooking.png}" id="center">
@@ -78,25 +130,33 @@
 							</div>
 						</div>
 						<div class="yellow lighten-5">
-							<ul class="collection with-header" id="centerUl" style="border: 0px; width:92%">
+							<ul class="collection with-header" id="centerUl"
+								style="border: 0px; width: 92%">
 								<li class="collection-header yellow lighten-5" id="ulHeader">
-									<h6 id="listLbl"><strong>INGREDIENTS</strong></h6>
+									<h6 id="listLbl">
+										<strong>INGREDIENTS</strong>
+									</h6>
 								</li>
 								<li class="collection-item yellow lighten-5"
 									style="padding: 20px 0px" th:each="r: ${recipe.ingredients}">
-									<div id="ingredLi" th:if="${r.measurement}" th:text="${r.quantity} + ' ' + ${r.measurement.measurementType} + ' ' + ${r.ingredient.ingredientName}"></div>
-									<div id="ingredLi" th:unless="${r.measurement}" th:text="${r.quantity} + ' ' + ${r.ingredient.ingredientName}"></div>
+									<div id="ingredLi" th:if="${r.measurement}"
+										th:text="${r.quantity} + ' ' + ${r.measurement.measurementType} + ' ' + ${r.ingredient.ingredientName}"></div>
+									<div id="ingredLi" th:unless="${r.measurement}"
+										th:text="${r.quantity} + ' ' + ${r.ingredient.ingredientName}"></div>
 								</li>
 							</ul>
 						</div>
 						<div>
 							<ul class="collection with-header" style="border: 0px">
-							
+
 								<li id="listLbl" class="collection-header">
-									<h6 id="listLbl"><strong>INSTRUCTIONS</strong></h6>
+									<h6 id="listLbl">
+										<strong>INSTRUCTIONS</strong>
+									</h6>
 								</li>
-								
-								<li id="list" class="collection-item" style="padding: 20px 25px" th:each="i : ${instructions}">
+
+								<li id="list" class="collection-item" style="padding: 20px 25px"
+									th:each="i : ${instructions}">
 									<div th:text="${i.stepNumber} + ') ' + ${i.description}"></div>
 								</li>
 							</ul>
@@ -106,5 +166,20 @@
 			</div>
 		</div>
 	</main>
+
 </body>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	
+	console.log("rating inside html  ")
+			function getRating() {
+		
+		var rating = /*[[${rating}]]*/"";
+		
+		console.log("rating inside html  " + rating )
+			return rating;
+
+		}
+	/*]]>*/
+	</script>
 </html>

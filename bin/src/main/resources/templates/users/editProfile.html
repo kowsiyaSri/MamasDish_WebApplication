@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300'
+	rel='stylesheet' type='text/css'>
+<link href='css/style.css' rel='stylesheet' type='text/css'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>View Profile</title>
+<style>
+.tabs .indicator {
+	background-color: #0d47a1;
+}
+
+body {
+	align-items: center;
+	align-items: center;
+	background-color: #BECEDD;
+  	background-repeat: no-repeat;
+  	background-attachment: fixed;  
+  	background-size: cover;
+	
+}
+</style>
+</head>
+<body>
+	<header>
+		<div class="navbar-fixed" id="centerNav">
+			<nav class="homeNav fixed" id="centerNav">
+				<div class="nav-wrapper" id="centerNav">
+					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a> -->
+					<ul style="width: 100%" id="centerNav"
+						class="hide-on-med-and-down">
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</header>
+
+	<div class="row container padtop80" style="margin-top:70px">
+		<div class="col m6 offset-m3 s12">
+			<div class="row">
+				<div class="col s12">
+					<ul class="tabs">
+						<li class="tab col s3"><a href="#test1"
+							class="active blue-text text-darken-4">View Profile</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col m6 offset-m3 s12 z-depth-1"  id="formLogin">
+		<form th:action="@{/viewProfile}" method="post">
+				<p id="errId" style="text-align:center" th:text="${errMssg}"></p>	
+				<input type="hidden" id="id" name="id" th:value="${user.id}" />						
+				<div class="input-field col s12 ">
+					<label for="email">Email ID </label><br>
+					<input  th:value="${user.email}" type="text" readonly> 
+				</div>
+				<div class="input-field col s12 ">
+					<label for="firstName">First Name </label><br>
+					<input id="firstName" name="firstName" th:value="${user.firstName}" type="text" required min=2>
+				</div>
+				<div class="input-field col s12 ">
+					<label for="lastName">Last Name </label><br>
+					<input id="lastName" name="lastName"  th:value="${user.lastName}"  type="text" required min=2> 
+				</div>
+				<div class="input-field col s12 ">
+					<label>Selected Preferences:</label><br><br>
+				</div>
+				<div th:if="${userPref.country}" class="input-field col s12 ">
+					<label>Country</label><br><br>
+					<select class="browser-default" id="countryPref" name="countryPref">
+						<option th:text="'No Preference'" value=""></option>
+						<option th:each="c : ${countries}" th:value="${c.name}" th:selected="${userPref.country.id} == ${c.id}" th:text="${c.name}"></option>
+					</select>
+				</div>
+				<div th:unless="${userPref.country}" class="input-field col s12 ">
+					<label>Country</label><br>
+					<select class="browser-default" id="countryPref" name="countryPref">
+						<option th:text="'No Preference'" value="" selected></option>
+						<option th:each="c : ${countries}" th:value="${c.name}" th:text="${c.name}"></option>
+					</select>
+				</div>
+				<div th:if="${userPref.cuisine}" class="input-field col s12">
+					<label>Cuisine</label><br><br>
+					<select class="browser-default" id="cuisinePref" name="cuisinePref">
+						<option th:text="'No Preference'" value="" ></option>
+						<option th:each="c : ${cuisines}" th:value="${c.cuisineName}" th:selected="${userPref.cuisine.id} == ${c.id}" th:text="${c.cuisineName}"></option>
+					</select>
+				</div>
+				<div th:unless="${userPref.cuisine}" class="input-field col s12">
+					<label>Cuisine</label><br><br>
+					<select class="browser-default" id="cuisinePref" name="cuisinePref">
+						<option th:text="'No Preference'" value="" selected></option>
+						<option th:each="c : ${cuisines}" th:value="${c.cuisineName}" th:text="${c.cuisineName}"></option>
+					</select>
+				</div>
+				<div th:if="${userPref.diet}" class="input-field col s12">
+					<label>Diet Type</label><br><br>
+					<select class="browser-default" id="dietPref" name="dietPref">
+						<option th:text="'No Preference'" value=""></option>
+						<option th:each="d : ${diets}" th:value="${d.dietType}" th:selected="${userPref.diet.id} == ${d.id}" th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
+					</select>
+				</div>
+				<div th:unless="${userPref.diet}" class="input-field col s12">
+					<label>Diet Type</label><br><br>
+					<select class="browser-default" id="dietPref" name="dietPref">
+						<option th:text="No Preference" value="" selected></option>
+						<option th:each="d : ${diets}" th:value="${d.dietType}" th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
+					</select>
+				</div>
+				<div th:if="${userPref.protein}" class="input-field col s12">
+					<label>Protein</label><br><br>
+					<select class="browser-default" id="proteinPref" name="proteinPref">
+						<option th:text="'No Preference'" value=""></option>
+						<option th:each="p : ${proteins}" th:value="${p.proteinType}" th:selected="${userPref.protein.id} == ${p.id}" th:text="${#strings.capitalize(#strings.toLowerCase(p.proteinType))}"></option>
+					</select>
+					<br>
+				</div>
+				<div th:unless="${userPref.protein}" class="input-field col s12">
+					<label>Protein</label><br><br>
+					<select class="browser-default" id="proteinPref" name="proteinPref">
+						<option th:text="'No Preference'" value="" selected></option>
+						<option th:each="p : ${proteins}" th:value="${p.proteinType}" th:text="${#strings.capitalize(#strings.toLowerCase(p.proteinType))}"></option>
+					</select>
+					<br>
+				</div>
+				<div th:if="${chef}" class="input-field col s12">
+					<label>Chef Profile Description</label><br>
+					<textarea id="description" name="description" class="materialize-textarea" th:text=${chef.description}></textarea>		
+				</div>
+				<p id="saveBtn" >
+					<input type="submit" value="Save Changes"  class="blue darken-4 btn"/>
+				</p>			
+		</form>
+		</div>
+		</div>
+</body>
+
+
+</html>
