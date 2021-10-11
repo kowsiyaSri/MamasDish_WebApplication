@@ -30,6 +30,7 @@ import ca.sheridancollege.beans.Ingredient;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.MessageSystem;
 import ca.sheridancollege.beans.Recipe;
+import ca.sheridancollege.beans.RecipeIngredient;
 import ca.sheridancollege.email.Email;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
@@ -232,34 +233,6 @@ public class RecipeController {
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		model.addAttribute("instructions", instruct);
-
-		// Nutrition Part
-		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
-		
-		// Looping through ingredients
-		for (RecipeIngredient ingredients : recipe.getIngredients()) {
-			System.out.println(ingredients.getQuantity());
-			System.out.println(ingredients.getIngredient().getIngredientName());
-		}
-		
-		String ingredientName = recipe.getIngredients().get(recipeId).getIngredient().getIngredientName();
-		float ingredientQuantity = recipe.getIngredients().get(recipeId).getQuantity();
-		String ingredientMeasurement = recipe.getIngredients().get(recipeId).getMeasurement().getMeasurementType();
-		
-		OkHttpClient client = new OkHttpClient().newBuilder().build();
-		MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-		RequestBody body = RequestBody.create(mediaType, "query="+ ingredientQuantity + ", " + ingredientMeasurement + ", " + ingredientName);
-		Request request = new Request.Builder()
-				.url("https://trackapi.nutritionix.com/v2/natural/nutrients")
-				.method("POST", body)
-	            .addHeader("x-app-id", "52c550ac")
-	            .addHeader("x-app-key", " c9873f02bd95c74d5de0934edd09ff7a")
-	            .addHeader("content", "application/json")
-	            .addHeader("Content-Type", "application/x-www-form-urlencoded")
-	            .build();
-        Response response = client.newCall(request).execute();
-        System.out.println(response.body().string());
-		 
 
 		return "/users/viewRecipe.html";
 	}

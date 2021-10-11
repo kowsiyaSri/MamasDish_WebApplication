@@ -17,11 +17,10 @@ function saveRecipe() {
 		}
 
 	}
-
+	
 	if (ingredientCheck) {
 
 		for (let ingrDivs of $('[id^="ingredientDiv"]').children()) {
-
 
 			var ingredient = $("#" + ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
 			var measurement = $("#" + ingrDivs.id).find('select[id^="measurement"]').get(0).value;
@@ -42,14 +41,11 @@ function saveRecipe() {
 				protein = 0;
 			}
 
-
-
 			if (measurement == "") {
 				measurement = 0;
 			} else {
 				measurement = parseInt(measurement)
 			}
-
 
 			if (quantity == "") {
 				quantity = 0;
@@ -62,37 +58,6 @@ function saveRecipe() {
 			console.log("quantity:" + quantity);
 			console.log("protein:" + protein);
 
-
-			/*fetch("https://trackapi.nutritionix.com/v2/natural/nutrients", {
-							body: JSON.stringify({query: quantity + " " + measurement + " " + ingredient}),
-							headers: {
-								"x-app-id": "52c550ac",
-								"x-app-key": "c9873f02bd95c74d5de0934edd09ff7a"
-							},
-							method: "POST"
-						}).then(res => console.log(res));*/
-
-/*			var myHeaders = new Headers();
-			myHeaders.append("x-app-id", "52c550ac");
-			myHeaders.append("x-app-key", "c9873f02bd95c74d5de0934edd09ff7a");
-			myHeaders.append("Content-Type", "application/json");
-
-			var raw = JSON.stringify({
-				"query": "1 gram sugar"
-			});
-
-			var requestOptions = {
-				method: 'POST',
-				headers: myHeaders,
-				body: raw,
-				redirect: 'follow'
-			};*/
-
-			/*fetch("https://trackapi.nutritionix.com/v2/natural/nutrients", requestOptions)
-				.then(response => response.text())
-				.then(result => console.log(result))
-				.catch(error => console.log('error', error));
-*/
 			fetch('http://localhost:8080/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
 				.then(data => data.json())
 				.then(function(data) {
@@ -101,6 +66,12 @@ function saveRecipe() {
 
 
 		}
+
+		/*fetch('http://localhost:8080/mamasdish/addNutritionInformation/' + nftotalFat + '/' + nfsaturatedFat + '/' + nfcholesterol + '/' + nfsodium + '/' + nftotalCarbohydrate + '/' + nfdietaryFiber + '/' + nfsugars + '/' + nfprotein + '/' + nfcalories + '/' + recipeId)
+			.then(data => data.json())
+			.then(function(data) {
+				console.log(data);
+			});*/
 
 		//go to instruction page
 		window.open('/chefs/addInstructions/' + recipeId, '_self');
@@ -136,60 +107,60 @@ function editRecipe() {
 				console.log(data);
 			});
 
-			var ingredient = $("#"+ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
-			var measurement = $("#"+ingrDivs.id).find('select[id^="measurement"]').get(0).value;
-			var quantity = $("#"+ingrDivs.id).find('input[id^="quantity"]').get(0).value;
-			//console.log($("#"+ingrDivs.id).find('input[id^="quantity"]').get());
-			console.log($("#" + ingrDivs.id).find('select[id^="proteinType"]').get());
-			var protein = $("#" + ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
+		var ingredient = $("#" + ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
+		var measurement = $("#" + ingrDivs.id).find('select[id^="measurement"]').get(0).value;
+		var quantity = $("#" + ingrDivs.id).find('input[id^="quantity"]').get(0).value;
+		//console.log($("#"+ingrDivs.id).find('input[id^="quantity"]').get());
+		console.log($("#" + ingrDivs.id).find('select[id^="proteinType"]').get());
+		var protein = $("#" + ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
 
-			var el = $("#" + ingrDivs.id).find('input[id^="protein"]').get(0);
-			if (el.checked) {
-				console.log(protein)
-				if (protein == null) {
-					protein = 0;
-				} else {
-					protein = parseInt(protein)
-				}
-			} else {
+		var el = $("#" + ingrDivs.id).find('input[id^="protein"]').get(0);
+		if (el.checked) {
+			console.log(protein)
+			if (protein == null) {
 				protein = 0;
-			}
-
-
-
-			if (measurement == "") {
-				measurement = 0;
 			} else {
-				measurement = parseInt(measurement)
+				protein = parseInt(protein)
 			}
-
-
-			if (quantity == "") {
-				quantity = 0;
-			} else {
-				quantity = parseInt(quantity)
-			}
-
-			console.log(ingredient);
-			console.log("measurement: " + measurement);
-			console.log("quantity:" + quantity);
-			console.log("protein:" + protein);
-
-
-			fetch('http://localhost:8080/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
-				.then(data => data.json())
-				.then(function(data) {
-					console.log(data);
-				});
-
-
+		} else {
+			protein = 0;
 		}
 
-		//go to instruction page
-		window.open('/chefs/editInstructions/' + recipeId, '_self');
+
+
+		if (measurement == "") {
+			measurement = 0;
+		} else {
+			measurement = parseInt(measurement)
+		}
+
+
+		if (quantity == "") {
+			quantity = 0;
+		} else {
+			quantity = parseInt(quantity)
+		}
+
+		console.log(ingredient);
+		console.log("measurement: " + measurement);
+		console.log("quantity:" + quantity);
+		console.log("protein:" + protein);
+
+
+		fetch('http://localhost:8080/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
+			.then(data => data.json())
+			.then(function(data) {
+				console.log(data);
+			});
+
 
 	}
+
+	//go to instruction page
+	window.open('/chefs/editInstructions/' + recipeId, '_self');
+
 }
+
 
 function showProtein(el) {
 	var str = el.name;

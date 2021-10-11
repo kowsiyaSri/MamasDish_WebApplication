@@ -31,6 +31,7 @@ import ca.sheridancollege.beans.Ingredient;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.Measurement;
 import ca.sheridancollege.beans.MessageSystem;
+import ca.sheridancollege.beans.NutritionInformation;
 import ca.sheridancollege.beans.Protein;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.RecipeDescription;
@@ -43,6 +44,7 @@ import ca.sheridancollege.repositories.IngredientRepository;
 import ca.sheridancollege.repositories.InstructionRepository;
 import ca.sheridancollege.repositories.MeasurementRepository;
 import ca.sheridancollege.repositories.MessageRepository;
+import ca.sheridancollege.repositories.NutritionInformationRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
@@ -85,15 +87,18 @@ public class APIController {
 	@Autowired
 	@Lazy
 	private CountryRepository countryRepo;
-	
+
 	@Autowired
 	private MessageRepository mssgRepo;
-	
+
 	@Autowired
 	private UserRepository userRepo;
-	
+
 	@Autowired
 	private EndUserRepository endUserRepo;
+	
+	@Autowired
+	private NutritionInformationRepository nutritionInformationRepo;
 
 	@GetMapping(value = "/addIngredient/{ingredient}/{quantity}/{measurement}/{recipeId}/{proteinId}")
 	public int addIngredient(@PathVariable String ingredient, @PathVariable int quantity, @PathVariable int measurement,
@@ -128,28 +133,24 @@ public class APIController {
 		newRecipe.getIngredients().add(recipeIngred);
 		recipeRepo.save(newRecipe);
 
-		// Nutrition Part
-//		OkHttpClient client = new OkHttpClient().newBuilder().build();
-//		MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-//		okhttp3.RequestBody body = okhttp3.RequestBody.create(mediaType,
-//				"query=" + quantity + ", " + recipeMeasurement.getMeasurementType() + ", " + ingredient + "&timezone=US/Eastern");
-//		Request request = new Request.Builder().url("https://trackapi.nutritionix.com/v2/natural/nutrients").method("POST", body)
-//				.addHeader("x-app-id", "52c550ac").addHeader("x-app-key", " c9873f02bd95c74d5de0934edd09ff7a")
-//				.addHeader("content", "application/json").addHeader("Content-Type", "application/x-www-form-urlencoded").build();
-//		Response response = client.newCall(request).execute();
-//		System.out.println(response.body().string());
-//
-//		JSONObject jsonObject = new JSONObject(response.body().toString());
-//
-//		JSONArray arr = jsonObject.getJSONArray("foods");
-//		for (int i = 0; i < arr.length(); i++) {
-//			String nf_calories = arr.getJSONObject(i).getString("nf_calories");
-//			System.out.println(nf_calories);
-//		}
-
 		return 1;
 	}
 
+	@GetMapping(value = "/addNutritionInformation/{totalFat}/{saturatedFat}/{cholesterol}/{sodium}/{totalCarbohydrate}/{dietaryFiber}/{sugars}/{protein}/{calories}/{recipeId}")
+	public int addNutritionInformation(@PathVariable int totalFat, @PathVariable int saturatedFat, @PathVariable int cholesterol,
+			@PathVariable int sodium, @PathVariable int totalCarbohydrate, @PathVariable int dietaryFiber, @PathVariable int sugars,
+			@PathVariable int protein, @PathVariable int calories, @PathVariable int recipeId) throws IOException {
+		
+		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		
+		NutritionInformation nutritionInformation = new NutritionInformation().builder().totalFat(totalFat).saturatedFat(saturatedFat)
+				.cholesterol(cholesterol).sodium(sodium).totalCarbohydrate(totalCarbohydrate).dietaryFiber(dietaryFiber).sugars(sugars)
+				.protein(protein).calories(calories).recipe(recipe).build();
+		
+		nutritionInformationRepo.save(nutritionInformation);
+
+		return 1;
+	}
 
 	@Transactional
 	@GetMapping(value = "/deleteIngredients/{recipeId}")
@@ -223,7 +224,6 @@ public class APIController {
 		mssg.setRecipeId(recipe.getId());
 		mssgRepo.save(mssg);
 
-
 		return 1;
 	}
 
@@ -237,7 +237,7 @@ public class APIController {
 		String body = "Your recipe has now been approved!";
 
 		email.sendEmail(chefEmail, subject, body);
-		
+
 		MessageSystem mssg = new MessageSystem();
 		mssg.setSubject(recipeTitle + " has been approved.");
 		mssg.setSender("Mamas Dish Admin");
@@ -246,9 +246,9 @@ public class APIController {
 		mssg.setNew(true);
 		mssg.setMessage(body);
 		mssg.setRecipeId(recipe.getId());
-		
+
 		mssgRepo.save(mssg);
-		
+
 		EndUser endUser = recipe.getChef().getEnduser();
 		endUser.getMessages().add(mssg);
 		endUserRepo.save(endUser);
@@ -276,39 +276,39 @@ public class APIController {
 		}
 		return recipeMarkers;
 	}
-	
+
 	@GetMapping("/checkEmail/{id}")
 	public int checkEmail(@PathVariable int id, Authentication auth) {
-		
+
 		MessageSystem mssg = mssgRepo.findById(Long.valueOf(id)).get();
 		mssg.setNew(false);
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		mssgRepo.save(mssg);
-		
-		if(mssg.getReceiver().equals("Mama's Dish Admin")) {
+
+		if (mssg.getReceiver().equals("Mama's Dish Admin")) {
 			return mssgRepo.getAdminEmailCount();
 		} else {
 			return mssgRepo.emailCount(Long.valueOf(user.getId()));
 
 		}
-		
+
 	}
-	
+
 	@GetMapping("/deleteEmail/{id}")
 	public int deleteEmail(@PathVariable int id, Authentication auth) {
-		
+
 		MessageSystem mssg = mssgRepo.findById(Long.valueOf(id)).get();
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 
 		mssg.setDeleted(true);
 		mssgRepo.save(mssg);
-		
-		if(mssg.getReceiver().equals("Mama's Dish Admin")) {
+
+		if (mssg.getReceiver().equals("Mama's Dish Admin")) {
 			return mssgRepo.getAdminDeletedEmails().size();
 		} else {
 			return mssgRepo.getDeletedEmails(Long.valueOf(user.getId())).size();
 
 		}
-		
+
 	}
 }

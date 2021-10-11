@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ca.sheridancollege.beans.Chef;
+import ca.sheridancollege.beans.Country;
+import ca.sheridancollege.beans.Cuisine;
+import ca.sheridancollege.beans.Diet;
 import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.MessageSystem;
+import ca.sheridancollege.beans.Protein;
 import ca.sheridancollege.beans.Role;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;

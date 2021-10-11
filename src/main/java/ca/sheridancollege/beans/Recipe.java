@@ -94,9 +94,4 @@ public class Recipe {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Instruction> instructions;
-	
-	@OneToOne
-	private NutritionInformation nutritionInformation;
-	
-
 }

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,8 +17,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class NutritionInformation {
-
-	// Variables for nutrition information private float calories;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,5 +37,10 @@ public class NutritionInformation {
 	private float sugars;
 
 	private float protein;
+	
+	private float calories;
+	
+	@OneToOne
+	private Recipe recipe;
 
 }
