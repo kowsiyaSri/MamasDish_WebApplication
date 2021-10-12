@@ -360,7 +360,9 @@ public class RecipeController {
 	public String searchRecipes(Model model, @RequestParam String search, @RequestParam int searchBy) {
 
 		switch (searchBy) {
-
+		case 0:
+			model.addAttribute("recipes", recipeRepo.basicSearch(search));
+			break;
 		case 1:
 			model.addAttribute("recipes", recipeRepo.findByTitleContainingIgnoreCase(search));
 			break;
