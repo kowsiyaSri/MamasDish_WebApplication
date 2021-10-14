@@ -1,5 +1,6 @@
 package ca.sheridancollege.controllers;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +10,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +30,7 @@ import ca.sheridancollege.beans.Ingredient;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.Measurement;
 import ca.sheridancollege.beans.MessageSystem;
+import ca.sheridancollege.beans.NutritionInformation;
 import ca.sheridancollege.beans.Protein;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.RecipeDescription;
@@ -40,6 +43,7 @@ import ca.sheridancollege.repositories.IngredientRepository;
 import ca.sheridancollege.repositories.InstructionRepository;
 import ca.sheridancollege.repositories.MeasurementRepository;
 import ca.sheridancollege.repositories.MessageRepository;
+import ca.sheridancollege.repositories.NutritionInformationRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
@@ -89,6 +93,9 @@ public class APIController {
 	
 	@Autowired
 	private EndUserRepository endUserRepo;
+	
+	@Autowired
+	private NutritionInformationRepository nutritionInformationRepo;
 
 	@GetMapping(value = "/addIngredient/{ingredient}/{quantity}/{measurement}/{recipeId}/{proteinId}")
 	public int addIngredient(@PathVariable String ingredient, @PathVariable int quantity, @PathVariable int measurement,
@@ -126,6 +133,17 @@ public class APIController {
 		return 1;
 	}
 
+	@GetMapping(value = "/addNutritionInformation/{totalFat}/{saturatedFat}/{cholesterol}/{sodium}/{totalCarbohydrate}/{dietaryFiber}/{sugars}/{protein}/{calories}/{recipeId}")
+    public int addNutritionInformation(@PathVariable int totalFat, @PathVariable int saturatedFat, @PathVariable int cholesterol,
+            @PathVariable int sodium, @PathVariable int totalCarbohydrate, @PathVariable int dietaryFiber, @PathVariable int sugars,
+            @PathVariable int protein, @PathVariable int calories, @PathVariable int recipeId) throws IOException {
+        Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+        NutritionInformation nutritionInformation = new NutritionInformation().builder().totalFat(totalFat).saturatedFat(saturatedFat)
+                .cholesterol(cholesterol).sodium(sodium).totalCarbohydrate(totalCarbohydrate).dietaryFiber(dietaryFiber).sugars(sugars)
+                .protein(protein).calories(calories).recipe(recipe).build();
+		nutritionInformationRepo.save(nutritionInformation);
+        return 1;
+    }
 
 	@Transactional
 	@GetMapping(value = "/deleteIngredients/{recipeId}")

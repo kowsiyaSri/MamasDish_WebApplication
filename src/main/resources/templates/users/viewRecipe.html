@@ -3,11 +3,15 @@
 <head>
 <meta charset="ISO-8859-1">
 
-    <script src="../static/js/script.js" th:src="@{/js/startRating.js}"></script>
-    <script src="../static/js/script.js" th:src="@{/js/startRating.js}"></script>
 	<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="css/nutritionFactTable.css" th:href="@{/css/nutritionFactTable.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="../static/js/script.js" th:src="@{/js/startRating.js}"></script>
+    <script src="../static/js/nutrition.js" th:src="@{/js/nutrition.js}"></script>
 
 
 <title>View Recipe</title>
@@ -109,18 +113,108 @@
 									min</p>
 							</div>
 						</div>
+						<ul class="collapsible popout">
+                            <li>
+                                <div class="collapsible-header">Nutrition Facts</div>
+                                <div class="collapsible-body">
+                                    <section class="performance-facts" id="centerTable">
+                                        <header class="performance-facts__header">
+                                            <h1 class="performance-facts__title">Nutrition Facts</h1>
+                                        </header>
+                                        <table class="performance-facts__table">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="3" class="small-info">Amount Per Serving</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th colspan="2">
+                                                        <b>Calories</b>
+                                                        <span class="js-totalCalories"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2">
+                                                        <b>Total Fat</b>
+                                                        <span class="js-totalFat"></span>g
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="blank-cell"></td>
+                                                    <th>
+                                                        Saturated Fat
+                                                        <span class="js-totalSaturatedFat"></span>g
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2">
+                                                        <b>Cholesterol</b>
+                                                        <span class="js-totalCholesterol"></span>mg
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2">
+                                                        <b>Sodium</b>
+                                                        <span class="js-totalSodium"></span>mg
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2">
+                                                        <b>Total Carbohydrate</b>
+                                                        <span class="js-totalCarbohydrate"></span>g
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="blank-cell"></td>
+                                                    <th>
+                                                        Dietary Fiber
+                                                        <span class="js-totalDietaryFiber"></span>g
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="blank-cell"></td>
+                                                    <th>
+                                                        Sugars
+                                                        <span class="js-totalSugars"></span>g
+                                                    </th>
+                                                </tr>
+                                                <tr class="thick-end">
+                                                    <th colspan="2">
+                                                        <b>Protein</b>
+                                                        <span class="js-totalProtein"></span>g
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </section>
+                                </div>
+                            </li>
+                        </ul>         
 						<div class="yellow lighten-5">
-							<ul class="collection with-header" id="centerUl" style="border: 0px; width:92%">
-								<li class="collection-header yellow lighten-5" id="ulHeader">
-									<h6 id="listLbl"><strong>INGREDIENTS</strong></h6>
-								</li>
-								<li class="collection-item yellow lighten-5"
-									style="padding: 20px 0px" th:each="r: ${recipe.ingredients}">
-									<div id="ingredLi" th:if="${r.measurement}" th:text="${r.quantity} + ' ' + ${r.measurement.measurementType} + ' ' + ${r.ingredient.ingredientName}"></div>
-									<div id="ingredLi" th:unless="${r.measurement}" th:text="${r.quantity} + ' ' + ${r.ingredient.ingredientName}"></div>
-								</li>
-							</ul>
-						</div>
+                            <ul class="collection with-header js-ingredientList" id="centerUl"
+                                style="border: 0px; width: 92%">
+                                <li class="collection-header yellow lighten-5" id="ulHeader">
+                                    <h6 id="listLbl">
+                                        <strong>INGREDIENTS</strong>
+                                    </h6>
+                                </li>
+                                <!-- If measurement type exists -->
+                                <li th:each="r: ${recipe.ingredients}"
+                                	th:if="${r.measurement}"
+                                    th:attr="data-quantity=${r.quantity},data-type=${r.measurement.measurementType},data-name=${r.ingredient.ingredientName}"
+                                    class="collection-item yellow lighten-5" style="padding: 20px 0px">
+	                                <div id="ingredLi" th:text="${r.quantity} + ' ' + ${r.measurement.measurementType} + ' ' + ${r.ingredient.ingredientName}">
+	                                </div>
+                                </li>
+                                <!-- If measurement type dosen't exist -->
+                                <li th:each="r: ${recipe.ingredients}"
+                                	th:unless="${r.measurement}"
+                                    th:attr="data-quantity=${r.quantity},data-name=${r.ingredient.ingredientName}"
+                                    class="collection-item yellow lighten-5" style="padding: 20px 0px">
+	                                <div id="ingredLi" th:text="${r.quantity} + ' ' + ${r.ingredient.ingredientName}"></div>
+                                </li>
+                            </ul>
+                        </div>
 						<div>
 							<ul class="collection with-header" style="border: 0px">
 							
