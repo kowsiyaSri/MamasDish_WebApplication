@@ -2,9 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-	
-	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<script data-require="jquery@1.12.4" data-semver="1.12.4" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
 	<script src="../static/js/script.js" th:src="@{/js/viewAllRecipes.js}"></script>
@@ -69,19 +67,21 @@
  
   <div th:each="r: ${recipes}">
     <div class="col s4">
-	   <a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
-	     <div class="card" style="height:600px; margin:15px; border-radius:15px">
-	       <div class="card-image">
+    <a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
+      <div class="card" style="height:600px; margin:15px; border-radius:15px">
+        <div class="card-image">
 	          <img id="recipeImg" style="height:300px" th:if="${r.recipeImg != null}" th:src="@{'/images/recipes/' + ${r.recipeImg}}">
 	          <img id="recipeImg" th:unless="${r.recipeImg != null}" style="opacity:0.6; height:300px" th:src="@{/images/shakshuka.png}">
-	       </div>
-	       <div class="card-content">
-		       	<p id="recipeCountry" th:text=${r.country.name}></p>
-		       	<span class="card-title" id="recipeCard"  th:text="${r.title}"></span>
-				<p id="recipeDescription" th:text="${r.description}"></p>
-	       </div>
-	     </div>
-	   </a>
+        </div>
+        <div class="card-content">
+                	<p id="recipeCountry" th:text=${r.country.name}></p>
+        
+                  <span class="card-title" id="recipeCard"  th:text="${r.title}"></span>
+			<p id="recipeDescription" th:text="${r.description}"></p>
+        </div>
+      </div>
+            </a>
+      
     </div>
   </div>
  

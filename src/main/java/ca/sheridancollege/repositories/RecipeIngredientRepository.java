@@ -8,6 +8,4 @@ import ca.sheridancollege.beans.RecipeIngredient;
 public interface RecipeIngredientRepository extends JpaRepository<RecipeIngredient, Long> {
 
 		public long deleteByRecipeId(long id);
-		
-		public List<RecipeIngredient> findByRecipeId(long id);
-}
+		}
