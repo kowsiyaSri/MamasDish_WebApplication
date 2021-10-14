@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+
+
+	<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
+<title>View Recipe</title>
+</head>
+<body>
+	<header>
+		<div class="navbar-fixed" id="centerNav">
+			<nav class="homeNav fixed" id="centerNav">
+				<div class="nav-wrapper" id="centerNav">
+					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a> -->
+					<ul style="width: 100%" id="centerNav"
+						class="hide-on-med-and-down">
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</header>
+	<main>
+		<div style="margin: auto; align-items: center; width: 50%;">
+			<div class="row" style="margin: auto; align-items: center; width: 100%;">
+				<div class="card" style="margin-top: 5%; border-radius:15px">
+					<div class="card-image">
+
+						<img id="recipeImg" style="height:350px" th:if="${recipe.recipeImg != null}" th:src="@{'/images/recipes/' + ${recipe.recipeImg}}">
+						<img id="recipeImg" th:unless="${recipe.recipeImg != null}" style="opacity:0.6; height:350px " th:src="@{/images/shakshuka.png}">
+					</div>
+					<div class="card-content">
+						<h2 id="recipeTitle" th:text="${recipe.title}">Pizza</h2>
+						<span> 
+							<span id="chefFont" th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span> 
+							<span style="float: right">
+								<img style="height: 20px" th:src="@{/images/threestars.png}" />
+							</span>
+						</span>
+						<hr>
+						<div style="padding: 20px 0px">
+							Course: <strong th:text="${recipe.mealtype.mealName.toLowerCase()}">main</strong>
+							&nbsp&nbsp&nbsp&nbsp/&nbsp&nbsp&nbsp&nbsp Country: <strong th:text="${recipe.country.name.toLowerCase()}">italian</strong>
+						</div>
+						<div
+							style="margin-top: 5px; border: 1px dashed lightgrey; height: 100px;"
+							class="row s12">
+							<div id="srvDiv" class="col s4">
+								<img class="icon" th:src="@{/images/serving.png}" id="center">
+								<p id="iconlbl">Serving Size:</p>
+								<p th:text="${recipe.servingSize}">1</p>
+							</div>
+							<div id="srvDiv" class="col s4">
+								<img class="icon" th:src="@{/images/time.png}">
+								<p id="iconlbl">Prep Time:</p>
+								<p th:text="${#numbers.formatDecimal(recipe.prepTime, 0, 0)} + ' mins'">
+									10 mins
+								</p>
+							</div>
+							<div class="col s4" id="center" style="padding: 10px">
+								<img class="icon" th:src="@{/images/cooking.png}" id="center">
+								<p id="iconlbl">Cook Time:</p>
+								<p
+									th:text="${#numbers.formatDecimal(recipe.cookTime, 0, 0)} + ' mins'">20
+									min</p>
+							</div>
+						</div>
+						<div class="yellow lighten-5">
+							<ul class="collection with-header" id="centerUl" style="border: 0px; width:92%">
+								<li class="collection-header yellow lighten-5" id="ulHeader">
+									<h6 id="listLbl"><strong>INGREDIENTS</strong></h6>
+								</li>
+								<li class="collection-item yellow lighten-5"
+									style="padding: 20px 0px" th:each="r: ${recipe.ingredients}">
+									<div id="ingredLi" th:if="${r.measurement}" th:text="${r.quantity} + ' ' + ${r.measurement.measurementType} + ' ' + ${r.ingredient.ingredientName}"></div>
+									<div id="ingredLi" th:unless="${r.measurement}" th:text="${r.quantity} + ' ' + ${r.ingredient.ingredientName}"></div>
+								</li>
+							</ul>
+						</div>
+						<div>
+							<ul class="collection with-header" style="border: 0px">
+							
+								<li id="listLbl" class="collection-header">
+									<h6 id="listLbl"><strong>INSTRUCTIONS</strong></h6>
+								</li>
+								
+								<li id="list" class="collection-item" style="padding: 20px 25px" th:each="i : ${instructions}">
+									<div th:text="${i.stepNumber} + ') ' + ${i.description}"></div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

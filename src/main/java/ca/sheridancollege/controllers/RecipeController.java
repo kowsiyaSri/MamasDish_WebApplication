@@ -28,7 +28,9 @@ import ca.sheridancollege.beans.Chef;
 import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.MessageSystem;
+import ca.sheridancollege.beans.Rating;
 import ca.sheridancollege.beans.Recipe;
+import ca.sheridancollege.beans.User;
 import ca.sheridancollege.email.Email;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
@@ -39,6 +41,7 @@ import ca.sheridancollege.repositories.MealTypeRepository;
 import ca.sheridancollege.repositories.MeasurementRepository;
 import ca.sheridancollege.repositories.MessageRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
+import ca.sheridancollege.repositories.RatingRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
 import ca.sheridancollege.repositories.RoleRepository;
@@ -88,6 +91,9 @@ public class RecipeController {
 	
 	@Autowired
 	private MessageRepository mssgRepo;
+	
+	@Autowired
+	private RatingRepository ratingRepo;
 
 	@GetMapping("/")
 	public String home(Model model) {
@@ -227,10 +233,25 @@ public class RecipeController {
 
 	@GetMapping("/users/viewRecipe/{recipeId}")
 	public String viewRecipe(@PathVariable int recipeId, Model model) {
+		
+		double ratingSum = 0;
+		double ratingAve = 0;
+		List<Rating> listRatings = ratingRepo.findByRecipeId(Long.valueOf(recipeId));
+		if(listRatings.size() > 0) {
+				for (Rating rating : listRatings) {
+				ratingSum+=rating.getRating();			
+									}				
+				ratingAve = ratingSum/ listRatings.size();		
+		}
+		
+		
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		model.addAttribute("instructions", instruct);
+		model.addAttribute("rating", ratingAve);
+		model.addAttribute("reviews", listRatings);
+		System.out.println(ratingRepo.findByRecipeId(Long.valueOf(recipeId)));
 
 		return "/users/viewRecipe.html";
 	}
@@ -436,6 +457,38 @@ public class RecipeController {
 
 		
 		return "/chefs/awaitApproval";
+	}
+	
+	@GetMapping("/reviewRecipe/{id}")
+	public String reviewRecipe(@PathVariable long id, Model model, Authentication auth) {
+		model.addAttribute("recipeId", id);
+		User user = userRepo.findByUsername(auth.getName());
+		model.addAttribute("userId", user.getId());
+		return "/users/reviewForm.html";
+	}
+	
+	@PostMapping("/viewRecipeAfterRating")
+	public String veiwRecipeRating(Model model, @RequestParam float rating, @RequestParam String commentText,
+			@RequestParam long userId, @RequestParam long recipeId, @RequestParam(value = "anonymous", required = false)String anonymous) {
+
+		EndUser user = endUserRepo.findById(userId).get();
+		Recipe recipe = recipeRepo.findById(recipeId).get();
+
+		Rating ratingEntity = Rating.builder().recipe(recipe).user(user).rating(rating).comment(commentText).build();
+		
+		if(anonymous == null) {
+			ratingEntity.setUserName(user.getFirstName()+ " "+user.getLastName());
+		} else {
+			ratingEntity.setUserName("Mama's Dish User");			
+		}
+		
+		ratingRepo.save(ratingEntity);
+		
+		System.out.println("Rating is " + rating);
+		System.out.println("Review is " + commentText);
+		System.out.println("anonymous " + anonymous);
+		model.addAttribute("recipes", recipeRepo.findByAuthTrue());
+		return "/users/viewAllRecipes.html";
 	}
 	
 }
