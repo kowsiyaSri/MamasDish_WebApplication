@@ -87,3 +87,10 @@ Array.prototype.sum = function(prop) {
 	}
 	return total
 }
+
+/*fetch('http://localhost:8080/mamasdish/addNutritionInformation/' + nftotalFat + '/' + nfsaturatedFat + '/' + nfcholesterol + '/' + nfsodium + '/' + nftotalCarbohydrate + '/' + nfdietaryFiber + '/' + nfsugars + '/' + nfprotein + '/' + nfcalories + '/' + recipeId)
+.then(data => data.json())
+.then(function(data) {
+console.log(data);
+});*/
+
