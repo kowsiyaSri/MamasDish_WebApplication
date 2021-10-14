@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
+<<<<<<< HEAD
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <link href="css/home.css" th:href="@{/css/home.css}" rel="stylesheet" type="text/css">
 <link href="css/home.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
@@ -9,6 +10,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">	
+=======
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script data-require="jquery@1.12.4" data-semver="1.12.4" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+	<script src="../static/js/script.js" th:src="@{/js/viewAllRecipes.js}"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	
+>>>>>>> 9ae0d6cd366ecc96aef036a6b8db127b2e40cc4f
 
 <title>View All Recipes</title>
 </head>
@@ -60,6 +74,7 @@
 		
 		 	<h3 id="recipeHeader">Recipes</h3>
 	
+<<<<<<< HEAD
 		<nav class="row" id="center" style="background-color:white; border-radius:10px; ">
 		    <div class="nav-wrapper" >
 		      <form th:action="@{/users/searchRecipes}" method="post">
@@ -81,6 +96,24 @@
 		      </form> 
 		    </div>
 	  </nav>
+=======
+	<nav class="row" id="center" style="width:75%; background-color:white; border-radius:10px; ">
+    <div class="nav-wrapper" >
+      <form th:action="@{/users/searchRecipes}" method="post">
+      
+  <div class="input-field col s2">
+    <select required id="search" class="browser-default" name="searchBy">
+      <option id="optionFilter" value="0" selected>Search By: </option>
+      <option id="optionFilter" value="1">Name</option>
+      <option id="optionFilter" value="2">Ingredients</option>
+      <option id="optionFilter" value="3">Country</option>
+    </select>
+  </div>
+      
+        <div   class="input-field col s9" >
+          <input id="searchBar" th:value="${searchVal}" type="search" name="search" style="border-right: 1px solid lightgrey; padding-top:5px; margin-top:10px; height:40px;" required>
+        </div>
+>>>>>>> 9ae0d6cd366ecc96aef036a6b8db127b2e40cc4f
   
 		 <div class="row">
 		 
@@ -106,6 +139,26 @@
 	 </div>
  </main>
  
+<<<<<<< HEAD
+=======
+  <div th:each="r: ${recipes}">
+    <div class="col s4">
+	   <a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
+	     <div class="card" style="height:600px; margin:15px; border-radius:15px">
+	       <div class="card-image">
+	          <img id="recipeImg" style="height:300px" th:if="${r.recipeImg != null}" th:src="@{'/images/recipes/' + ${r.recipeImg}}">
+	          <img id="recipeImg" th:unless="${r.recipeImg != null}" style="opacity:0.6; height:300px" th:src="@{/images/shakshuka.png}">
+	       </div>
+	       <div class="card-content">
+		       	<p id="recipeCountry" th:text=${r.country.name}></p>
+		       	<span class="card-title" id="recipeCard"  th:text="${r.title}"></span>
+				<p id="recipeDescription" th:text="${r.description}"></p>
+	       </div>
+	     </div>
+	   </a>
+    </div>
+  </div>
+>>>>>>> 9ae0d6cd366ecc96aef036a6b8db127b2e40cc4f
  
 	<script th:inline="javascript">
 			var countries = /*[[${countries}]]*/{};

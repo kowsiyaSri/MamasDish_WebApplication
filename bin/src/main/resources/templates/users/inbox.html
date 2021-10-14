@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<link href="css/home.css" th:href="@{/css/home.css}" rel="stylesheet" type="text/css">
+<link href="css/home.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="../static/js/messagesystem.js" th:src="@{/js/messagesystem.js}"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<title>Mamas Dish - Inbox</title>
+</head>
+<body style="background-color: #F5F5F5">
+	<header>
+		<!-- <div class="navbar-fixed" id="centerNav">
+			<nav class="homeNav fixed" id="centerNav">
+				<div class="nav-wrapper" id="centerNav">
+					<a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a>
+					<ul style="width: 100%" id="centerNav" class="hide-on-med-and-down">
+						<li><a th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
+						<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+      					<li><a href="" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+						<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div> -->
+		<div class="navbar-fixed">
+		<nav>
+    <div class="nav-wrapper" style="background-color:white">
+      <a th:href="@{/users/userHome}" class="brand-logo " style="color:grey; font-weight:bold">Mama's Dish</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons cyan-text text-darken-4">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+						<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+      					<li><a href="" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+						<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+  <ul class="sidenav" id="mobile-demo">
+    <li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+      					<li><a href="" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+						<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+  </ul>
+		
+	</header>
+	
+		<ul id="slide-out" class="sidenav sidenav-fixed" style="top:70px">
+		      <li><a href="/messages/inbox"><i class="material-icons">mail_outline</i>Inbox<span class="new badge" th:text="${emails}" id="mailCount">4</span></a></li>
+		      <li><a href="/messages/deleted"><i class="material-icons">delete</i>Deleted Items<span class="badge" id="deletedNum" th:text="${deleted}"></span></a></li>
+		</ul>
+		<a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons cyan-text text-darken-4">menu</i></a>
+	
+<main>
+    
+	<div class="container" style="width:85%">
+	    <div class="row" style="padding:0px">
+	
+<!-- 			<div class="col s6" id="messagesPanel" style="margin-right:0px; margin-left:0px; padding:0px;"> -->
+			
+				<ul id="messagesPanel" class="collection z-depth-2 col s6" style="height:100%; margin-right:0px; margin-left:0px; padding:0px;">
+			        <a th:id="mssgBox+${m.id}" href="#" th:onclick="'check('+${m.id}+')'" class="collection-item" th:each="m: ${messages}">
+			        	
+			        	
+			        	<div th:if="${m.isNew}" th:id="mail+ ${m.id}">
+			        		<p th:id="emailSender+ ${m.id}" class="emailSender" th:text="${m.sender}"></p><span th:id="newBadge+${m.id}" class="new badge"></span>
+			        		<p th:id="emailReceiver+${m.id}" style="display:none" th:text="${m.receiver}"></p>
+			        		<p th:id="recipe+${m.id}" style="display:none" th:text="${m.recipeId}"></p>
+			        		<div><span th:id="emailSubject+ ${m.id}" class="emailSubject" th:text="${m.subject}"></span><span th:id="emailTime+${m.id}" th:text="${#temporals.format(m.dateSent, 'dd-MM-yyyy hh:mm a')}"></span></div>
+			        		<h6 th:id="emailBody+${m.id}" class="truncate emailBody" th:text="${m.message}"></h6>
+			        	</div>
+			        	
+			        	<div th:unless="${m.isNew}" th:id="mail+ ${m.id}">			        	
+			        		<p th:id="emailSender+${m.id}" class="emailSender2" th:text="${m.sender}"></p>
+			        		<p th:id="emailReceiver+${m.id}" style="display:none" th:text="${m.receiver}"></p>
+							<p th:id="recipe+${m.id}" style="display:none" th:text="${m.recipeId}"></p>    		
+			        		<div><span th:id="emailSubject+ ${m.id}" class="emailSubject2" th:text="${m.subject}"></span><span th:id="emailTime+${m.id}" class="emailTime2" th:text="${#temporals.format(m.dateSent, 'dd-MM-yyyy hh:mm a')}"></span></div>
+			        		<h6 th:id="emailBody+${m.id}" class="truncate" th:text="${m.message}"></h6>
+			        	</div>
+			        	
+			       	</a>
+			      </ul>
+<!-- 			   </div>
+ -->			   
+			   <div class="col s6" style="height:100%; margin-right:0px;padding:0px;" >
+			   		<div class="col s12 m12" style= "padding-right:0px;">
+			   		
+    <div id="displayMssg" class="card horizontal large">
+    
+        <div class="card-content">
+        <div class="row">
+        <div class="col s10">     <span class="card-title grey-text text-darken-4">
+              	<span id="mssgSub" style="font-weight:500"></span>
+			</span></div>
+        <div class="col s2">  <a id="deleteBtn" style="display:none" class="btn-floating btn-flat waves-effect waves-light red"><i class="material-icons">clear</i></a>
+        </div>
+        </div>
+         
+        
+           <p  class="mssgSubject"></p>
+        	<p id="mssgSndr" class="mssgSender"></p>
+       		<p id="mssgDate" class="mssgTime"></p>
+        	<p id="mssgRec" class="mssgReceiver"></p>
+          	<p id="mssgBody" class="mssgBody"></p>
+            <a id="recipeLink" class="recipeLink"></a>
+            
+          
+        </div>
+    </div>
+  </div>
+   
+			   </div>
+	   	</div>
+	</div>
+	
+	<script th:inline="javascript">
+			var data = /*[[${messages}]]*/{};
+
+	</script>
+</main>
+</body>
+</html>

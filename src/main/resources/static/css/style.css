@@ -9,7 +9,7 @@ body {
 }
 
 #map {
-	height:100%;
+	height: 100%;
 	width: 100%;
 }
 
@@ -25,7 +25,7 @@ body {
 	padding-top: 20px;
 	color: #42464A;
 	font-size: 25px;
-	font-weight:bold;
+	font-weight: bold;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
 	text-align: left;
@@ -36,7 +36,7 @@ body {
 	padding-top: 20px;
 	color: #42464A;
 	font-size: 20px;
-	font-weight:bold;
+	font-weight: bold;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
 	text-align: left;
@@ -44,11 +44,10 @@ body {
 	text-shadow: 2px 2px grey;
 }
 
-
-#userHomeImage{
-	opacity: 0.7; 
-	width:300px; 
-	height:200px; 
+#userHomeImage {
+	opacity: 0.7;
+	width: 300px;
+	height: 200px;
 }
 
 #recipeHeader {
@@ -147,8 +146,8 @@ select#search::-ms-expand {
 #recipeImg {
 	width: 100%;
 	height: 250px;
-	border-top-right-radius:15px; 
-	border-top-left-radius:15px
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px
 }
 
 .recipeNav {
@@ -263,6 +262,11 @@ ul.dropdown-content.select-dropdown li span {
 	text-align: center;
 }
 
+#centerTable {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #centerUl {
 	margin: auto;
 	align-items: center;
@@ -317,7 +321,7 @@ h3 {
 	color: grey;
 }
 
-#discoverCountry{
+#discoverCountry {
 	font-family: Mulish;
 	font-size: 25px;
 	font-style: normal;
@@ -452,17 +456,18 @@ pre {
 }
 
 input[type="file"] {
-    display: none;
-}
-.custom-file-upload {
-    border: 1px solid #ccc;
-    display: inline-block;
-    padding: 6px 12px;
-    cursor: pointer;
+	display: none;
 }
 
-#output{
-	height:100px;
+.custom-file-upload {
+	border: 1px solid #ccc;
+	display: inline-block;
+	padding: 6px 12px;
+	cursor: pointer;
+}
+
+#output {
+	height: 100px;
 	width: 100px
 }
 
@@ -470,10 +475,10 @@ input[type="file"] {
 	margin-bottom: 5px;
 	padding-top: 0px;
 	font-size: 15px;
-	font-weight:bold;
+	font-weight: bold;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
-	color:black;
+	color: black;
 	text-align: left;
 }
 
@@ -481,10 +486,10 @@ input[type="file"] {
 	margin-bottom: 0px;
 	padding-top: 0px;
 	font-size: 15px;
-	font-weight:bold;
+	font-weight: bold;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
-	color:black;
+	color: black;
 	text-align: left;
 }
 
@@ -492,10 +497,10 @@ input[type="file"] {
 	margin-bottom: 0px;
 	padding-top: 0px;
 	font-size: 15px;
-	font-weight:bold;
+	font-weight: bold;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
-	color:blue;
+	color: blue;
 	text-align: right;
 }
 
@@ -503,10 +508,10 @@ input[type="file"] {
 	margin-bottom: 5px;
 	padding-top: 0px;
 	font-size: 15px;
-	font-weight:normal;
+	font-weight: normal;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
-	color:black;
+	color: black;
 	text-align: left;
 }
 
@@ -514,10 +519,10 @@ input[type="file"] {
 	margin-bottom: 0px;
 	padding-top: 0px;
 	font-size: 15px;
-	font-weight:normal;
+	font-weight: normal;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
-	color:black;
+	color: black;
 	text-align: left;
 }
 
@@ -526,14 +531,14 @@ input[type="file"] {
 	padding-top: 0px;
 	padding-left: 10px;
 	font-size: 15px;
-	font-weight:normal;
+	font-weight: normal;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
-	color:black;
+	color: black;
 	text-align: right;
 }
 
-.emailBody{
+.emailBody {
 	font-weight: bold;
 }
 
@@ -542,10 +547,10 @@ input[type="file"] {
 	padding-top: 0px;
 	padding-bottom: 20px;
 	font-size: 20px;
-	font-weight:normal;
+	font-weight: normal;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
-	color:black;
+	color: black;
 }
 
 .mssgSender {
@@ -553,22 +558,21 @@ input[type="file"] {
 	padding-top: 0px;
 	padding-bottom: 10px;
 	font-size: 15px;
-	font-weight:normal;
+	font-weight: normal;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
-	color:#5085A5;
+	color: #5085A5;
 }
 
-
-.mssgTime{
+.mssgTime {
 	margin-bottom: 5px;
 	padding-top: 0px;
 	padding-bottom: 10px;
 	font-size: 12px;
-	font-weight:normal;
+	font-weight: normal;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
-	color:#2c4758;
+	color: #2c4758;
 }
 
 .mssgReceiver {
@@ -576,10 +580,10 @@ input[type="file"] {
 	padding-top: 0px;
 	padding-bottom: 10px;
 	font-size: 15px;
-	font-weight:normal;
+	font-weight: normal;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
-	color:grey;
+	color: grey;
 }
 
 .mssgBody {
@@ -587,21 +591,32 @@ input[type="file"] {
 	padding-top: 0px;
 	padding-bottom: 10px;
 	font-size: 15px;
-	font-weight:normal;
+	font-weight: normal;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
-	color:black;
-	line-height:30px;
+	color: black;
+	line-height: 30px;
 }
 
-.recipeLink{
-		margin-bottom: 5px;
+.recipeLink {
+	margin-bottom: 5px;
 	padding-top: 0px;
 	padding-bottom: 10px;
 	font-size: 15px;
-	font-weight:normal;
+	font-weight: normal;
 	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 1px;
+<<<<<<< HEAD
 	color:#9dbc0c;
 	line-height:30px;
+=======
+	color: #9dbc0c;
+	line-height: 30px;
+}
+
+@media only screen and (min-width : 992px) {
+	.invisible-top {
+		top: 65px;
+	}
+>>>>>>> 9ae0d6cd366ecc96aef036a6b8db127b2e40cc4f
 }

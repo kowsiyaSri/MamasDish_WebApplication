@@ -53,9 +53,6 @@ public class Recipe {
 
 	private float rating;
 
-	@OneToMany
-	private List<Rating> ratings;
-
 	@NotNull(message = "Serving size is Mandatory!")
 	@Min(value = 1, message = "Serving size muat be atleast 1")
 	private int servingSize;
@@ -72,6 +69,7 @@ public class Recipe {
 	private String description;
 
 	@ManyToOne
+	@JsonIgnore
 	private Chef chef;
 
 	@NotNull(message = "MealType is Mandatory!")
@@ -94,23 +92,4 @@ public class Recipe {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Instruction> instructions;
-
-	// Variables for nutrition information
-	private float calories;
-
-	private float totalFat;
-
-	private float saturatedFat;
-
-	private float cholesterol;
-
-	private float sodium;
-
-	private float totalCarbohydrate;
-
-	private float dietaryFiber;
-
-	private float sugars;
-
-	private float protein;
 }
