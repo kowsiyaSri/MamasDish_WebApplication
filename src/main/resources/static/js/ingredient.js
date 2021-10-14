@@ -7,29 +7,30 @@ function saveRecipe() {
 
 	for (let ingrName of ingredientNames) {
 
-		if (ingrName.value == "") {
-
-			ingredientCheck = false;
-			$("#errId").show();
-
-			break;
-
-		}
+			if (ingrName.value == "") {
+	
+				ingredientCheck = false;
+				$("#errId").show();
+				
+				break;
+				
+			}
 
 	}
-	
-	if (ingredientCheck) {
 
-		for (let ingrDivs of $('[id^="ingredientDiv"]').children()) {
+	if (ingredientCheck) {		
 
-			var ingredient = $("#" + ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
-			var measurement = $("#" + ingrDivs.id).find('select[id^="measurement"]').get(0).value;
-			var quantity = $("#" + ingrDivs.id).find('input[id^="quantity"]').get(0).value;
+		for(let ingrDivs of $('[id^="ingredientDiv"]').children()){
+
+
+			var ingredient = $("#"+ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
+			var measurement = $("#"+ingrDivs.id).find('select[id^="measurement"]').get(0).value;
+			var quantity = $("#"+ingrDivs.id).find('input[id^="quantity"]').get(0).value;
 			//console.log($("#"+ingrDivs.id).find('input[id^="quantity"]').get());
-			console.log($("#" + ingrDivs.id).find('select[id^="proteinType"]').get());
-			var protein = $("#" + ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
-
-			var el = $("#" + ingrDivs.id).find('input[id^="protein"]').get(0);
+			console.log($("#"+ingrDivs.id).find('select[id^="proteinType"]').get());
+			var protein = $("#"+ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
+			
+			var el = $("#"+ingrDivs.id).find('input[id^="protein"]').get(0);
 			if (el.checked) {
 				console.log(protein)
 				if (protein == null) {
@@ -41,11 +42,14 @@ function saveRecipe() {
 				protein = 0;
 			}
 
+
+
 			if (measurement == "") {
 				measurement = 0;
 			} else {
 				measurement = parseInt(measurement)
 			}
+
 
 			if (quantity == "") {
 				quantity = 0;
@@ -58,6 +62,7 @@ function saveRecipe() {
 			console.log("quantity:" + quantity);
 			console.log("protein:" + protein);
 
+
 			fetch('http://localhost:8080/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
 				.then(data => data.json())
 				.then(function(data) {
@@ -66,12 +71,6 @@ function saveRecipe() {
 
 
 		}
-
-		/*fetch('http://localhost:8080/mamasdish/addNutritionInformation/' + nftotalFat + '/' + nfsaturatedFat + '/' + nfcholesterol + '/' + nfsodium + '/' + nftotalCarbohydrate + '/' + nfdietaryFiber + '/' + nfsugars + '/' + nfprotein + '/' + nfcalories + '/' + recipeId)
-			.then(data => data.json())
-			.then(function(data) {
-				console.log(data);
-			});*/
 
 		//go to instruction page
 		window.open('/chefs/addInstructions/' + recipeId, '_self');
@@ -88,79 +87,81 @@ function editRecipe() {
 
 	for (let ingrName of ingredientNames) {
 
-		if (ingrName.value == "") {
-
-			ingredientCheck = false;
-			$("#errId").show();
-
-			break;
-
-		}
-
-	}
-
-	if (ingredientCheck) {
-
-		fetch('http://localhost:8080/mamasdish/deleteIngredients/' + recipeId)
-			.then(data => data.json())
-			.then(function(data) {
-				console.log(data);
-			});
-
-		var ingredient = $("#" + ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
-		var measurement = $("#" + ingrDivs.id).find('select[id^="measurement"]').get(0).value;
-		var quantity = $("#" + ingrDivs.id).find('input[id^="quantity"]').get(0).value;
-		//console.log($("#"+ingrDivs.id).find('input[id^="quantity"]').get());
-		console.log($("#" + ingrDivs.id).find('select[id^="proteinType"]').get());
-		var protein = $("#" + ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
-
-		var el = $("#" + ingrDivs.id).find('input[id^="protein"]').get(0);
-		if (el.checked) {
-			console.log(protein)
-			if (protein == null) {
-				protein = 0;
-			} else {
-				protein = parseInt(protein)
+			if (ingrName.value == "") {
+	
+				ingredientCheck = false;
+				$("#errId").show();
+				
+				break;
+				
 			}
-		} else {
-			protein = 0;
-		}
-
-
-
-		if (measurement == "") {
-			measurement = 0;
-		} else {
-			measurement = parseInt(measurement)
-		}
-
-
-		if (quantity == "") {
-			quantity = 0;
-		} else {
-			quantity = parseInt(quantity)
-		}
-
-		console.log(ingredient);
-		console.log("measurement: " + measurement);
-		console.log("quantity:" + quantity);
-		console.log("protein:" + protein);
-
-
-		fetch('http://localhost:8080/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
-			.then(data => data.json())
-			.then(function(data) {
-				console.log(data);
-			});
-
 
 	}
 
-	//go to instruction page
-	window.open('/chefs/editInstructions/' + recipeId, '_self');
+	if (ingredientCheck) {		
 
+		fetch('http://localhost:8080/mamasdish/deleteIngredients/' + recipeId )
+			.then(data => data.json())
+			.then(function(data) {
+			console.log(data);
+		});
+		
+		for(let ingrDivs of $('[id^="ingredientDiv"]').children()){
+
+			var ingredient = $("#"+ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
+			var measurement = $("#"+ingrDivs.id).find('select[id^="measurement"]').get(0).value;
+			var quantity = $("#"+ingrDivs.id).find('input[id^="quantity"]').get(0).value;
+			//console.log($("#"+ingrDivs.id).find('input[id^="quantity"]').get());
+			console.log($("#"+ingrDivs.id).find('select[id^="proteinType"]').get());
+			var protein = $("#"+ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
+			
+			var el = $("#"+ingrDivs.id).find('input[id^="protein"]').get(0);
+			if (el.checked) {
+				console.log(protein)
+				if (protein == null) {
+					protein = 0;
+				} else {
+					protein = parseInt(protein)
+				}
+			} else {
+				protein = 0;
+			}
+
+
+
+			if (measurement == "") {
+				measurement = 0;
+			} else {
+				measurement = parseInt(measurement)
+			}
+
+
+			if (quantity == "") {
+				quantity = 0;
+			} else {
+				quantity = parseInt(quantity)
+			}
+
+			console.log(ingredient);
+			console.log("measurement: " + measurement);
+			console.log("quantity:" + quantity);
+			console.log("protein:" + protein);
+
+
+			fetch('http://localhost:8080/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
+				.then(data => data.json())
+				.then(function(data) {
+					console.log(data);
+				});
+
+
+		}
+
+		//go to instruction page
+		window.open('/chefs/editInstructions/' +recipeId, '_self');
+
+	}
 }
-
 
 function showProtein(el) {
 	var str = el.name;
@@ -170,46 +171,46 @@ function showProtein(el) {
 	if (el.checked) {
 		$("#proteinDiv" + divId[1]).css("display", "block")
 	}
-	else {
+	else{
 		$("#proteinDiv" + divId[1]).css("display", "none")
 	}
 }
 
 
-function getNewId() {
+function getNewId(){
 
-
+	
 	var newDivId = true;
-
+	
 	var divID = Math.floor(Math.random() * 100);
+	
 
-
-	while (checkId(divID) == false) {
-
-		divID = Math.floor(Math.random() * 100);
+	while(checkId(divID) == false){
+	
+			divID = Math.floor(Math.random() * 100);
 	}
-
+	
 	return divID;
-
+	
 }
 
 
-function checkId(id) {
+function checkId(id){
 
-	for (let ingrDivs of $('[id^="ingredientBox"]')) {
-		var num = (ingrDivs.id).split("ingredientBox");
-		var num = num[1];
-
-
-		if (num == id) {
-			return false;
-
-		} else {
-
-			return true;
+	for(let ingrDivs of $('[id^="ingredientBox"]')){
+			var num = (ingrDivs.id).split("ingredientBox");
+			var num = num[1];
+			
+			
+			if(num == id){
+				return false;
+			
+			} else {
+			
+				return true;
+			}
+			
 		}
-
-	}
 
 }
 
@@ -217,9 +218,9 @@ function checkId(id) {
 function newIngredient() {
 
 	var measurements = getMeasurements();
-
+	
 	var divID = getNewId();
-
+	
 
 	console.log(divID);
 	var proteinTypes = getProteins();
@@ -241,8 +242,8 @@ function newIngredient() {
 		"<option value=''  selected disabled></option>" +
 		"</select> </div> </div> </div> </div> " +
 		"<div class='col s6' style='padding-top:90px'>" +
-		"<a class='btn-floating' onclick='deleteIngredient(" + divID + ")' id='deleteBtn'>" +
-		"<i class='small material-icons'>delete_forever</i>" +
+			"<a class='btn-floating' onclick='deleteIngredient("+divID+")' id='deleteBtn'>"+
+				"<i class='small material-icons'>delete_forever</i>" +
 		"</a></div></div></div>");
 
 
@@ -266,14 +267,14 @@ function newIngredient() {
 
 }
 
-function deleteIngredient(id) {
-
-
-	if (($('[id^="ingredientDiv"]').children()).length > 1) {
-
-		$("#ingredientBox" + id).remove();
-
+function deleteIngredient(id){
+		
+	
+	if(($('[id^="ingredientDiv"]').children()).length >1){
+	
+		$("#ingredientBox"+id).remove();
+	
 	}
 
-
+	
 }

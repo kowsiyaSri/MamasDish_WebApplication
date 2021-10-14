@@ -3,6 +3,7 @@
 <head>
 <meta charset="ISO-8859-1">
 
+<<<<<<< HEAD
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <link href="css/home.css" th:href="@{/css/home.css}" rel="stylesheet" type="text/css">
 <link href="css/home.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
@@ -11,57 +12,44 @@
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">	
 
+=======
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+	<script src="../static/js/script.js" th:src="@{/js/viewAllRecipes.js}"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	
+>>>>>>> 145a3a27b6dde452d9e2b07560da349f47a82857
 
 <title>View All Recipes</title>
 </head>
 <body>
 	<header>
-		<div class="navbar-fixed">
-			<nav>
-			    <div class="nav-wrapper" style="background-color:white">
-				      <a th:href="@{/users/userHome}" class="brand-logo" id="recipeHeader" style="color:grey;padding-left:10px;">Mama's Dish</a>
-				      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons cyan-text text-darken-4">menu</i></a>
-				      	<ul class="right hide-on-med-and-down">
-							<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
-							<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
-							<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
-							<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-							<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
-		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
-							<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
-		     	 		</ul>
-	    		</div>
-	  		</nav>
+		<div class="navbar-fixed" id="centerNav">
+			<nav class="homeNav fixed" id="centerNav">
+				<div class="nav-wrapper" id="centerNav">
+					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a> -->
+					<ul style="width: 100%" id="centerNav"
+						class="hide-on-med-and-down">
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+					</ul>
+				</div>
+			</nav>
 		</div>
-		
-	  <ul class="sidenav" id="mobile-demo">
-	  	<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
-		<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
-		<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
-		<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-		<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
-	    <li><a href="" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
-		<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
-	  </ul>
-		
 	</header>
-	
-		<ul id="slide-out" class="sidenav sidenav-fixed collection with-header" style="top:68px; height:100%">
-        <li class="collection-header"><h6>Filter by:</h6></li>
-		      <li><a href="#" class="link" onclick="showCountries()">Country</a></li>
-		      <div style="display:none;padding:0px 32px;" id="countryBoxes">
-		      	
-		      </div>
-		      
-		      <li><a href="/messages/deleted">Diet<span class="badge" id="deletedNum" th:text="${deleted}"></span></a></li>
-		</ul>
-		<a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons cyan-text text-darken-4">menu</i></a>
-	
 	<main>
-		<div class="container" style="width: 90%;">
-		
+	
 		 	<h3 id="recipeHeader">Recipes</h3>
 	
+<<<<<<< HEAD
 		<nav class="row" id="center" style="background-color:white; border-radius:10px; ">
 		    <div class="nav-wrapper" >
 		      <form th:action="@{/users/searchRecipes}" method="post">
@@ -83,35 +71,65 @@
 		      </form> 
 		    </div>
 	  </nav>
+=======
+	<nav class="row" id="center" style="width:75%; background-color:white; border-radius:10px; ">
+    <div class="nav-wrapper" >
+      <form th:action="@{/users/searchRecipes}" method="post">
+      
+  <div class="input-field col s2">
+    <select required id="search" class="browser-default" name="searchBy">
+      <option id="optionFilter" value="0" selected>Search By: </option>
+      <option id="optionFilter" value="1">Name</option>
+      <option id="optionFilter" value="2">Ingredients</option>
+      <option id="optionFilter" value="3">Country</option>
+    </select>
+  </div>
+      
+        <div   class="input-field col s9" >
+          <input id="searchBar" th:value="${searchVal}" type="search" name="search" style="border-right: 1px solid lightgrey; padding-top:5px; margin-top:10px; height:40px;" required>
+        </div>
+>>>>>>> 145a3a27b6dde452d9e2b07560da349f47a82857
   
-		 <div class="row">
-		 
-			  <div th:each="r: ${recipes}">
-			    <div class="col s4">
-				    <a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
-				      <div class="card" th:id="recipe + ${r.id}" style="height:500px; margin:15px; border-radius:15px">
-				        <div class="card-image">
-					          <img id="recipeImg" style="height:200px" th:if="${r.recipeImg != null}" th:src="@{'/images/recipes/' + ${r.recipeImg}}">
-					          <img id="recipeImg" th:unless="${r.recipeImg != null}" style="opacity:0.6; height:200px" th:src="@{/images/shakshuka.png}">
-				        </div>
-				        <div class="card-content">
-				        	<p th:id="recipeCountry + ${r.id}" th:text=${r.country.name}></p>
-				       		<span class="card-title" id="recipeCard"  th:text="${r.title}"></span>
-							<p class="flow-text" id="recipeDescription" th:text="${r.description}"></p>
-				        </div>
-				      </div>
-				    </a>
-			    </div>
-			  </div>
-	
-		 </div>
-	 </div>
- </main>
+	        <button class="col s0.5 btn-flat" type="submit" ><i class="material-icons cyan-text text-darken-4">search</i></button>
+	        <a class="col s0.5 btn-flat" onclick="clearText()"><i class="material-icons cyan-text text-darken-4">clear</i></a>
+   
+      </form>
+       
+    </div>
+  </nav>
+  
+ <div class="row" style="padding:50px; width:85%">
  
+<<<<<<< HEAD
 
 	<script th:inline="javascript">
 			var countries = /*[[${countries}]]*/{};
 
 	</script>
+=======
+  <div th:each="r: ${recipes}">
+    <div class="col s4">
+    <a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
+      <div class="card" style="height:600px; margin:15px; border-radius:15px">
+        <div class="card-image">
+	          <img id="recipeImg" style="height:300px" th:if="${r.recipeImg != null}" th:src="@{'/images/recipes/' + ${r.recipeImg}}">
+	          <img id="recipeImg" th:unless="${r.recipeImg != null}" style="opacity:0.6; height:300px" th:src="@{/images/shakshuka.png}">
+        </div>
+        <div class="card-content">
+                	<p id="recipeCountry" th:text=${r.country.name}></p>
+        
+                  <span class="card-title" id="recipeCard"  th:text="${r.title}"></span>
+			<p id="recipeDescription" th:text="${r.description}"></p>
+        </div>
+      </div>
+            </a>
+      
+    </div>
+  </div>
+ 
+  
+ </div>
+ </main>
+>>>>>>> 145a3a27b6dde452d9e2b07560da349f47a82857
 </body>
 </html>
