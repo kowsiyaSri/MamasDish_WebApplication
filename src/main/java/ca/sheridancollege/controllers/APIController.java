@@ -1,6 +1,5 @@
 package ca.sheridancollege.controllers;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +12,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -139,16 +137,20 @@ public class APIController {
 	}
 
 	@GetMapping(value = "/addNutritionInformation/{totalFat}/{saturatedFat}/{cholesterol}/{sodium}/{totalCarbohydrate}/{dietaryFiber}/{sugars}/{protein}/{calories}/{recipeId}")
-    public int addNutritionInformation(@PathVariable int totalFat, @PathVariable int saturatedFat, @PathVariable int cholesterol,
-            @PathVariable int sodium, @PathVariable int totalCarbohydrate, @PathVariable int dietaryFiber, @PathVariable int sugars,
-            @PathVariable int protein, @PathVariable int calories, @PathVariable int recipeId) throws IOException {
-        Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
-        NutritionInformation nutritionInformation = new NutritionInformation().builder().totalFat(totalFat).saturatedFat(saturatedFat)
-                .cholesterol(cholesterol).sodium(sodium).totalCarbohydrate(totalCarbohydrate).dietaryFiber(dietaryFiber).sugars(sugars)
-                .protein(protein).calories(calories).recipe(recipe).build();
+	public int addNutritionInformation(@PathVariable int totalFat, @PathVariable int saturatedFat, @PathVariable int cholesterol,
+			@PathVariable int sodium, @PathVariable int totalCarbohydrate, @PathVariable int dietaryFiber, @PathVariable int sugars,
+			@PathVariable int protein, @PathVariable int calories, @PathVariable int recipeId) throws IOException {
+		
+		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		
+		NutritionInformation nutritionInformation = new NutritionInformation().builder().totalFat(totalFat).saturatedFat(saturatedFat)
+				.cholesterol(cholesterol).sodium(sodium).totalCarbohydrate(totalCarbohydrate).dietaryFiber(dietaryFiber).sugars(sugars)
+				.protein(protein).calories(calories).recipe(recipe).build();
+		
 		nutritionInformationRepo.save(nutritionInformation);
-        return 1;
-    }
+
+		return 1;
+	}
 
 	@Transactional
 	@GetMapping(value = "/deleteIngredients/{recipeId}")
