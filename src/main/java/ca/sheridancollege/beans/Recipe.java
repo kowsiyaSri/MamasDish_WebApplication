@@ -53,9 +53,6 @@ public class Recipe {
 
 	private float rating;
 
-	@OneToMany
-	private List<Rating> ratings;
-
 	@NotNull(message = "Serving size is Mandatory!")
 	@Min(value = 1, message = "Serving size muat be atleast 1")
 	private int servingSize;
@@ -72,6 +69,7 @@ public class Recipe {
 	private String description;
 
 	@ManyToOne
+	@JsonIgnore
 	private Chef chef;
 
 	@NotNull(message = "MealType is Mandatory!")

@@ -3,12 +3,43 @@
 <head>
 <meta charset="ISO-8859-1">
 
-
+    <script src="../static/js/script.js" th:src="@{/js/startRating.js}"></script>
+    <script src="../static/js/script.js" th:src="@{/js/startRating.js}"></script>
 	<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
 
 
 <title>View Recipe</title>
+<style>
+.stars-outer {
+	position: relative;
+	display: inline-block;
+}
+
+#stars-inner {
+	position: absolute;
+	top: 0;
+	left: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 100%;
+}
+
+.stars-outer:before {
+	content: "\f005 \f005 \f005 \f005 \f005";
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	color: #000000;
+}
+
+#stars-inner:before {
+	content: "\f005 \f005 \f005 \f005 \f005";
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	color: #f8ce0b;
+}
+</style>
 </head>
 <body>
 	<header>
@@ -44,7 +75,10 @@
 						<span> 
 							<span id="chefFont" th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span> 
 							<span style="float: right">
-								<img style="height: 20px" th:src="@{/images/threestars.png}" />
+								<div class="stars-outer">
+									<div id="stars-inner"></div>
+									<span class="number-rating"></span>
+								</div>
 							</span>
 						</span>
 						<hr>
@@ -98,6 +132,27 @@
 									<div th:text="${i.stepNumber} + ') ' + ${i.description}"></div>
 								</li>
 							</ul>
+								<div>
+									<a style="background-color: #5085A5" onclick="writeReview()" class="waves-effect waves-light btn">Write a Customer review</a>
+								</div>
+															<div th:if="${reviews != null}">
+ 								<div class="card" th:each="r: ${reviews}">
+									<div class="card-content">
+										<span style="font-size:20px;" class="card-title activator grey-text text-darken-4"
+											th:text="${r.userName}"> </span>
+										<p><div class="stars-outer">
+											<div id="stars-inner" th:style="'width:'+(${r.rating} * 100)/5 +'%'"></div>
+									<span class="number-rating"></span>
+								</div>
+										</p>
+										
+									</div>
+									<div class="card-action">
+										<p th:text="${r.comment}" style="font-size:25px;"></p>
+									</div>
+								</div> 
+
+							</div>
 						</div>
 					</div>
 				</div>
@@ -105,4 +160,33 @@
 		</div>
 	</main>
 </body>
+<script th:inline="javascript">
+
+function getRating() {
+
+	var rating = /*[[${rating}]]*/"";
+
+	return rating;
+
+}
+
+function getRecipeId() {
+
+	var recipeID = /*[[${recipe.id}]]*/"";
+
+	return recipeID;
+
+}
+
+function getReviews() {
+
+	var reviwes = /*[[${reviews}]]*/[];
+	console.log("reviews"+reviwes)
+
+	return reviwes;
+
+}
+
+
+</script>
 </html>

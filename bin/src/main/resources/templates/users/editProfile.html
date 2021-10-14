@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" th:href="@{/css/sellect.css}">
+<link href='css/style.css' th:href=@{css/style.css} rel='stylesheet' type='text/css'>
+
+<script src="../static/js/sellect.js" th:src="@{/js/sellect.js}"></script>
+<script src="../static/js/editProfile.js" th:src="@{/js/editProfile.js}"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<title>Edit Profile</title>
+<style>
+.tabs .indicator {
+	background-color: #0d47a1;
+}
+
+body {
+	align-items: center;
+	align-items: center;
+	background-color: #BECEDD;
+  	background-repeat: no-repeat;
+  	background-attachment: fixed;  
+  	background-size: cover;
+	
+}
+</style>
+</head>
+<body>
+	<header>
+		<div class="navbar-fixed" id="centerNav">
+			<nav class="homeNav fixed" id="centerNav">
+				<div class="nav-wrapper" id="centerNav">
+					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a> -->
+					<ul style="width: 100%" id="centerNav"
+						class="hide-on-med-and-down">
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</header>
+
+	<div class="row container padtop80" style="margin-top:70px">
+		<div class="col m6 offset-m3 s12">
+			<div class="row">
+				<div class="col s12">
+					<ul class="tabs">
+						<li class="tab col s3"><a href="#test1"
+							class="active blue-text text-darken-4">Edit Profile</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col m6 offset-m3 s12 z-depth-1"  id="formLogin">
+		<form th:action="@{/viewProfile}" method="post">
+				<p id="errId" style="text-align:center" th:text="${errMssg}"></p>	
+				<input type="hidden" id="id" name="id" th:value="${user.id}" />						
+				<div class="input-field col s12 ">
+					<label for="email">Email ID </label><br>
+					<input  th:value="${user.email}" type="text" readonly> 
+				</div>
+				<div class="input-field col s12 ">
+					<label for="firstName">First Name </label><br>
+					<input id="firstName" name="firstName" th:value="${user.firstName}" type="text" required min=2>
+				</div>
+				<div class="input-field col s12 ">
+					<label for="lastName">Last Name </label><br>
+					<input id="lastName" name="lastName"  th:value="${user.lastName}"  type="text" required min=2> 
+				</div>
+				<div class="input-field col s12 ">
+					<label>Selected Preferences:</label><br><br>
+				</div>
+				<div class="input-field col s12">
+					<label>Country</label><br>
+				</div>			
+				<div class="input-field col s12">
+					<input type="text" id="my-country">
+					<div id="selected-country" class="demo-list selected-list"></div>
+				</div>
+				
+				<div class="input-field col s12">
+					<label>Cuisine</label><br>
+				</div>				
+				<div class="input-field col s12">
+					<input type="text" id="my-cuisine">
+					<div id="selected-cuisine" class="demo-list selected-list"></div>
+				</div>
+				
+				<div class="input-field col s12">
+					<label>Diet</label><br>
+				</div>		
+				<div class="input-field col s12">
+					<input type="text" id="my-diet">
+					<div id="selected-diet" class="demo-list selected-list"></div>
+				</div>
+
+				<div class="input-field col s12">
+					<label>Protein</label><br>
+				</div>			
+				<div class="input-field col s12">
+					<input type="text" id="my-protein">
+					<div id="selected-protein" class="demo-list selected-list"></div>
+				</div>
+				
+				<div th:if="${chef}" class="input-field col s12">
+					<label>Chef Profile Description</label><br>
+					<textarea id="description" name="description" class="materialize-textarea" th:text=${chef.description}></textarea>		
+				</div>
+				<p id="saveBtn" >
+					<input type="submit" value="Save Changes"  class="blue darken-4 btn"/>
+				</p>			
+		</form>
+		</div>
+		</div>
+			<script th:inline="javascript">
+							var listProtein = [];
+							var proteins = /*[[${proteins}]]*/{};
+							proteins.forEach(element=>
+								listProtein.push(element.proteinType)
+							);
+						  
+							var listDiet = [];
+							var diets = /*[[${diets}]]*/{};
+							diets.forEach(element=>
+								listDiet.push(element.dietType)
+							);
+							
+							var listCuisine = [];
+							var cuisines = /*[[${cuisines}]]*/{};
+							cuisines.forEach(element=>
+								listCuisine.push(element.cuisineName)
+							);
+						
+							var listCountry = [];
+							var countries = /*[[${countries}]]*/{};
+							countries.forEach(element=>
+								listCountry.push(element.name)
+							);
+							
+							//user preferences
+							var userProtein=[];
+							var userProteins = /*[[${user.protein}]]*/{};
+							userProteins.forEach(element=>
+								userProtein.push(element.proteinType)
+							);
+							
+							var userDiet = [];
+							var userDiets = /*[[${user.diet}]]*/{};
+							userDiets.forEach(element=>
+								userDiet.push(element.dietType)
+							);
+							
+							var userCuisine=[]
+							var userCuisines = /*[[${user.cuisine}]]*/{};
+							userCuisines.forEach(element=>
+								userCuisine.push(element.cuisineName)
+							);
+							
+							var userCountry = [];
+							var userCountries = /*[[${user.country}]]*/{};
+							userCountries.forEach(element=>
+								userCountry.push(element.name)
+							);
+			</script>
+</body>
+
+
+</html>
