@@ -121,20 +121,22 @@ public class RecipeController {
 		model.addAttribute("countries", countryRepo.findTop5ByOrderById());
 		model.addAttribute("diets", dietRepo.findAll());
 		model.addAttribute("meals", mealRepo.findAll());	
-		model.addAttribute("suggest", recipeRepo.suggestRecipes(10));
+		model.addAttribute("suggest", recipeRepo.suggestRecipes(user.getId()));
 
 				
 		return "/users/userHome.html";
 	}
 	
 	@GetMapping("/users/suggest")
-	public String SuggestPage(Model model){
+	public String SuggestPage(Model model, Authentication auth){
 		
-		model.addAttribute("countries", recipeRepo.suggestCountry(10));
-		model.addAttribute("cuisines", recipeRepo.suggestCuisine(10));
-		model.addAttribute("diets", recipeRepo.suggestDiet(10));
-		model.addAttribute("proteins", recipeRepo.suggestProtein(10));	
-		model.addAttribute("suggest", recipeRepo.suggestRecipes(10));
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		Long id = user.getId();
+		model.addAttribute("countries", recipeRepo.suggestCountry(id));
+		model.addAttribute("cuisines", recipeRepo.suggestCuisine(id));
+		model.addAttribute("diets", recipeRepo.suggestDiet(id));
+		model.addAttribute("proteins", recipeRepo.suggestProtein(id));	
+		model.addAttribute("suggest", recipeRepo.suggestRecipes(id));
 		
 		return "/users/suggestRecipes.html";
 	}
