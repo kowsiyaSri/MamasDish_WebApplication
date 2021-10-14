@@ -4,11 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-<<<<<<< HEAD
 import org.springframework.data.repository.query.Param;
-=======
->>>>>>> portiaDev
-
 import ca.sheridancollege.beans.Country;
 import ca.sheridancollege.beans.MessageSystem;
 import ca.sheridancollege.beans.Recipe;
@@ -33,8 +29,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	public List<Recipe> findByDiet_Id(Long id);
 
 	public List<Recipe> findByMealtype_id(Long id);
-<<<<<<< HEAD
-	
+
 	@Query
 	(value = "CALL SuggestRecipe(:user_id)" , nativeQuery = true)
 	public List<Recipe> suggestRecipes(@Param("user_id") int user_id);
@@ -58,8 +53,5 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	@Query
 	(value = "CALL SuggestProtein(:user_id)" , nativeQuery = true)
 	public List<Recipe> suggestProtein(@Param("user_id") int user_id);
-=======
 
-
->>>>>>> portiaDev
 }
