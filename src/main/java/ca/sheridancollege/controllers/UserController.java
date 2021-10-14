@@ -1,6 +1,8 @@
 package ca.sheridancollege.controllers;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -52,6 +54,7 @@ public class UserController {
 	
 	@Autowired
 	private MessageRepository mssgRepo;
+	
 	
 	//method to view the profile
 	@GetMapping("/viewProfile")
@@ -189,7 +192,8 @@ public class UserController {
 		
 		return "/users/editProfile.html";
 	}
-	
+
+	//Method to display emails in inbox
 	@GetMapping("/messages/inbox")
 	public String Messages(Model model, Authentication auth) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
@@ -252,3 +256,4 @@ public class UserController {
 	}
 	
 }
+

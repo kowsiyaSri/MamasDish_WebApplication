@@ -26,11 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 import ca.sheridancollege.FileUploadUtil;
 import ca.sheridancollege.beans.Chef;
 import ca.sheridancollege.beans.EndUser;
-import ca.sheridancollege.beans.Ingredient;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.MessageSystem;
+import ca.sheridancollege.beans.Rating;
 import ca.sheridancollege.beans.Recipe;
-import ca.sheridancollege.beans.RecipeIngredient;
+import ca.sheridancollege.beans.User;
 import ca.sheridancollege.email.Email;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
@@ -41,11 +41,11 @@ import ca.sheridancollege.repositories.MealTypeRepository;
 import ca.sheridancollege.repositories.MeasurementRepository;
 import ca.sheridancollege.repositories.MessageRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
+import ca.sheridancollege.repositories.RatingRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
 import ca.sheridancollege.repositories.RoleRepository;
 import ca.sheridancollege.repositories.UserRepository;
-import okhttp3.*;
 
 @Controller
 public class RecipeController {
@@ -91,6 +91,9 @@ public class RecipeController {
 	
 	@Autowired
 	private MessageRepository mssgRepo;
+	
+	@Autowired
+	private RatingRepository ratingRepo;
 
 	@GetMapping("/")
 	public String home(Model model) {
@@ -103,6 +106,7 @@ public class RecipeController {
 		return "loginPage.html";
 	}
 
+	
 	@GetMapping("/users/userHome")
 	public String UserHome(Model model, Authentication auth){
 		
@@ -116,25 +120,27 @@ public class RecipeController {
 		model.addAttribute("emails", emailCount);
 		model.addAttribute("countries", countryRepo.findTop5ByOrderById());
 		model.addAttribute("diets", dietRepo.findAll());
-		model.addAttribute("meals", mealRepo.findAll());
-		model.addAttribute("suggest", recipeRepo.suggestRecipes(10));
+		model.addAttribute("meals", mealRepo.findAll());	
+		model.addAttribute("suggest", recipeRepo.suggestRecipes(user.getId()));
 
 				
 		return "/users/userHome.html";
 	}
-
+	
 	@GetMapping("/users/suggest")
-	public String SuggestPage(Model model) {
-
-		model.addAttribute("countries", recipeRepo.suggestCountry(10));
-		model.addAttribute("cuisines", recipeRepo.suggestCuisine(10));
-		model.addAttribute("diets", recipeRepo.suggestDiet(10));
-		model.addAttribute("proteins", recipeRepo.suggestProtein(10));
-		model.addAttribute("suggest", recipeRepo.suggestRecipes(10));
-
+	public String SuggestPage(Model model, Authentication auth){
+		
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		Long id = user.getId();
+		model.addAttribute("countries", recipeRepo.suggestCountry(id));
+		model.addAttribute("cuisines", recipeRepo.suggestCuisine(id));
+		model.addAttribute("diets", recipeRepo.suggestDiet(id));
+		model.addAttribute("proteins", recipeRepo.suggestProtein(id));	
+		model.addAttribute("suggest", recipeRepo.suggestRecipes(id));
+		
 		return "/users/suggestRecipes.html";
 	}
-
+	
 	@GetMapping("/access-denied")
 	public String toAccessDenied() {
 		return "/error/access-denied.html";
@@ -224,15 +230,31 @@ public class RecipeController {
 	@GetMapping("/users/viewAllRecipe")
 	public String viewAllRecipes(Model model) {
 		model.addAttribute("recipes", recipeRepo.findByAuthTrue());
+		model.addAttribute("countries", countryRepo.getCountryTest());
 		return "/users/viewAllRecipes.html";
 	}
 
 	@GetMapping("/users/viewRecipe/{recipeId}")
-	public String viewRecipe(@PathVariable int recipeId, Model model) throws IOException {
+	public String viewRecipe(@PathVariable int recipeId, Model model) {
+		
+		double ratingSum = 0;
+		double ratingAve = 0;
+		List<Rating> listRatings = ratingRepo.findByRecipeId(Long.valueOf(recipeId));
+		if(listRatings.size() > 0) {
+				for (Rating rating : listRatings) {
+				ratingSum+=rating.getRating();			
+									}				
+				ratingAve = ratingSum/ listRatings.size();		
+		}
+		
+		
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		model.addAttribute("instructions", instruct);
+		model.addAttribute("rating", ratingAve);
+		model.addAttribute("reviews", listRatings);
+		System.out.println(ratingRepo.findByRecipeId(Long.valueOf(recipeId)));
 
 		return "/users/viewRecipe.html";
 	}
@@ -344,11 +366,11 @@ public class RecipeController {
 		recipeUpdated.setDescription(recipe.getDescription());
 		recipeUpdated.setServingSize(recipe.getServingSize());
 		recipeUpdated.setTitle(recipe.getTitle());
-
+		
 		recipeUpdated.setRecipeImg(recipe.getRecipeImg());
 
 		recipeRepo.save(recipeUpdated);
-
+		
 		model.addAttribute("recipeIngredients", recipeUpdated.getIngredients());
 		model.addAttribute("measurements", measureRepo.findAll());
 		model.addAttribute("proteins", proteinRepo.findAll());
@@ -362,7 +384,9 @@ public class RecipeController {
 	public String searchRecipes(Model model, @RequestParam String search, @RequestParam int searchBy) {
 
 		switch (searchBy) {
-
+		case 0:
+			model.addAttribute("recipes", recipeRepo.basicSearch(search));
+			break;
 		case 1:
 			model.addAttribute("recipes", recipeRepo.findByTitleContainingIgnoreCase(search));
 			break;
@@ -378,17 +402,18 @@ public class RecipeController {
 		}
 
 		model.addAttribute("searchVal", search);
-
+		
+		
 		return "/users/viewAllRecipes.html";
 	}
-
+	
 	@GetMapping("/chefs/editInstructions/{id}")
 	public String goEditRecipe(@PathVariable long id, Model model) {
 		Recipe recipe = recipeRepo.findById(id).get();
 		model.addAttribute("recipe", recipe);
 		return "/chefs/editInstruction.html";
 	}
-
+	
 	@GetMapping("/users/viewRecipesByCountry/{name}")
 	public String viewRecipesByCountry(@PathVariable String name, Model model) {
 		model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(name));
@@ -413,7 +438,7 @@ public class RecipeController {
 		model.addAttribute("chef", chef);
 		return "/chefs/chefIndex";
 	}
-
+	
 	@GetMapping("/chefs/viewRecipe/{recipeId}")
 	public String viewChefRecipe(@PathVariable int recipeId, Model model) {
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
@@ -439,5 +464,37 @@ public class RecipeController {
 		
 		return "/chefs/awaitApproval";
 	}
+	
+	@GetMapping("/reviewRecipe/{id}")
+	public String reviewRecipe(@PathVariable long id, Model model, Authentication auth) {
+		model.addAttribute("recipeId", id);
+		User user = userRepo.findByUsername(auth.getName());
+		model.addAttribute("userId", user.getId());
+		return "/users/reviewForm.html";
+	}
+	
+	@PostMapping("/viewRecipeAfterRating")
+	public String veiwRecipeRating(Model model, @RequestParam float rating, @RequestParam String commentText,
+			@RequestParam long userId, @RequestParam long recipeId, @RequestParam(value = "anonymous", required = false)String anonymous) {
 
+		EndUser user = endUserRepo.findById(userId).get();
+		Recipe recipe = recipeRepo.findById(recipeId).get();
+
+		Rating ratingEntity = Rating.builder().recipe(recipe).user(user).rating(rating).comment(commentText).build();
+		
+		if(anonymous == null) {
+			ratingEntity.setUserName(user.getFirstName()+ " "+user.getLastName());
+		} else {
+			ratingEntity.setUserName("Mama's Dish User");			
+		}
+		
+		ratingRepo.save(ratingEntity);
+		
+		System.out.println("Rating is " + rating);
+		System.out.println("Review is " + commentText);
+		System.out.println("anonymous " + anonymous);
+		model.addAttribute("recipes", recipeRepo.findByAuthTrue());
+		return "/users/viewAllRecipes.html";
+	}
+	
 }

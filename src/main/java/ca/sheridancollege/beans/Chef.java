@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,9 +36,12 @@ public class Chef {
 	private String description;
 	
 	@OneToOne
+	@JsonIgnore
 	private EndUser enduser;	
 	
 	@OneToMany(mappedBy="chef", cascade= CascadeType.ALL)
+	@JsonIgnore
 	private List<Recipe> recipes;
+	
 
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+<title>Mama's Dish</title>
+</head>
+<body style="background-color:#BECEDD">
+	<header>
+		<div class="navbar-fixed" id="centerNav" >
+			<nav style="height:160px; background-color:white;" class="fixed" id="centerNav">
+				<div class="nav-wrapper" id="centerNav">
+					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
+					src="/images/logo.png" /></a> -->
+					<ul style="width: 100%" id="centerNav"
+						class="hide-on-med-and-down">
+						<li><a id="landNav" href="/users/userHome">Mama's Dish</a></li>
+					
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</header>
+	<main style="margin-top:80px;" >
+	<div id="center">
+		<img style="height:440px" th:src="@{/images/shakshuka.png}"/>
+			<p id="homeHeader">Welcome to Mama's Dish</p>
+			<p id="homeP">Mama's Dish is a recipe platform the features recipes from all over the world.</p>
+			<p id="homeP">Mama's Dish also allows chefs to upload their recipes and share them with the world.</p>
+			<p id="homeP"><a th:href="@{/login}">Login or Register</a> to upload recipes!</p>
+	</div>
+</main>   
+</body>
+</html>
