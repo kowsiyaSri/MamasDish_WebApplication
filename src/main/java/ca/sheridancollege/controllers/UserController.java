@@ -1,5 +1,6 @@
 package ca.sheridancollege.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,15 @@ import ca.sheridancollege.beans.Country;
 import ca.sheridancollege.beans.Cuisine;
 import ca.sheridancollege.beans.Diet;
 import ca.sheridancollege.beans.EndUser;
+import ca.sheridancollege.beans.MessageSystem;
 import ca.sheridancollege.beans.Protein;
+import ca.sheridancollege.beans.Role;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.CuisineRepository;
 import ca.sheridancollege.repositories.DietRepository;
 import ca.sheridancollege.repositories.EndUserRepository;
+import ca.sheridancollege.repositories.MessageRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.UserRepository;
 
@@ -47,6 +51,9 @@ public class UserController {
 	
 	@Autowired
 	private ChefRepository chefRepo;
+	
+	@Autowired
+	private MessageRepository mssgRepo;
 	
 	
 	//method to view the profile
@@ -185,10 +192,7 @@ public class UserController {
 		
 		return "/users/editProfile.html";
 	}
-<<<<<<< Updated upstream
-}
-=======
-	
+
 	//Method to display emails in inbox
 	@GetMapping("/messages/inbox")
 	public String Messages(Model model, Authentication auth) {
@@ -252,4 +256,4 @@ public class UserController {
 	}
 	
 }
->>>>>>> Stashed changes
+
