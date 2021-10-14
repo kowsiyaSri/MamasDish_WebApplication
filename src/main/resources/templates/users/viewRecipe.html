@@ -93,10 +93,10 @@
 						<div
 							style="margin-top: 5px; border: 1px dashed lightgrey; height: 100px;"
 							class="row s12">
-							<div id="srvDiv" class="col s4">
+							<div id="srvDiv" class="col s4 js-servingSize">
 								<img class="icon" th:src="@{/images/serving.png}" id="center">
 								<p id="iconlbl">Serving Size:</p>
-								<p th:text="${recipe.servingSize}">1</p>
+								<p th:text="${recipe.servingSize}" th:attr="data-servingsize=${recipe.servingSize}">1</p>
 							</div>
 							<div id="srvDiv" class="col s4">
 								<img class="icon" th:src="@{/images/time.png}">
