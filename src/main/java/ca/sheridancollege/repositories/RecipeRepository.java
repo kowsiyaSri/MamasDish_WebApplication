@@ -5,8 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ca.sheridancollege.beans.Country;
-import ca.sheridancollege.beans.MessageSystem;
+
 import ca.sheridancollege.beans.Recipe;
 
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
@@ -29,10 +28,10 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	public List<Recipe> findByDiet_Id(Long id);
 
 	public List<Recipe> findByMealtype_id(Long id);
-
+	
 	@Query
 	(value = "CALL SuggestRecipe(:user_id)" , nativeQuery = true)
-	public List<Recipe> suggestRecipes(@Param("user_id") long user_id);
+	public List<Recipe> suggestRecipes(@Param("user_id") int user_id);
 	
 	@Query
 	(value = "CALL BasicSearch(:searchInput)" , nativeQuery = true)
@@ -40,18 +39,17 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	
 	@Query
 	(value = "CALL SuggestDiet(:user_id)" , nativeQuery = true)
-	public List<Recipe> suggestDiet(@Param("user_id") long user_id);
+	public List<Recipe> suggestDiet(@Param("user_id") int user_id);
 	
 	@Query
 	(value = "CALL SuggestCuisine(:user_id)" , nativeQuery = true)
-	public List<Recipe> suggestCuisine(@Param("user_id") long user_id);
+	public List<Recipe> suggestCuisine(@Param("user_id") int user_id);
 	
 	@Query
 	(value = "CALL SuggestCountry(:user_id)" , nativeQuery = true)
-	public List<Recipe> suggestCountry(@Param("user_id") long user_id);
+	public List<Recipe> suggestCountry(@Param("user_id") int user_id);
 	
 	@Query
 	(value = "CALL SuggestProtein(:user_id)" , nativeQuery = true)
-	public List<Recipe> suggestProtein(@Param("user_id") long user_id);
-
+	public List<Recipe> suggestProtein(@Param("user_id") int user_id);
 }

@@ -20,8 +20,5 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
 
 	public List<Country> findTop5ByOrderById();
 
-	
-	@Query
-	(value = "SELECT name FROM country WHERE id IN (SELECT country_id FROM recipe)" , nativeQuery = true)
-	public List<String> getCountryTest();
+
 }

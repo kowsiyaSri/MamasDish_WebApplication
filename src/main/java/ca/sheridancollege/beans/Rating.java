@@ -9,9 +9,6 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,21 +32,6 @@ public class Rating {
 	private float rating;
 	
 	@OneToOne
-	@JsonIgnore
 	private EndUser user;
-	
-
-	@OneToOne
-	@JsonIgnore
-	private Recipe recipe;
-	
-	private String userName;
-	
-	@Override
-	public String toString() {
-		return "Rating [id=" + id + ", comment=" + comment + ", rating=" + rating + ", user=" + user.getId() + ", recipe="
-				+ recipe.getId() + "]";
-	}
-
 		
 }
