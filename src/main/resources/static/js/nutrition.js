@@ -12,7 +12,6 @@ $(document).ready(function() {
 	var servingSize = $(y[2]).data('servingsize');
 	//console.log(servingSize);
 
-
 	var query = "";
 
 	// Looping through each child of ingredientListFromHTML to get the ingredients
