@@ -228,6 +228,7 @@ public class RecipeController {
 	@GetMapping("/users/viewAllRecipe")
 	public String viewAllRecipes(Model model) {
 		model.addAttribute("recipes", recipeRepo.findByAuthTrue());
+		model.addAttribute("countries", countryRepo.getCountryTest());
 		return "/users/viewAllRecipes.html";
 	}
 
@@ -399,7 +400,8 @@ public class RecipeController {
 		}
 
 		model.addAttribute("searchVal", search);
-
+		
+		
 		return "/users/viewAllRecipes.html";
 	}
 	
