@@ -1,4 +1,4 @@
-	var mySellect;
+var mySellect;
 $(document).ready(function() {
 
 	$('#textarea1').val('');
@@ -12,7 +12,6 @@ $(document).ready(function() {
 	});
 
 	mySellect.init();
-
 });
 
 
@@ -65,5 +64,6 @@ function updateDemoLists(event, item) {
 		console.log(span);
 		selectedList.appendChild(span);
 	});
+
 
 }

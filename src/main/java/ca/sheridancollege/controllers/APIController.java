@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
@@ -28,6 +31,7 @@ import ca.sheridancollege.beans.Ingredient;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.Measurement;
 import ca.sheridancollege.beans.MessageSystem;
+import ca.sheridancollege.beans.NutritionInformation;
 import ca.sheridancollege.beans.Protein;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.RecipeDescription;
@@ -40,9 +44,12 @@ import ca.sheridancollege.repositories.IngredientRepository;
 import ca.sheridancollege.repositories.InstructionRepository;
 import ca.sheridancollege.repositories.MeasurementRepository;
 import ca.sheridancollege.repositories.MessageRepository;
+import ca.sheridancollege.repositories.NutritionInformationRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
+import okhttp3.*;
+import java.io.*;
 import ca.sheridancollege.repositories.UserRepository;
 
 @RestController
@@ -80,19 +87,22 @@ public class APIController {
 	@Autowired
 	@Lazy
 	private CountryRepository countryRepo;
-	
+
 	@Autowired
 	private MessageRepository mssgRepo;
-	
+
 	@Autowired
 	private UserRepository userRepo;
-	
+
 	@Autowired
 	private EndUserRepository endUserRepo;
+	
+	@Autowired
+	private NutritionInformationRepository nutritionInformationRepo;
 
 	@GetMapping(value = "/addIngredient/{ingredient}/{quantity}/{measurement}/{recipeId}/{proteinId}")
 	public int addIngredient(@PathVariable String ingredient, @PathVariable int quantity, @PathVariable int measurement,
-			@PathVariable int recipeId, @PathVariable int proteinId) {
+			@PathVariable int recipeId, @PathVariable int proteinId) throws IOException, JSONException {
 
 		Ingredient ingred = ingredientRepo.findByIngredientName(ingredient);
 		Measurement recipeMeasurement = null;
@@ -126,6 +136,21 @@ public class APIController {
 		return 1;
 	}
 
+	@GetMapping(value = "/addNutritionInformation/{totalFat}/{saturatedFat}/{cholesterol}/{sodium}/{totalCarbohydrate}/{dietaryFiber}/{sugars}/{protein}/{calories}/{recipeId}")
+	public int addNutritionInformation(@PathVariable int totalFat, @PathVariable int saturatedFat, @PathVariable int cholesterol,
+			@PathVariable int sodium, @PathVariable int totalCarbohydrate, @PathVariable int dietaryFiber, @PathVariable int sugars,
+			@PathVariable int protein, @PathVariable int calories, @PathVariable int recipeId) throws IOException {
+		
+		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		
+		NutritionInformation nutritionInformation = new NutritionInformation().builder().totalFat(totalFat).saturatedFat(saturatedFat)
+				.cholesterol(cholesterol).sodium(sodium).totalCarbohydrate(totalCarbohydrate).dietaryFiber(dietaryFiber).sugars(sugars)
+				.protein(protein).calories(calories).recipe(recipe).build();
+		
+		nutritionInformationRepo.save(nutritionInformation);
+
+		return 1;
+	}
 
 	@Transactional
 	@GetMapping(value = "/deleteIngredients/{recipeId}")
@@ -133,13 +158,13 @@ public class APIController {
 		Recipe recipe = recipeRepo.findById(recipeId).get();
 		recipe.getIngredients().clear();
 		recipeRepo.save(recipe);
-		
+
 		long deletedRecords = recipeIngredientRepo.deleteByRecipeId(recipeId);
 		return deletedRecords;
 	}
-	
+
 	@Transactional
-	@GetMapping(value="/deleteInstructions/{recipeId}")
+	@GetMapping(value = "/deleteInstructions/{recipeId}")
 	public long deleteInstruction(@PathVariable long recipeId) {
 		Recipe recipe = recipeRepo.findById(recipeId).get();
 		recipe.getInstructions().clear();
@@ -199,7 +224,6 @@ public class APIController {
 		mssg.setRecipeId(recipe.getId());
 		mssgRepo.save(mssg);
 
-
 		return 1;
 	}
 
@@ -213,7 +237,7 @@ public class APIController {
 		String body = "Your recipe has now been approved!";
 
 		email.sendEmail(chefEmail, subject, body);
-		
+
 		MessageSystem mssg = new MessageSystem();
 		mssg.setSubject(recipeTitle + " has been approved.");
 		mssg.setSender("Mamas Dish Admin");
@@ -222,9 +246,9 @@ public class APIController {
 		mssg.setNew(true);
 		mssg.setMessage(body);
 		mssg.setRecipeId(recipe.getId());
-		
+
 		mssgRepo.save(mssg);
-		
+
 		EndUser endUser = recipe.getChef().getEnduser();
 		endUser.getMessages().add(mssg);
 		endUserRepo.save(endUser);
@@ -252,39 +276,39 @@ public class APIController {
 		}
 		return recipeMarkers;
 	}
-	
+
 	@GetMapping("/checkEmail/{id}")
 	public int checkEmail(@PathVariable int id, Authentication auth) {
-		
+
 		MessageSystem mssg = mssgRepo.findById(Long.valueOf(id)).get();
 		mssg.setNew(false);
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		mssgRepo.save(mssg);
-		
-		if(mssg.getReceiver().equals("Mama's Dish Admin")) {
+
+		if (mssg.getReceiver().equals("Mama's Dish Admin")) {
 			return mssgRepo.getAdminEmailCount();
 		} else {
 			return mssgRepo.emailCount(Long.valueOf(user.getId()));
 
 		}
-		
+
 	}
-	
+
 	@GetMapping("/deleteEmail/{id}")
 	public int deleteEmail(@PathVariable int id, Authentication auth) {
-		
+
 		MessageSystem mssg = mssgRepo.findById(Long.valueOf(id)).get();
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 
 		mssg.setDeleted(true);
 		mssgRepo.save(mssg);
-		
-		if(mssg.getReceiver().equals("Mama's Dish Admin")) {
+
+		if (mssg.getReceiver().equals("Mama's Dish Admin")) {
 			return mssgRepo.getAdminDeletedEmails().size();
 		} else {
 			return mssgRepo.getDeletedEmails(Long.valueOf(user.getId())).size();
 
 		}
-		
+
 	}
 }

@@ -92,23 +92,4 @@ public class Recipe {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Instruction> instructions;
-
-	// Variables for nutrition information
-	private float calories;
-
-	private float totalFat;
-
-	private float saturatedFat;
-
-	private float cholesterol;
-
-	private float sodium;
-
-	private float totalCarbohydrate;
-
-	private float dietaryFiber;
-
-	private float sugars;
-
-	private float protein;
 }
