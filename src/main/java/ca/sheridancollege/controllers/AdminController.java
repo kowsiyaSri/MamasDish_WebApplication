@@ -45,7 +45,7 @@ public class AdminController {
 
 		model.addAttribute("recipes", recipeRepo.findByAuthFalse());
 
-		return "/admin/index.html";
+		return "admin/index.html";
 	}
 
 	@GetMapping("/admin/authRecipe/{id}")
@@ -56,7 +56,7 @@ public class AdminController {
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		model.addAttribute("instructions", instruct);
 
-		return "/admin/authRecipe.html";
+		return "admin/authRecipe.html";
 	}
 
 	@PostMapping("/reject")
@@ -96,7 +96,7 @@ public class AdminController {
 		endUser.getMessages().add(mssg);
 		endUserRepo.save(endUser);
 
-		return "/admin/index.html";
+		return "admin/index.html";
 	}
 
 }

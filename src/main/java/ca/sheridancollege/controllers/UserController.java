@@ -109,7 +109,7 @@ public class UserController {
 			model.addAttribute("chef", chef);
 		}
 			
-		return "/users/viewProfile.html";
+		return "users/viewProfile.html";
 	}
 	
 	//Method to save changes
@@ -190,7 +190,7 @@ public class UserController {
 			model.addAttribute("chef", chef);
 		}
 		
-		return "/users/editProfile.html";
+		return "users/editProfile.html";
 	}
 
 	//Method to display emails in inbox
@@ -221,7 +221,7 @@ public class UserController {
 		
 		model.addAttribute("user", user);
 
-		return "/users/inbox.html";
+		return "users/inbox.html";
 	}
 	
 	@GetMapping("/messages/deleted")
@@ -252,7 +252,7 @@ public class UserController {
 		
 		model.addAttribute("user", user);
 		
-		return "/users/inbox.html";
+		return "users/inbox.html";
 	}
 	
 }

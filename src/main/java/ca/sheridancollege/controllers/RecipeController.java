@@ -124,7 +124,7 @@ public class RecipeController {
 		model.addAttribute("suggest", recipeRepo.suggestRecipes(user.getId()));
 
 				
-		return "/users/userHome.html";
+		return "users/userHome.html";
 	}
 	
 	@GetMapping("/users/suggest")
@@ -138,12 +138,12 @@ public class RecipeController {
 		model.addAttribute("proteins", recipeRepo.suggestProtein(id));	
 		model.addAttribute("suggest", recipeRepo.suggestRecipes(id));
 		
-		return "/users/suggestRecipes.html";
+		return "users/suggestRecipes.html";
 	}
 	
 	@GetMapping("/access-denied")
 	public String toAccessDenied() {
-		return "/error/access-denied.html";
+		return "error/access-denied.html";
 	}
 
 	@GetMapping("/chefs/uploadRecipe")
@@ -156,7 +156,7 @@ public class RecipeController {
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
 
-		return "/chefs/recipe.html";
+		return "chefs/recipe.html";
 	}
 
 	@PostMapping("/chefs/addRecipe")
@@ -192,7 +192,7 @@ public class RecipeController {
 			model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
 			model.addAttribute("meals", mealRepo.findAll());
 			model.addAttribute("diets", dietRepo.findAll());
-			return "/chefs/recipe.html";
+			return "chefs/recipe.html";
 		}
 
 		recipe.setChef(chef);
@@ -217,21 +217,21 @@ public class RecipeController {
 		model.addAttribute("measurements", measureRepo.findAll());
 		model.addAttribute("proteins", proteinRepo.findAll());
 
-		return "/chefs/ingredient.html";
+		return "chefs/ingredient.html";
 
 	}
 
 	@GetMapping("/chefs/addInstructions/{recipeId}")
 	public String addInstructions(@PathVariable int recipeId, Model model) {
 		model.addAttribute("recipeId", recipeId);
-		return "/chefs/instruction.html";
+		return "chefs/instruction.html";
 	}
 
 	@GetMapping("/users/viewAllRecipe")
 	public String viewAllRecipes(Model model) {
 		model.addAttribute("recipes", recipeRepo.findByAuthTrue());
 		model.addAttribute("countries", countryRepo.getCountryTest());
-		return "/users/viewAllRecipes.html";
+		return "users/viewAllRecipes.html";
 	}
 
 	@GetMapping("/users/viewRecipe/{recipeId}")
@@ -256,7 +256,7 @@ public class RecipeController {
 		model.addAttribute("reviews", listRatings);
 		System.out.println(ratingRepo.findByRecipeId(Long.valueOf(recipeId)));
 
-		return "/users/viewRecipe.html";
+		return "users/viewRecipe.html";
 	}
 
 	@GetMapping("/users/editRecipePartOne/{recipeId}")
@@ -305,7 +305,7 @@ public class RecipeController {
 		model.addAttribute("recipeInstructions", recipe.getInstructions());
 		model.addAttribute("recipeIngrediants", recipe.getIngredients());
 
-		return "/chefs/editRecipePartOne.html";
+		return "chefs/editRecipePartOne.html";
 	}
 
 	@PostMapping("/chefs/editRecipe")
@@ -355,7 +355,7 @@ public class RecipeController {
 			} else {
 				model.addAttribute("diets", dietRepo.findAll());
 			}
-			return "/chefs/editRecipePartOne.html";
+			return "chefs/editRecipePartOne.html";
 		}
 
 		// recipe.setChef(chef);
@@ -376,7 +376,7 @@ public class RecipeController {
 		model.addAttribute("proteins", proteinRepo.findAll());
 		model.addAttribute("recipeId", recipeUpdated.getId());
 
-		return "/chefs/editRecipePartTwo.html";
+		return "chefs/editRecipePartTwo.html";
 
 	}
 
@@ -404,39 +404,39 @@ public class RecipeController {
 		model.addAttribute("searchVal", search);
 		
 		
-		return "/users/viewAllRecipes.html";
+		return "users/viewAllRecipes.html";
 	}
 	
 	@GetMapping("/chefs/editInstructions/{id}")
 	public String goEditRecipe(@PathVariable long id, Model model) {
 		Recipe recipe = recipeRepo.findById(id).get();
 		model.addAttribute("recipe", recipe);
-		return "/chefs/editInstruction.html";
+		return "chefs/editInstruction.html";
 	}
 	
 	@GetMapping("/users/viewRecipesByCountry/{name}")
 	public String viewRecipesByCountry(@PathVariable String name, Model model) {
 		model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(name));
-		return "/users/viewAllRecipes.html";
+		return "users/viewAllRecipes.html";
 	}
 
 	@GetMapping("/users/viewByDiet/{id}")
 	public String viewRecipesByDiet(@PathVariable int id, Model model) {
 		model.addAttribute("recipes", recipeRepo.findByDiet_Id(Long.valueOf(id)));
-		return "/users/viewAllRecipes.html";
+		return "users/viewAllRecipes.html";
 	}
 
 	@GetMapping("/users/viewByMeal/{id}")
 	public String viewRecipesByMeal(@PathVariable int id, Model model) {
 		model.addAttribute("recipes", recipeRepo.findByMealtype_id(Long.valueOf(id)));
-		return "/users/viewAllRecipes.html";
+		return "users/viewAllRecipes.html";
 	}
 
 	@GetMapping("/chefs/chefIndex")
 	public String chefIndex(Model model, Authentication auth) {
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
-		return "/chefs/chefIndex";
+		return "chefs/chefIndex";
 	}
 	
 	@GetMapping("/chefs/viewRecipe/{recipeId}")
@@ -446,13 +446,13 @@ public class RecipeController {
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		model.addAttribute("instructions", instruct);
 
-		return "/chefs/viewRecipe.html";
+		return "chefs/viewRecipe.html";
 	}
 
 	// hi this is a test
 	@GetMapping("/users/discover")
 	public String getMap() {
-		return "/users/map.html";
+		return "users/map.html";
 	}
 	
 	@GetMapping("/awaitApproval/{recipeId}")
@@ -462,7 +462,7 @@ public class RecipeController {
 		model.addAttribute("ingredients", recipe.getIngredients());
 
 		
-		return "/chefs/awaitApproval";
+		return "chefs/awaitApproval";
 	}
 	
 	@GetMapping("/reviewRecipe/{id}")
@@ -470,7 +470,7 @@ public class RecipeController {
 		model.addAttribute("recipeId", id);
 		User user = userRepo.findByUsername(auth.getName());
 		model.addAttribute("userId", user.getId());
-		return "/users/reviewForm.html";
+		return "users/reviewForm.html";
 	}
 	
 	@PostMapping("/viewRecipeAfterRating")
@@ -494,7 +494,7 @@ public class RecipeController {
 		System.out.println("Review is " + commentText);
 		System.out.println("anonymous " + anonymous);
 		model.addAttribute("recipes", recipeRepo.findByAuthTrue());
-		return "/users/viewAllRecipes.html";
+		return "users/viewAllRecipes.html";
 	}
 	
 }
