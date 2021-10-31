@@ -142,11 +142,11 @@ function editInstruction() {
 
 function addInstruction() {
 	var divID = getNewId();
-	$("#instructionDiv").append("<div class='row' id='instructionBox" + divID + "'> <div class='col s10 m6' style='margin-left:400px'> <div class='card' style='border-radius: 15px'>" +
+	$("#instructionDiv").append("<div class='row' id='instructionBox" + divID + "'> <div class='col s11' > <div class='card' style='border-radius: 15px'>" +
 		"<div class='card-content'> <div class='row'> <div class='input-field col s12'>" +
 		"<textarea id='instructionValue" + divID + "' class='materialize-textarea' name='instruction'></textarea>" +
 		"<label for='instruction'>Instruction</label> </div></div></div></div></div>" +
-		"<div class='col s2' style='padding-top: 90px'>" +
+		"<div class='col s1' style='padding-top: 90px'>" +
 		"<a class='btn-floating' onclick='deleteInstruction(" + divID + ")' id='deleteBtn'>" +
 		"<i class='small material-icons'>delete_forever</i></a>" +
 		"</div></div>");

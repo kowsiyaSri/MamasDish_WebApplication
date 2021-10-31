@@ -17,7 +17,7 @@
 		<div class="navbar-fixed">
 			<nav>
 			    <div class="nav-wrapper" style="background-color:white">
-				      <a th:href="@{/users/userHome}" class="brand-logo" id="recipeHeader" style="color:grey;padding-left:10px;">Mama's Dish</a>
+				      <a th:href="@{/users/userHome}" class="brand-logo" style="color:grey;padding-left:10px;">Mama's Dish</a>
 				      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons cyan-text text-darken-4">menu</i></a>
 				      	<ul class="right hide-on-med-and-down">
 							<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
@@ -82,7 +82,7 @@
 		    </div>
 	  </nav>
   
-		 <div class="row">
+		 <div class="row" style="padding-top:25px;">
 		 
 			  <div th:each="r: ${recipes}">
 			    <div class="col s4">
@@ -93,7 +93,7 @@
 					          <img id="recipeImg" th:unless="${r.recipeImg != null}" style="opacity:0.6; height:200px" th:src="@{/images/shakshuka.png}">
 				        </div>
 				        <div class="card-content">
-				        	<p th:id="recipeCountry + ${r.id}" th:text=${r.country.name}></p>
+				        	<p th:id="recipeCountry + ${r.id}" class="recipeCountry" th:text=${r.country.name}></p>
 				       		<span class="card-title" id="recipeCard"  th:text="${r.title}"></span>
 							<p class="flow-text" id="recipeDescription" th:text="${r.description}"></p>
 				        </div>

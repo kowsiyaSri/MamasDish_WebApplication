@@ -16,42 +16,27 @@
 
 <body>
     <header>
-        <div class="navbar-fixed" id="centerNav">
-            <nav class="homeNav fixed" id="centerNav">
-                <div class="nav-wrapper" id="centerNav">
-                    <!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
-					src="/images/logo.png" /></a> -->
-                    <ul style="width: 100%" id="centerNav" class="hide-on-med-and-down">
-                        <li style="padding-right: 70px">
-                            <a style="padding: 0px 30px" th:href="@{/users/userHome}" id="homeNavTxt">Home</a>
-                        </li>
-                        <li style="padding-right: 70px">
-                            <a style="padding: 0px 30px" th:href="@{/users/viewAllRecipe}" id="homeNavTxt">All
-                                Recipes</a>
-                        </li>
-                        <li style="padding-right: 70px">
-                            <a style="padding: 0px 30px" th:href="@{/users/discover}" id="homeNavTxt">Discover
-                                Recipes</a>
-                        </li>
-                        <li style="padding-right: 70px">
-                            <a style="padding: 0px 30px" th:href="@{/chefs/chefIndex}" id="homeNavTxt">Chef's Portal</a>
-                        </li>
-                        <li style="padding-right: 70px">
-                            <a style="padding: 0px 30px" th:href="@{/chefs/uploadRecipe}" id="homeNavTxt">Upload
-                                Recipe</a>
-                        </li>
-                        <li>
-                            <a style="padding: 0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
+        <div class="navbar-fixed">
+			<nav>
+			    <div class="nav-wrapper" style="background-color:white">
+				      <a th:href="@{/users/userHome}" class="brand-logo" style="color:grey;padding-left:10px;">Mama's Dish</a>
+				      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons cyan-text text-darken-4">menu</i></a>
+				      	<ul class="right hide-on-med-and-down">
+							<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+							<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+							<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+							<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+							<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+							<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+		     	 		</ul>
+	    		</div>
+	  		</nav>
+		</div>
     </header>
 
-    <main>
-        <div style="margin: auto; align-items: center; width: 50%;">
-            <div class="row" style="margin: auto; align-items: center; width: 100%;">
+        <div class="container">
+            <div class="row" >
                 <div class="card" style="margin-top: 5%; border-radius: 15px">
                     <div class="card-image"><img id="recipeImg" style="height: 350px"
                             th:if="${recipe.recipeImg != null}"
@@ -96,7 +81,7 @@
                                 <p th:text="${#numbers.formatDecimal(recipe.cookTime, 0, 0)} + ' mins'"></p>
                             </div>
                         </div>
-                        <ul class="collapsible popout">
+                        <ul class="collapsible expandable">
                             <li>
                                 <div class="collapsible-header">Nutrition Facts</div>
                                 <div class="collapsible-body">
@@ -217,6 +202,5 @@
                 </div>
             </div>
         </div>
-    </main>
 </body>
 </html>

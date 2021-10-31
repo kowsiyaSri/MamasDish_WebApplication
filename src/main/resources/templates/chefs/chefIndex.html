@@ -4,41 +4,37 @@
 
 <head>
 <meta charset="ISO-8859-1">
-
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
-	<script src="../static/js/script.js" th:src="@{/js/viewAllRecipes.js}"></script>
-	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<link href="css/home.css" th:href="@{/css/home.css}" rel="stylesheet" type="text/css">
+<link href="css/home.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
 	
 
 <title>View All Recipes</title>
 </head>
 <body>
 	<header>
-		<div class="navbar-fixed" id="centerNav">
-			<nav class="homeNav fixed" id="centerNav">
-				<div class="nav-wrapper" id="centerNav">
-					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
-					src="/images/logo.png" /></a> -->
-					<ul style="width: 100%" id="centerNav"
-						class="hide-on-med-and-down">
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
-					</ul>
-				</div>
-			</nav>
+		<div class="navbar-fixed">
+			<nav>
+			    <div class="nav-wrapper" style="background-color:white">
+				      <a th:href="@{/users/userHome}" class="brand-logo" style="color:grey;padding-left:10px;">Mama's Dish</a>
+				      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons cyan-text text-darken-4">menu</i></a>
+				      	<ul class="right hide-on-med-and-down">
+							<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+							<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+							<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+							<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+							<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+							<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+		     	 		</ul>
+	    		</div>
+	  		</nav>
 		</div>
 	</header>
 	
-	<main>
-	 <div class="container">
+	 <div class="content">
 	
 	<h3 id="recipeHeader">HELLO, <span th:text="${chef.enduser.firstName}"></span></h3> 
 	
@@ -51,7 +47,7 @@
 	  <div th:each="r: ${chef.recipes}">
 	    <div class="col s4">
 	    <a class="link" th:href="@{/chefs/viewRecipe/{id}(id=${r.id})}">
-	      <div class="card" style="height:350px; margin:15px; border-radius:15px; ">
+	      <div class="card" style="height:300px; margin:15px; border-radius:15px; ">
 	        <div class="card-image">
 	          <img id="recipeImg" th:if="${r.recipeImg != null}" th:src="@{'/images/recipes/' + ${r.recipeImg}}">
 	          <img id="recipeImg" th:unless="${r.recipeImg != null}" style="opacity:0.6" th:src="@{/images/shakshuka.png}">
@@ -70,6 +66,5 @@
   
  </div>
  </div>
- </main>
 </body>
 </html>

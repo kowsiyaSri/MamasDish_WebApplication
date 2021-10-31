@@ -225,7 +225,7 @@ function newIngredient() {
 	console.log(divID);
 	var proteinTypes = getProteins();
 
-	$("#ingredientDiv").append("<div class='row' style='margin-left:33%' id='ingredientBox" + divID + "'> <div class='col s12 m6'> <div class='card' style='border-radius:15px'>" +
+	$("#ingredientDiv").append("<div class='row' id='ingredientBox" + divID + "'> <div class='col s11'> <div class='card' style='border-radius:15px'>" +
 		"<div class='card-content'> <div class='row'> <div class='input-field col s2'> " +
 		"<input id='quantity" + divID + "' type='number' name='quantity' min='1'> <label for='quantity'>Quantity</label>" +
 		"</div> <div class='input-field col s4'>" +
@@ -234,14 +234,14 @@ function newIngredient() {
 		"</select> " +
 		"</div> <div class='input-field col s6'><input id='ingredientName" + divID + "' type='text' name='ingredient' required>" +
 		"<label for='ingredient'>Ingredient</label> </div>" +
-		"</div> <div class='row' style='padding-bottom:10px; padding-left:380px;'> " +
+		"</div> <div class='row' style='padding-bottom:10px; padding-left:650px;'> " +
 		"<div class='input-field'><label> <input type='checkbox' class='filled-in' id='protein" + divID + "'  name='protein" + divID + "' onClick='showProtein(this)'  /> <span>Protein</span>" +
 		"</label></div></div>" +
 		"<div class='row' id='proteinDiv" + divID + "'style='display:none'>" +
 		"<label>Protein</label> <br> <br> <select class='browser-default' id='proteinType" + divID + "' name='proteinType' required>" +
 		"<option value=''  selected disabled></option>" +
 		"</select> </div> </div> </div> </div> " +
-		"<div class='col s6' style='padding-top:90px'>" +
+		"<div class='col s1' style='padding-top:90px'>" +
 			"<a class='btn-floating' onclick='deleteIngredient("+divID+")' id='deleteBtn'>"+
 				"<i class='small material-icons'>delete_forever</i>" +
 		"</a></div></div></div>");

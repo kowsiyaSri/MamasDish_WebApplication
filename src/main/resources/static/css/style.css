@@ -145,7 +145,7 @@ select#search::-ms-expand {
 
 #recipeImg {
 	width: 100%;
-	height: 250px;
+	height: 200px;
 	border-top-right-radius:15px; 
 	border-top-left-radius:15px
 }
@@ -397,7 +397,7 @@ pre {
 
 #recipeCard {
 	font-family: 'Mulish', sans-serif;
-	font-size: 30px;
+	font-size: 20px;
 	font-variant: small-caps;
 	font-weight: 660;
 	padding-bottom: 20px;
@@ -405,7 +405,7 @@ pre {
 	color: grey;
 }
 
-#recipeCountry {
+.recipeCountry {
 	font-family: 'Mulish', sans-serif;
 	font-size: 20px;
 	font-variant: small-caps;
@@ -458,7 +458,6 @@ input[type="file"] {
 }
 .custom-file-upload {
     border: 1px solid #ccc;
-    display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
 }

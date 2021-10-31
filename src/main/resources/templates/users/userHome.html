@@ -29,7 +29,7 @@
 		</div>
 	</header>
 	<div class="content">
-	  <div id="userHomeHeader"><a href="/users/suggest" th:href="@{/users/suggest}">Just for You:</a></div>
+	  <div id="userHomeHeader"><a id="userHomeHeader" href="/users/suggest" th:href="@{/users/suggest}">Just for You</a></div>
 		  <div class="scrolling-wrapper-flexbox">
 				<div class="cardInfo" th:each="s : ${suggest}">
 			    <div class="col s3">
@@ -48,7 +48,7 @@
 		 </div>
 	 </div>
 	<div class="content">
-	  <div id="userHomeHeader"><a href="/users/discover" th:href="@{/users/discover}">Discover Recipes By Country:</a></div>
+	  <div id="userHomeHeader"><a href="/users/discover" id="userHomeHeader" th:href="@{/users/discover}">Discover Recipes By Country</a></div>
 		  <div class="scrolling-wrapper-flexbox">
 				<div class="cardInfo" th:each="c : ${countries}">
 			    <div class="col s3">
