@@ -1,4 +1,4 @@
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,22 +13,21 @@
 </head>
 <body>
 	<header>
-		<div class="navbar-fixed" id="centerNav">
-			<nav class="homeNav fixed" id="centerNav">
-				<div class="nav-wrapper" id="centerNav">
-					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
-					src="/images/logo.png" /></a> -->
-					<ul style="width: 100%" id="centerNav"
-						class="hide-on-med-and-down">
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
-					</ul>
-				</div>
-			</nav>
+	<div class="navbar-fixed">
+			<nav>
+			    <div class="nav-wrapper" style="background-color:white">
+				      <a th:href="@{/users/userHome}" class="brand-logo" style="color:grey;padding-left:10px;">Mama's Dish</a>
+				      	<ul class="right hide-on-med-and-down">
+							<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+							<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+							<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+							<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+							<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+							<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+		     	 		</ul>
+	    		</div>
+	  		</nav>
 		</div>
 	</header>
 	<div id="map"></div>

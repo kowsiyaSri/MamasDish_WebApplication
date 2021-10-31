@@ -11,21 +11,16 @@
 </head>
 <body style="background-color:#BECEDD">
 	<header>
-		<div class="navbar-fixed" id="centerNav" >
-			<nav style="height:160px; background-color:white;" class="fixed" id="centerNav">
-				<div class="nav-wrapper" id="centerNav">
-					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
-					src="/images/logo.png" /></a> -->
-					<ul style="width: 100%" id="centerNav"
-						class="hide-on-med-and-down">
-						<li><a id="landNav" href="/users/userHome">Mama's Dish</a></li>
-					
-					</ul>
-				</div>
-			</nav>
+		<div class="navbar-fixed">
+			<nav>
+			    <div class="nav-wrapper" style="background-color:white">
+				      <span><a th:href="@{/users/userHome}"  class="brand-logo center"  style="color:grey">Mama's Dish <img style="height:40px; margin-top:10px;" th:src="@{/images/mamasdish_logo.png}"/></a></span>
+				      	
+	    		</div>
+	  		</nav>
 		</div>
 	</header>
-	<main style="margin-top:80px;" >
+	<main style="margin-top:40px;" >
 	<div id="center">
 		<img style="height:440px" th:src="@{/images/shakshuka.png}"/>
 			<p id="homeHeader">Welcome to Mama's Dish</p>
