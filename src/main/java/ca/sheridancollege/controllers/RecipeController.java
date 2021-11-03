@@ -494,7 +494,7 @@ public class RecipeController {
 		System.out.println("Review is " + commentText);
 		System.out.println("anonymous " + anonymous);
 		model.addAttribute("recipes", recipeRepo.findByAuthTrue());
-		return "users/viewAllRecipes.html";
+		return  "redirect:/users/viewRecipe/" + recipeId;
 	}
 	
 }
