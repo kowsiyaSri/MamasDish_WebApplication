@@ -59,9 +59,12 @@ public class UserController {
 	//method to view the profile
 	@GetMapping("/viewProfile")
 	public String goViewProfile(Model model, Authentication auth) {
-		
+
 		//get user
 		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+		
+		model.addAttribute("emails", emailCount);
 		model.addAttribute("user", user);		
 	
 		//get user preferences
@@ -117,9 +120,12 @@ public class UserController {
 	public String saveProfileChanges(@RequestParam long id, @RequestParam String firstName, @RequestParam String lastName,
 			@RequestParam(required = false, value = "countries[]") String[] countries, @RequestParam(required = false, value = "proteins[]") String[] proteins,
 			@RequestParam(required = false, value = "diets[]") String[] diets, @RequestParam(required = false, value = "cuisines[]") String[] cuisines,
-			@RequestParam (required = false) String description, Model model) {
+			@RequestParam (required = false) String description, Model model, Authentication auth) {
 		
 		EndUser user = endUserRepo.findById(id).get();
+		EndUser userEmail = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(userEmail.getId());
+		model.addAttribute("emails", emailCount);
 		
 		//save changes for user
 		user.setFirstName(firstName);
@@ -176,9 +182,13 @@ public class UserController {
 	
 	//method to go to the edit profile page
 	@PostMapping("/editProfile")
-	public String goEditProfile(Model model, @RequestParam long id){
+	public String goEditProfile(Model model, Authentication auth, @RequestParam long id){
 		EndUser user = endUserRepo.findById(id).get();
 		model.addAttribute("user", user);
+		
+		EndUser userEmail = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(userEmail.getId());
+		model.addAttribute("emails", emailCount);
 
 		model.addAttribute("countries", countryRepo.findByOrderByName());
 		model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());

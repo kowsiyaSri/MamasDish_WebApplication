@@ -88,10 +88,10 @@ public class RecipeController {
 
 	@Autowired
 	private Email email;
-	
+
 	@Autowired
 	private MessageRepository mssgRepo;
-	
+
 	@Autowired
 	private RatingRepository ratingRepo;
 
@@ -106,10 +106,9 @@ public class RecipeController {
 		return "loginPage.html";
 	}
 
-	
 	@GetMapping("/users/userHome")
-	public String UserHome(Model model, Authentication auth){
-		
+	public String UserHome(Model model, Authentication auth) {
+
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		int emailCount = mssgRepo.emailCount(user.getId());
 		List<MessageSystem> mssgs = user.getMessages();
@@ -120,27 +119,28 @@ public class RecipeController {
 		model.addAttribute("emails", emailCount);
 		model.addAttribute("countries", countryRepo.findTop5ByOrderById());
 		model.addAttribute("diets", dietRepo.findAll());
-		model.addAttribute("meals", mealRepo.findAll());	
+		model.addAttribute("meals", mealRepo.findAll());
 		model.addAttribute("suggest", recipeRepo.suggestRecipes(user.getId()));
 
-				
 		return "users/userHome.html";
 	}
-	
+
 	@GetMapping("/users/suggest")
-	public String SuggestPage(Model model, Authentication auth){
-		
+	public String SuggestPage(Model model, Authentication auth) {
+
 		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
 		Long id = user.getId();
 		model.addAttribute("countries", recipeRepo.suggestCountry(id));
 		model.addAttribute("cuisines", recipeRepo.suggestCuisine(id));
 		model.addAttribute("diets", recipeRepo.suggestDiet(id));
-		model.addAttribute("proteins", recipeRepo.suggestProtein(id));	
+		model.addAttribute("proteins", recipeRepo.suggestProtein(id));
 		model.addAttribute("suggest", recipeRepo.suggestRecipes(id));
-		
+		model.addAttribute("emails", emailCount);
+
 		return "users/suggestRecipes.html";
 	}
-	
+
 	@GetMapping("/access-denied")
 	public String toAccessDenied() {
 		return "error/access-denied.html";
@@ -148,6 +148,9 @@ public class RecipeController {
 
 	@GetMapping("/chefs/uploadRecipe")
 	public String goUploadRecipe(Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
 		model.addAttribute("recipe", new Recipe());
 		model.addAttribute("countries", countryRepo.findByOrderByName());
 		model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
@@ -155,15 +158,20 @@ public class RecipeController {
 		model.addAttribute("diets", dietRepo.findAll());
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
+		model.addAttribute("emails", emailCount);
 
 		return "chefs/recipe.html";
 	}
 
 	@PostMapping("/chefs/addRecipe")
 	public String addRecipe(@ModelAttribute Recipe recipe, @RequestParam("image") MultipartFile multipartFile, @RequestParam String prep,
-			@RequestParam String cook, Model model, @RequestParam int chefId) {
+			@RequestParam String cook, Model model, Authentication auth, @RequestParam int chefId) {
 
 		Chef chef = chefRepo.findById(Long.valueOf(chefId)).get();
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
 
 		String ptime[] = prep.split(":");
 		float phr = Float.parseFloat(ptime[0]) * 60;
@@ -174,7 +182,7 @@ public class RecipeController {
 		float chr = Float.parseFloat(ctime[0]) * 60;
 		float cmin = Float.parseFloat(ctime[1]);
 		recipe.setCookTime(chr + cmin);
-		
+
 		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
 		Set<ConstraintViolation<Recipe>> validationErrors = validator.validate(recipe);
@@ -222,32 +230,44 @@ public class RecipeController {
 	}
 
 	@GetMapping("/chefs/addInstructions/{recipeId}")
-	public String addInstructions(@PathVariable int recipeId, Model model) {
+	public String addInstructions(@PathVariable int recipeId, Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
 		model.addAttribute("recipeId", recipeId);
 		return "chefs/instruction.html";
 	}
 
 	@GetMapping("/users/viewAllRecipe")
-	public String viewAllRecipes(Model model) {
+	public String viewAllRecipes(Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
 		model.addAttribute("recipes", recipeRepo.findByAuthTrue());
 		model.addAttribute("countries", countryRepo.getCountryTest());
 		return "users/viewAllRecipes.html";
 	}
 
 	@GetMapping("/users/viewRecipe/{recipeId}")
-	public String viewRecipe(@PathVariable int recipeId, Model model) {
-		
+	public String viewRecipe(@PathVariable int recipeId, Model model, Authentication auth) {
+
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
+
 		double ratingSum = 0;
 		double ratingAve = 0;
 		List<Rating> listRatings = ratingRepo.findByRecipeId(Long.valueOf(recipeId));
-		if(listRatings.size() > 0) {
-				for (Rating rating : listRatings) {
-				ratingSum+=rating.getRating();			
-									}				
-				ratingAve = ratingSum/ listRatings.size();		
+		if (listRatings.size() > 0) {
+			for (Rating rating : listRatings) {
+				ratingSum += rating.getRating();
+			}
+			ratingAve = ratingSum / listRatings.size();
 		}
-		
-		
+
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
@@ -261,6 +281,11 @@ public class RecipeController {
 
 	@GetMapping("/users/editRecipePartOne/{recipeId}")
 	public String editRecipe1(@PathVariable int recipeId, Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
+
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
 		// List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		// instruct.sort(Comparator.comparing(Instruction::getStepNumber));
@@ -269,20 +294,11 @@ public class RecipeController {
 		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
 		recipe.setAuth(false);
 
-		model.addAttribute("countries", countryRepo.findByContryName(recipe.getCountry().getName()));
-		model.addAttribute("meals", mealRepo.findByMealName(recipe.getMealtype().getMealName()));
+		model.addAttribute("countries", countryRepo.findAll());
+		model.addAttribute("meals", mealRepo.findAll());
+		model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
+		model.addAttribute("diets", dietRepo.findAll());
 
-		if (recipe.getCuisine() != null) {
-			model.addAttribute("cuisines", cuisineRepo.findByCuisineName(recipe.getCuisine().getCuisineName()));
-		} else {
-			model.addAttribute("cuisines", cuisineRepo.findByOrderByCuisineName());
-		}
-
-		if (recipe.getDiet() != null) {
-			model.addAttribute("diets", dietRepo.findByDietName(recipe.getDiet().getDietType()));
-		} else {
-			model.addAttribute("diets", dietRepo.findAll());
-		}
 		float prepTime = recipe.getPrepTime();
 		int hours = (int) prepTime / 60;
 		int mints = (int) prepTime - (60 * hours);
@@ -310,7 +326,11 @@ public class RecipeController {
 
 	@PostMapping("/chefs/editRecipe")
 	public String editRecipe(@ModelAttribute Recipe recipe, @RequestParam("image") MultipartFile multipartFile, @RequestParam String prep,
-			@RequestParam String cook, Model model, @RequestParam int chefId, @RequestParam int recipeId) {
+			@RequestParam String cook, Model model, Authentication auth, @RequestParam int chefId, @RequestParam int recipeId) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
 
 		Chef chef = chefRepo.findById(Long.valueOf(chefId)).get();
 		Recipe recipeUpdated = recipeRepo.findById(Long.valueOf(recipeId)).get();
@@ -357,6 +377,22 @@ public class RecipeController {
 			}
 			return "chefs/editRecipePartOne.html";
 		}
+		
+		System.out.println(multipartFile.getOriginalFilename());
+		
+		if (!multipartFile.getOriginalFilename().isEmpty()) {
+			String fileName = recipeUpdated.getId() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			// user.setPhotos(fileName);
+
+			recipeUpdated.setRecipeImg(fileName);
+			String uploadDir = "src\\main\\resources\\static\\images\\recipes";
+			try {
+				FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 
 		// recipe.setChef(chef);
 		recipeUpdated.setCuisine(recipe.getCuisine());
@@ -367,10 +403,8 @@ public class RecipeController {
 		recipeUpdated.setServingSize(recipe.getServingSize());
 		recipeUpdated.setTitle(recipe.getTitle());
 		
-		recipeUpdated.setRecipeImg(recipe.getRecipeImg());
-
 		recipeRepo.save(recipeUpdated);
-		
+
 		model.addAttribute("recipeIngredients", recipeUpdated.getIngredients());
 		model.addAttribute("measurements", measureRepo.findAll());
 		model.addAttribute("proteins", proteinRepo.findAll());
@@ -379,9 +413,13 @@ public class RecipeController {
 		return "chefs/editRecipePartTwo.html";
 
 	}
+	
+	@GetMapping("/users/searchRecipes")
+	public String searchRecipesAll(Model model, Authentication auth, @RequestParam String search, @RequestParam int searchBy) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
 
-	@PostMapping("/users/searchRecipes")
-	public String searchRecipes(Model model, @RequestParam String search, @RequestParam int searchBy) {
+		model.addAttribute("emails", emailCount);
 
 		switch (searchBy) {
 		case 0:
@@ -402,45 +440,104 @@ public class RecipeController {
 		}
 
 		model.addAttribute("searchVal", search);
-		
-		
+
 		return "users/viewAllRecipes.html";
 	}
-	
+
+	@PostMapping("/users/searchRecipes")
+	public String searchRecipes(Model model, Authentication auth, @RequestParam String search, @RequestParam int searchBy) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
+
+		switch (searchBy) {
+		case 0:
+			model.addAttribute("recipes", recipeRepo.basicSearch(search));
+			break;
+		case 1:
+			model.addAttribute("recipes", recipeRepo.findByTitleContainingIgnoreCase(search));
+			break;
+		case 3:
+			model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(search));
+			break;
+		case 2:
+			model.addAttribute("recipes", recipeRepo.findByIngredients_Ingredient_IngredientNameContainingIgnoreCase(search));
+			break;
+
+		default:
+			model.addAttribute("recipes", recipeRepo.findByTitleContainingIgnoreCaseOrCountry_nameContainingIgnoreCase(search, search));
+		}
+
+		model.addAttribute("searchVal", search);
+
+		return "users/viewAllRecipes.html";
+	}
+
 	@GetMapping("/chefs/editInstructions/{id}")
-	public String goEditRecipe(@PathVariable long id, Model model) {
+	public String goEditRecipe(@PathVariable long id, Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
+
 		Recipe recipe = recipeRepo.findById(id).get();
 		model.addAttribute("recipe", recipe);
 		return "chefs/editInstruction.html";
 	}
-	
+
 	@GetMapping("/users/viewRecipesByCountry/{name}")
-	public String viewRecipesByCountry(@PathVariable String name, Model model) {
+	public String viewRecipesByCountry(@PathVariable String name, Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
+
 		model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(name));
 		return "users/viewAllRecipes.html";
 	}
 
 	@GetMapping("/users/viewByDiet/{id}")
-	public String viewRecipesByDiet(@PathVariable int id, Model model) {
+	public String viewRecipesByDiet(@PathVariable int id, Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
+
 		model.addAttribute("recipes", recipeRepo.findByDiet_Id(Long.valueOf(id)));
 		return "users/viewAllRecipes.html";
 	}
 
 	@GetMapping("/users/viewByMeal/{id}")
-	public String viewRecipesByMeal(@PathVariable int id, Model model) {
+	public String viewRecipesByMeal(@PathVariable int id, Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
+
 		model.addAttribute("recipes", recipeRepo.findByMealtype_id(Long.valueOf(id)));
 		return "users/viewAllRecipes.html";
 	}
 
 	@GetMapping("/chefs/chefIndex")
 	public String chefIndex(Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
+
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
 		return "chefs/chefIndex";
 	}
-	
+
 	@GetMapping("/chefs/viewRecipe/{recipeId}")
-	public String viewChefRecipe(@PathVariable int recipeId, Model model) {
+	public String viewChefRecipe(@PathVariable int recipeId, Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
+
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
@@ -451,50 +548,71 @@ public class RecipeController {
 
 	// hi this is a test
 	@GetMapping("/users/discover")
-	public String getMap() {
+	public String getMap(Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
+
 		return "users/map.html";
 	}
-	
+
 	@GetMapping("/awaitApproval/{recipeId}")
-	public String awaitApproval(@PathVariable int recipeId, Model model) {
+	public String awaitApproval(@PathVariable int recipeId, Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("emails", emailCount);
+
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
 		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		recipe.setAuth(false);
+		recipeRepo.save(recipe);
 		model.addAttribute("ingredients", recipe.getIngredients());
 
-		
 		return "chefs/awaitApproval";
 	}
-	
+
 	@GetMapping("/reviewRecipe/{id}")
 	public String reviewRecipe(@PathVariable long id, Model model, Authentication auth) {
+		EndUser userEmail = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(userEmail.getId());
+
+		model.addAttribute("emails", emailCount);
+
 		model.addAttribute("recipeId", id);
 		User user = userRepo.findByUsername(auth.getName());
 		model.addAttribute("userId", user.getId());
 		return "users/reviewForm.html";
 	}
-	
+
 	@PostMapping("/viewRecipeAfterRating")
-	public String veiwRecipeRating(Model model, @RequestParam float rating, @RequestParam String commentText,
-			@RequestParam long userId, @RequestParam long recipeId, @RequestParam(value = "anonymous", required = false)String anonymous) {
+	public String veiwRecipeRating(Model model, Authentication auth, @RequestParam float rating, @RequestParam String commentText,
+			@RequestParam long userId, @RequestParam long recipeId, @RequestParam(value = "anonymous", required = false) String anonymous) {
 
 		EndUser user = endUserRepo.findById(userId).get();
 		Recipe recipe = recipeRepo.findById(recipeId).get();
 
+		EndUser userEmail = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(userEmail.getId());
+
+		model.addAttribute("emails", emailCount);
+
 		Rating ratingEntity = Rating.builder().recipe(recipe).user(user).rating(rating).comment(commentText).build();
-		
-		if(anonymous == null) {
-			ratingEntity.setUserName(user.getFirstName()+ " "+user.getLastName());
+
+		if (anonymous == null) {
+			ratingEntity.setUserName(user.getFirstName() + " " + user.getLastName());
 		} else {
-			ratingEntity.setUserName("Mama's Dish User");			
+			ratingEntity.setUserName("Mama's Dish User");
 		}
-		
+
 		ratingRepo.save(ratingEntity);
-		
+
 		System.out.println("Rating is " + rating);
 		System.out.println("Review is " + commentText);
 		System.out.println("anonymous " + anonymous);
 		model.addAttribute("recipes", recipeRepo.findByAuthTrue());
-		return  "redirect:/users/viewRecipe/" + recipeId;
+		return "redirect:/users/viewRecipe/" + recipeId;
 	}
-	
+
 }
