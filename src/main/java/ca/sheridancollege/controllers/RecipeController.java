@@ -30,6 +30,7 @@ import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.MessageSystem;
 import ca.sheridancollege.beans.Rating;
 import ca.sheridancollege.beans.Recipe;
+import ca.sheridancollege.beans.Role;
 import ca.sheridancollege.beans.User;
 import ca.sheridancollege.email.Email;
 import ca.sheridancollege.repositories.ChefRepository;
@@ -104,6 +105,33 @@ public class RecipeController {
 	public String toLoginPage(Model model) {
 
 		return "loginPage.html";
+	}
+	
+	@GetMapping("/landingPage")
+	public String HomePage(Authentication auth) {
+		
+		User user = userRepo.findByUsername(auth.getName());
+		boolean isAdmin = false;
+		boolean isUser = false;
+		boolean isChef = false;
+		
+		for(Role role : user.getRoles()) {
+			if(role.getRolename().equals("ROLE_ADMIN")) {
+				isAdmin = true;
+			}else if (role.getRolename().equals("ROLE_USER")) {
+				isUser = true;
+			}else if (role.getRolename().equals("ROLE_CHEF")) {
+				isChef = true;
+			}
+		}
+		
+		if(isAdmin) {
+			return "redirect:/admin";
+		}else if(isChef) {
+			return "redirect:/chefs/chefIndex";
+		}else {
+			return "redirect:/users/userHome";
+		}
 	}
 
 	@GetMapping("/users/userHome")
