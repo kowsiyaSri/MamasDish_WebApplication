@@ -107,11 +107,11 @@ fetch('http://localhost:8080/mamasdish/countryRecipes')
 					if(data[i].recipes[x].recipeImg == null){
 						recipeImg = "shakshuka.png"
 					} else {
-						recipeImg = data[i].recipes[x].recipeImg + "-min.jpeg"
+						recipeImg = data[i].recipes[x].recipeImg
 					}
 					if (x < MAX_SIZE){
 						contentString += "<li style='border:0px; padding:0px; margin-left:0px; width:400px;'>"
-						contentString += "<div class='row' style='border: 2px solid #e4e8eb; padding:10px; border-radius: 15px;'><img class='col s4' style='height:70px; margin-left:0px;' src='/images/recipes/" + recipeImg + ".jpeg'>"
+						contentString += "<div class='row' style='border: 2px solid #e4e8eb; padding:10px; border-radius: 15px;'><img class='col s4' style='height:70px; margin-left:0px;' src='/images/recipes/" + recipeImg + "'>"
 						contentString += "<a id='discoverFont' class='col s8' style='margin-top:10px; padding-top:0px;' href=/users/viewRecipe/"+ data[i].recipes[x].recipeId + ">"
 						contentString += data[i].recipes[x].recipeTitle + "</a></div></li>"						
 					}

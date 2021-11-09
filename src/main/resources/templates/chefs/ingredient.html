@@ -2,23 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet"
-	type="text/css">
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 <script src="../static/js/ingredient.js" th:src="@{/js/ingredient.js}"></script>
-<script data-require="jquery@1.12.4" data-semver="1.12.4"
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.js"></script>
+<script data-require="jquery@1.12.4" data-semver="1.12.4" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <title>Add Ingredients</title>
 </head>
 <body>
@@ -40,8 +30,6 @@
 	    		</div>
 	  		</nav>
 		</div>
-			</nav>
-		</div>
 	</header>
 
 		<div style="display: none" id="recipeId"  th:text="${recipeId}"></div>
@@ -49,6 +37,9 @@
 		<div style="display: none; text-align:center; margin-bottom:5px;" id="errId">Please ensure all ingredients are named</div>
 		
 		<div class="container">	
+		<div class="demo"></div>
+		
+		
 		<div id="ingredientDiv">
 		
 			<div class="row" id="ingredientBox1">

@@ -15,30 +15,24 @@
 </head>
 <body>
 	<header>
-		<div class="navbar-fixed" id="centerNav">
-			<nav class="homeNav fixed" id="centerNav">
-				<div class="nav-wrapper" id="centerNav">
-					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
-					src="/images/logo.png" /></a> -->
-					<ul style="width: 100%" id="centerNav" class="hide-on-med-and-down">
-						<li style="padding-right: 70px"><a style="padding: 0px 30px"
-							th:href="@{/users/userHome}" id="homeNavTxt">Home</a></li>
-						<li style="padding-right: 70px"><a style="padding: 0px 30px"
-							th:href="@{/users/viewAllRecipe}" id="homeNavTxt">All Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding: 0px 30px"
-							th:href="@{/users/discover}" id="homeNavTxt">Discover Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding: 0px 30px"
-							th:href="@{/chefs/chefIndex}" id="homeNavTxt">Chef's Portal</a></li>
-						<li style="padding-right: 70px"><a style="padding: 0px 30px"
-							th:href="@{/chefs/uploadRecipe}" id="homeNavTxt">Upload
-								Recipe</a></li>
-						<li><a style="padding: 0px 30px" th:href="@{/logout}"
-							id="homeNavTxt">Logout</a></li>
-					</ul>
-				</div>
-			</nav>
+        <div class="navbar-fixed">
+			<nav>
+			    <div class="nav-wrapper" style="background-color:white">
+				      <a th:href="@{/users/userHome}" class="brand-logo" style="color:grey;padding-left:10px;">Mama's Dish</a>
+				      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons cyan-text text-darken-4">menu</i></a>
+				      	<ul class="right hide-on-med-and-down">
+							<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+							<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+							<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+							<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+							<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+							<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+		     	 		</ul>
+	    		</div>
+	  		</nav>
 		</div>
-	</header>
+    </header>
 	<main>
 
 		<div class="container">
@@ -63,18 +57,24 @@
 											value="${recipe.title}"> <label for="title">Title</label>
 									</div>
 								</div>
-
+								
 								<div class="row">
+				        			<div class="col s12">
+									<span style="color:#5085A5">Upload Recipe Image</span>
+					          			<div class="file-field input-field">
+					            		<label for="file-upload" class="custom-file-upload">
+					            		Choose File
+									</label>
 									<div class="col s12">
-										<span style="color: #5085A5">Upload Recipe Image</span>
-										<div class="input-field">
-											<label for="file-upload" class="custom-file-upload">
-												Choose File </label>      <input type="file" id="file-upload"
-												name="image" accept="image/png, image/jpeg"
-												onchange="loadFile(event)" /> <br>
-										</div>
-									</div>
-								</div>
+				    				<input class="col s6"  type="file" id="file-upload" name="image" style="margin-left: 2000px" accept="image/png, image/jpeg" onchange="loadFile(event)"/>
+									  <div class="file-path-wrapper col s6 offset-s2">
+				        				<input class="file-path validate" type="text" placeholder="Upload one or more files">
+				      				</div>
+				      				</div>
+									<br>
+					         			 </div>
+				        			</div>
+				      			</div>
 								<img id="output" th:src="@{${'/images/recipes/' + recipe.recipeImg}}"/>
 								<div class="row">
 									<div class="input-field col s12">
@@ -109,7 +109,7 @@
 											id="mealtype" required>
 											<option th:text="'Meal Type'" style="color: #5085A5" value=""
 												selected disabled></option>
-											<option th:each="m : ${meals}" th:selected="${m.id}"
+											<option th:each="m : ${meals}" th:selected="${m.id == recipe.mealtype.id}"
 												th:value="${m.id}"
 												th:text="${#strings.capitalize(#strings.toLowerCase(m.mealName))}"></option>
 										</select>
@@ -121,7 +121,7 @@
 										<br> <select class="browser-default" name="country"
 											id="country" required>
 											<option th:text="Country" style="color: #5085A5" value="" disabled></option>
-											<option th:each="c : ${countries}" th:selected="${c.id}"
+											<option th:each="c : ${countries}" th:selected="${c.id == recipe.country.id}"
 												th:value="${c.id}" th:text="${c.name}"></option>
 										</select>
 									</div>
@@ -129,22 +129,32 @@
 								<div class="row">
 									<div class="input-field col s12">
 										<label>Cuisine</label><br>
-										<br> <select class="browser-default" name="cuisine"
-											id="cuisine">
+										<br>
+										<select th:if="${recipe.cuisine}" class="browser-default" name="cuisine" id="cuisine">
 											<option th:text="Cuisine" value="" ></option>
-											<option th:each="c : ${cuisines}" th:selected="${c.id}"
+											<option th:each="c : ${cuisines}" th:selected="${c.id == recipe.cuisine.id}"
 												th:value="${c.id}" th:text="${c.cuisineName}"></option>
+										</select>
+										<select th:unless="${recipe.cuisine}" class="browser-default" name="cuisine" id="cuisine">
+											<option th:text="Cuisine" value="" selected></option>
+											<option th:each="c : ${cuisines}" th:value="${c.id}" 
+												th:text="${c.cuisineName}"></option>
 										</select>
 									</div>
 								</div>
 								<div class="row">
 									<div class="input-field col s12">
 										<label>Diet Type</label><br>
-										<br> <select class="browser-default" name="diet"
-											id="diet">
+										<br> 
+										<select th:if="${recipe.diet}" class="browser-default" name="diet" id="diet">
 											<option th:text="'Diet Type'" value="" ></option>
-											<option th:each="d : ${diets}" th:selected="${d.id}"
+											<option th:each="d : ${diets}" th:selected="${d.id == recipe.diet.id}"
 												th:value="${d.id}"
+												th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
+										</select>
+										<select th:unless="${recipe.diet}" class="browser-default" name="diet" id="diet">
+											<option th:text="'Diet Type'" value="" selected></option>
+											<option th:each="d : ${diets}" th:value="${d.id}"
 												th:text="${#strings.capitalize(#strings.toLowerCase(d.dietType))}"></option>
 										</select>
 									</div>

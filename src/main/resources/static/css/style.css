@@ -423,6 +423,11 @@ pre {
 	line-height: 30px;
 }
 
+#recipeDescription2 {
+	font-family: 'Mulish', sans-serif;
+
+}
+
 #registerSh {
 	font-family: 'Mulish', sans-serif;
 	font-size: 15px;

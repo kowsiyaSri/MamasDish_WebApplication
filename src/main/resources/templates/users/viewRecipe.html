@@ -47,26 +47,26 @@
 </head>
 <body>
 	<header>
-		<div class="navbar-fixed" id="centerNav">
-			<nav class="homeNav fixed" id="centerNav">
-				<div class="nav-wrapper" id="centerNav">
-					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
-					src="/images/logo.png" /></a> -->
-					<ul style="width: 100%" id="centerNav"
-						class="hide-on-med-and-down">
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
-					</ul>
-				</div>
-			</nav>
+		 <div class="navbar-fixed">
+			<nav>
+			    <div class="nav-wrapper" style="background-color:white">
+				      <a th:href="@{/users/userHome}" class="brand-logo" style="color:grey;padding-left:10px;">Mama's Dish</a>
+				      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons cyan-text text-darken-4">menu</i></a>
+				      	<ul class="right hide-on-med-and-down">
+							<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+							<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+							<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+							<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+							<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+							<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+		     	 		</ul>
+	    		</div>
+	  		</nav>
 		</div>
 	</header>
-	<main>
-		<div style="margin: auto; align-items: center; width: 50%;">
+	
+	   <div class="container">
 			<div class="row" style="margin: auto; align-items: center; width: 100%;">
 				<div class="card" style="margin-top: 5%; border-radius:15px">
 					<div class="card-image">
@@ -113,7 +113,7 @@
 									min</p>
 							</div>
 						</div>
-						<ul class="collapsible popout">
+						<ul class="collapsible expandable">
                             <li>
                                 <div class="collapsible-header">Nutrition Facts</div>
                                 <div class="collapsible-body">
@@ -230,19 +230,30 @@
 									<a style="background-color: #5085A5" onclick="writeReview()" class="waves-effect waves-light btn">Write a Customer review</a>
 								</div>
 															<div th:if="${reviews != null}">
- 								<div class="card" th:each="r: ${reviews}">
-									<div class="card-content">
-										<span style="font-size:20px;" class="card-title activator grey-text text-darken-4"
-											th:text="${r.userName}"> </span>
-										<p><div class="stars-outer">
+ 								<ul class="collection with-header" style="border: 0px" >
+ 								
+ 								<li id="listLbl" class="collection-header">
+									<h6 id="listLbl"><strong>REVIEWS</strong></h6>
+								</li>
+								
+								<li id="listLbl" class="collection-header" th:each="r: ${reviews}">
+										<div class="row">
+										<h6 class="col s9" th:text="${r.userName}"></h6>
+										
+										<p class="col s3"><div class="stars-outer">
 											<div id="stars-inner" th:style="'width:'+(${r.rating} * 100)/5 +'%'"></div>
 									<span class="number-rating"></span>
 								</div>
-										</p>
+								</p>
+									
+								</div>
+								<div class="row">
+										<p class="col s12" th:text="${r.comment}" style="font-size:25px;"></p>
+										</div>
+										</li>
+										</ul>
 										
 									</div>
-									<div class="card-action">
-										<p th:text="${r.comment}" style="font-size:25px;"></p>
 									</div>
 								</div> 
 
@@ -252,7 +263,6 @@
 				</div>
 			</div>
 		</div>
-	</main>
 </body>
 <script th:inline="javascript">
 

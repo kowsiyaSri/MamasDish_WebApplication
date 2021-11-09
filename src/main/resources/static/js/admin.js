@@ -30,6 +30,9 @@ function approveRecipe(id) {
 		.then(function(data) {
 			console.log(data);
 		});
+		
+				window.open('/admin', '_self');
+
 
 }
 
