@@ -311,7 +311,7 @@ public class RecipeController {
 		System.out.println(ratingRepo.findByRecipeId(Long.valueOf(recipeId)));	
 		
 		//check if in recent
-		Boolean isPresent = false;
+		boolean isPresent = false;
 		Recent present = null;
 		for (Recent r : user.getRecent()){
 			if(r.getRecipe().getId() == recipe.getId()) {
@@ -369,6 +369,40 @@ public class RecipeController {
 		model.addAttribute("emails", emailCount);
 		
 		return "users/recent.html";
+	}
+	
+	//save recipe
+	@GetMapping("/users/saveRecipe/{recipeId}")
+	public String saveRecipe(Model model, Authentication auth, @PathVariable int recipeId) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		
+		boolean isPresent = false;
+		for(Recipe r : user.getRecipe()) {
+			if(r.getId() == recipe.getId()) {
+				isPresent = true;
+			}
+		}
+		
+		if (!isPresent) {
+			user.getRecipe().add(recipe);
+			endUserRepo.save(user);
+		}
+		
+		return "redirect:/users/viewRecipe/" + recipeId;
+	}
+	
+	//view saved recipe 
+	@GetMapping("/users/viewSaved")
+	public String viewSaved(Model model, Authentication auth) {
+		
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("user", user);
+		model.addAttribute("emails", emailCount);
+		
+		return "users/saved.html";
 	}
 
 	@GetMapping("/users/editRecipePartOne/{recipeId}")
@@ -638,7 +672,6 @@ public class RecipeController {
 		return "chefs/viewRecipe.html";
 	}
 
-	// hi this is a test
 	@GetMapping("/users/discover")
 	public String getMap(Model model, Authentication auth) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
@@ -649,6 +682,7 @@ public class RecipeController {
 		return "users/map.html";
 	}
 
+	
 	@GetMapping("/awaitApproval/{recipeId}")
 	public String awaitApproval(@PathVariable int recipeId, Model model, Authentication auth) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
