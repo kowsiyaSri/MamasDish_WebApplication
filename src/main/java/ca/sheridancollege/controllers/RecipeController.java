@@ -1,7 +1,9 @@
 package ca.sheridancollege.controllers;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,6 +31,7 @@ import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.MessageSystem;
 import ca.sheridancollege.beans.Rating;
+import ca.sheridancollege.beans.Recent;
 import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.Role;
 import ca.sheridancollege.beans.User;
@@ -43,6 +46,7 @@ import ca.sheridancollege.repositories.MeasurementRepository;
 import ca.sheridancollege.repositories.MessageRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RatingRepository;
+import ca.sheridancollege.repositories.RecentRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
 import ca.sheridancollege.repositories.RoleRepository;
@@ -83,6 +87,9 @@ public class RecipeController {
 
 	@Autowired
 	private ChefRepository chefRepo;
+	
+	@Autowired
+	private RecentRepository recentRepo;
 
 	@Autowired
 	private RecipeIngredientRepository recipeIngredientRepo;
@@ -107,19 +114,17 @@ public class RecipeController {
 		return "loginPage.html";
 	}
 	
+	//checks user role and return the corresponding home page
 	@GetMapping("/landingPage")
 	public String HomePage(Authentication auth) {
 		
 		User user = userRepo.findByUsername(auth.getName());
 		boolean isAdmin = false;
-		boolean isUser = false;
 		boolean isChef = false;
 		
 		for(Role role : user.getRoles()) {
 			if(role.getRolename().equals("ROLE_ADMIN")) {
 				isAdmin = true;
-			}else if (role.getRolename().equals("ROLE_USER")) {
-				isUser = true;
 			}else if (role.getRolename().equals("ROLE_CHEF")) {
 				isChef = true;
 			}
@@ -296,15 +301,74 @@ public class RecipeController {
 			ratingAve = ratingSum / listRatings.size();
 		}
 
-		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
+		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		model.addAttribute("recipe", recipe);
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		model.addAttribute("instructions", instruct);
 		model.addAttribute("rating", ratingAve);
 		model.addAttribute("reviews", listRatings);
-		System.out.println(ratingRepo.findByRecipeId(Long.valueOf(recipeId)));
-
+		System.out.println(ratingRepo.findByRecipeId(Long.valueOf(recipeId)));	
+		
+		//check if in recent
+		Boolean isPresent = false;
+		Recent present = null;
+		for (Recent r : user.getRecent()){
+			if(r.getRecipe().getId() == recipe.getId()) {
+				isPresent = true;
+				present = r;
+			}
+		}
+		
+		//Gets current date  
+		long millis = System.currentTimeMillis(); 
+		Date now = new Date(millis);
+		
+		if (!isPresent) {
+			Recent recent = Recent.builder().recipe(recipe).date(now).build();
+			
+			//adds recent to user list
+			if(user.getRecent().size() <= 15) {
+				Recent saved = recentRepo.save(recent);
+				user.getRecent().add(saved);
+				endUserRepo.save(user);
+			}else {
+				
+				//will remove the first item from the list and add new one to the end
+				Long remRec = user.getRecent().get(0).getId();
+				user.getRecent().remove(0);
+				recentRepo.deleteById(remRec);
+		
+				//adds to list
+				Recent saved = recentRepo.save(recent);
+				user.getRecent().add(saved);
+				endUserRepo.save(user);
+			}		
+		} else {
+			
+			//update date on recent
+			present.setDate(now);
+			recentRepo.save(present);	
+			
+			user.getRecent().sort(Comparator.comparing(r -> r.getDate()));
+			endUserRepo.save(user);
+		}
+		
 		return "users/viewRecipe.html";
+	}
+	
+	
+	//view recent recipe page
+	@GetMapping("/users/viewRecent")
+	public String viewRecent(Model model, Authentication auth) {
+		
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+
+		model.addAttribute("user", user);
+		model.addAttribute("emails", emailCount);
+		
+		return "users/recent.html";
 	}
 
 	@GetMapping("/users/editRecipePartOne/{recipeId}")
