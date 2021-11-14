@@ -308,9 +308,8 @@ public class RecipeController {
 		model.addAttribute("instructions", instruct);
 		model.addAttribute("rating", ratingAve);
 		model.addAttribute("reviews", listRatings);
-		System.out.println(ratingRepo.findByRecipeId(Long.valueOf(recipeId)));	
 		
-		//check if in recent
+		//check if in recent recipe
 		boolean isPresent = false;
 		Recent present = null;
 		for (Recent r : user.getRecent()){
@@ -353,6 +352,15 @@ public class RecipeController {
 			user.getRecent().sort(Comparator.comparing(r -> r.getDate()));
 			endUserRepo.save(user);
 		}
+		
+		//checks if is saved
+		boolean isSaved = false;
+		for (Recipe r : user.getRecipe()) {
+			if (r.getId() == recipe.getId()){
+				isSaved = true;
+			}
+		}
+		model.addAttribute("saved", isSaved);
 		
 		return "users/viewRecipe.html";
 	}
