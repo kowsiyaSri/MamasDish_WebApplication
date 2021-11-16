@@ -22,8 +22,8 @@
 <title>Add Ingredients</title>
 </head>
 <body>
-	<header>
-        <div class="navbar-fixed">
+		<header>
+		<div class="navbar-fixed">
 			<nav>
 			    <div class="nav-wrapper" style="background-color:white">
 				      <a th:href="@{/users/userHome}" class="brand-logo" style="color:grey;padding-left:10px;">Mama's Dish</a>
@@ -33,14 +33,34 @@
 							<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
 							<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
 							<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-							<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
 		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
-							<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+							<li>
+  								<a class='dropdown-trigger' href='#' data-target='dropdown1'><i class="material-icons cyan-text text-darken-4">menu</i></a>
+								<ul id='dropdown1' class='dropdown-content'>
+									<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+								   	<li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
+								   	<li><a th:href="@{/users/viewRecent}" id="homeNavTxt">Recent Recipes</a></li>
+									<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+								</ul>
+							</li>
 		     	 		</ul>
 	    		</div>
 	  		</nav>
 		</div>
-    </header>
+		
+	  <ul class="sidenav" id="mobile-demo">
+	  	<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+		<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+		<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+		<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+	    <li><a href="" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+	    <li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+	    <li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
+	    <li><a th:href="@{/users/Recent}" id="homeNavTxt">Recent Recipes</a></li>
+		<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+	  </ul>
+		
+	</header>
 		
 		
 		<div style="display: none" id="recipeId"  th:text="${recipeId}"></div>
