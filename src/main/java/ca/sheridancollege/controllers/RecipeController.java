@@ -400,6 +400,28 @@ public class RecipeController {
 		return "redirect:/users/viewRecipe/" + recipeId;
 	}
 	
+	//un-saved recipe
+	@GetMapping("/users/removeRecipe/{recipeId}")
+	public String unsaveRecipe(Model model, Authentication auth, @PathVariable int recipeId) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		
+		boolean isPresent = false;
+		Recipe remove = null;
+		for(Recipe r : user.getRecipe()) {
+			if(r.getId() == recipe.getId()) {
+				isPresent = true;
+				remove = r;
+			}
+		}
+		
+		if (!isPresent) {
+			user.getRecipe().remove(remove);
+		}
+		
+		return "redirect:/users/viewRecipe/" + recipeId;
+	}
+	
 	//view saved recipe 
 	@GetMapping("/users/viewSaved")
 	public String viewSaved(Model model, Authentication auth) {
