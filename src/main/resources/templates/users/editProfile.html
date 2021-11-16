@@ -14,6 +14,7 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" th:href="@{/css/sellect.css}">
 <link href='css/style.css' th:href=@{css/style.css} rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <script src="../static/js/sellect.js" th:src="@{/js/sellect.js}"></script>
 <script src="../static/js/editProfile.js" th:src="@{/js/editProfile.js}"></script>
@@ -38,24 +39,44 @@ body {
 </style>
 </head>
 <body>
-	<header>
-		<div class="navbar-fixed" id="centerNav">
-			<nav class="homeNav fixed" id="centerNav">
-				<div class="nav-wrapper" id="centerNav">
-					<!-- <a th:href="@{/}" class="brand-logo"><img class="logo"
-					src="/images/logo.png" /></a> -->
-					<ul style="width: 100%" id="centerNav"
-						class="hide-on-med-and-down">
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/userHome}"  id="homeNavTxt">Home</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
-						<li style="padding-right: 70px"><a style="padding:0px 30px" th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-						<li><a style="padding:0px 30px" th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
-					</ul>
-				</div>
-			</nav>
+<header>
+		<div class="navbar-fixed">
+			<nav>
+			    <div class="nav-wrapper" style="background-color:white">
+				      <a th:href="@{/users/userHome}" class="brand-logo" style="color:grey;padding-left:10px;">Mama's Dish</a>
+				      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons cyan-text text-darken-4">menu</i></a>
+				      	<ul class="right hide-on-med-and-down">
+							<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+							<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+							<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+							<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+							<li>
+  								<a class='dropdown-trigger' href='#' data-target='dropdown1'><i class="material-icons cyan-text text-darken-4">menu</i></a>
+								<ul id='dropdown1' class='dropdown-content'>
+									<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+								   	<li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
+								   	<li><a th:href="@{/users/viewRecent}" id="homeNavTxt">Recent Recipes</a></li>
+									<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+								</ul>
+							</li>
+		     	 		</ul>
+	    		</div>
+	  		</nav>
 		</div>
+		
+	  <ul class="sidenav" id="mobile-demo">
+	  	<li><a th:href="@{/users/viewAllRecipe}"  id="homeNavTxt">All Recipes</a></li>
+		<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
+		<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
+		<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
+	    <li><a href="" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+	    <li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
+	    <li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
+	    <li><a th:href="@{/users/Recent}" id="homeNavTxt">Recent Recipes</a></li>
+		<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
+	  </ul>
+		
 	</header>
 
 	<div class="row container padtop80" style="margin-top:70px">

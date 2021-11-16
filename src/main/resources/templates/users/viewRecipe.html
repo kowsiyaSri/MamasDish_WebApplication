@@ -76,7 +76,7 @@
 					</div>
 					<div class="card-content">
 						<a th:if="${saved}" class="waves-effect waves-light btn blue lighten-4 black-text"
-                            th:href="@{/users/saveRecipe/{id}(id=${recipe.id})}" style="float: right;">Remove from Saved</a>
+                            th:href="@{/users/removeRecipe/{id}(id=${recipe.id})}" style="float: right;">Remove from Saved</a>
                         <a th:unless="${saved}" class="waves-effect waves-light btn blue lighten-4 black-text"
                             th:href="@{/users/saveRecipe/{id}(id=${recipe.id})}" style="float: right;">Save Recipe</a>
 						<h2 id="recipeTitle" th:text="${recipe.title}">Pizza</h2>
