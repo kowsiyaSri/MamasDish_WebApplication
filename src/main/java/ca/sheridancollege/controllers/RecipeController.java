@@ -413,6 +413,16 @@ public class RecipeController {
 		return "users/saved.html";
 	}
 
+	//delete a recipe from a chefs portal
+	@GetMapping("/users/deleteRecipe/{recipeId}")
+		public String deleteRecipe1(@PathVariable int recipeId, Model model, Authentication auth) {
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
+		model.addAttribute("chef", chef);
+		recipeRepo.deleteRecipe(Long.valueOf(recipeId));
+		return "redirect:/chefs/chefIndex";
+	}
+	
 	@GetMapping("/users/editRecipePartOne/{recipeId}")
 	public String editRecipe1(@PathVariable int recipeId, Model model, Authentication auth) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());

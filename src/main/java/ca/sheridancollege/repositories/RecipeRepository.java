@@ -2,8 +2,11 @@ package ca.sheridancollege.repositories;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import ca.sheridancollege.beans.Country;
 import ca.sheridancollege.beans.MessageSystem;
@@ -53,5 +56,9 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	@Query
 	(value = "CALL SuggestProtein(:user_id)" , nativeQuery = true)
 	public List<Recipe> suggestProtein(@Param("user_id") long user_id);
+	
+	@Transactional
+	@Procedure (procedureName = "deleteRecipe")
+	public void deleteRecipe(@Param("recipeId") Long recipeId);
 
 }
