@@ -75,6 +75,10 @@
 						<img id="recipeImg" th:unless="${recipe.recipeImg != null}" style="opacity:0.6; height:350px " th:src="@{/images/shakshuka.png}">
 					</div>
 					<div class="card-content">
+						<a th:if="${saved}" class="waves-effect waves-light btn blue lighten-4 black-text"
+                            th:href="@{/users/saveRecipe/{id}(id=${recipe.id})}" style="float: right;">Remove from Saved</a>
+                        <a th:unless="${saved}" class="waves-effect waves-light btn blue lighten-4 black-text"
+                            th:href="@{/users/saveRecipe/{id}(id=${recipe.id})}" style="float: right;">Save Recipe</a>
 						<h2 id="recipeTitle" th:text="${recipe.title}">Pizza</h2>
 						<span> 
 							<span id="chefFont" th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span> 
