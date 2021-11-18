@@ -64,7 +64,7 @@
 						<a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.recipe.id})}">
 							<div class="card" style="height: 300px; margin: 15px; border-radius: 15px;">
 								<div class="card-image">
-									<img id="recipeImg" th:if="${r.recipe.recipeImg != null}" th:src="@{'/images/recipes/' + ${r.recipe.recipeImg}}"> 
+									<img id="recipeImg" th:if="${r.recipe.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/' + ${r.recipe.recipeImg}}"> 
 									<img id="recipeImg" th:unless="${r.recipe.recipeImg != null}" style="opacity: 0.6" th:src="@{/images/shakshuka.png}">
 								</div>
 								<div class="card-content">

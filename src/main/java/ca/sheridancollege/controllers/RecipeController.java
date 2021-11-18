@@ -1,6 +1,8 @@
 package ca.sheridancollege.controllers;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -25,6 +27,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
+
 import ca.sheridancollege.FileUploadUtil;
 import ca.sheridancollege.beans.Chef;
 import ca.sheridancollege.beans.EndUser;
@@ -87,7 +96,7 @@ public class RecipeController {
 
 	@Autowired
 	private ChefRepository chefRepo;
-	
+
 	@Autowired
 	private RecentRepository recentRepo;
 
@@ -113,28 +122,28 @@ public class RecipeController {
 
 		return "loginPage.html";
 	}
-	
-	//checks user role and return the corresponding home page
+
+	// checks user role and return the corresponding home page
 	@GetMapping("/landingPage")
 	public String HomePage(Authentication auth) {
-		
+
 		User user = userRepo.findByUsername(auth.getName());
 		boolean isAdmin = false;
 		boolean isChef = false;
-		
-		for(Role role : user.getRoles()) {
-			if(role.getRolename().equals("ROLE_ADMIN")) {
+
+		for (Role role : user.getRoles()) {
+			if (role.getRolename().equals("ROLE_ADMIN")) {
 				isAdmin = true;
-			}else if (role.getRolename().equals("ROLE_CHEF")) {
+			} else if (role.getRolename().equals("ROLE_CHEF")) {
 				isChef = true;
 			}
 		}
-		
-		if(isAdmin) {
+
+		if (isAdmin) {
 			return "redirect:/admin";
-		}else if(isChef) {
+		} else if (isChef) {
 			return "redirect:/chefs/chefIndex";
-		}else {
+		} else {
 			return "redirect:/users/userHome";
 		}
 	}
@@ -197,8 +206,9 @@ public class RecipeController {
 	}
 
 	@PostMapping("/chefs/addRecipe")
-	public String addRecipe(@ModelAttribute Recipe recipe, @RequestParam("image") MultipartFile multipartFile, @RequestParam String prep,
-			@RequestParam String cook, Model model, Authentication auth, @RequestParam int chefId) {
+	public String addRecipe(@ModelAttribute Recipe recipe, @RequestParam("image") MultipartFile multipartFile,
+			@RequestParam String prep, @RequestParam String cook, Model model, Authentication auth,
+			@RequestParam int chefId) throws JSchException, SftpException, IOException {
 
 		Chef chef = chefRepo.findById(Long.valueOf(chefId)).get();
 		EndUser user = endUserRepo.findByEmail(auth.getName());
@@ -240,16 +250,31 @@ public class RecipeController {
 		Recipe savedRecipe = recipeRepo.save(recipe);
 
 		String fileName = savedRecipe.getId() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
-		// user.setPhotos(fileName);
 
 		savedRecipe.setRecipeImg(fileName);
-		String uploadDir = "src\\main\\resources\\static\\images\\recipes";
+
+		String remoteDir = "public_html/images/recipes/";
+		InputStream inputStream = new BufferedInputStream(multipartFile.getInputStream());
+
+		ChannelSftp channelSftp = null;
 		try {
-			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			channelSftp = setupJsch();
+		} catch (JSchException e) {
+			System.out.println(e);
 		}
+		try {
+			channelSftp.connect();
+		} catch (JSchException e) {
+			System.out.println(e);
+		}
+		try {
+			channelSftp.put(inputStream, remoteDir + fileName);
+			System.out.println("Upload Complete");
+		} catch (SftpException e) {
+			System.out.println(e);
+		}
+		channelSftp.exit();
+
 		recipeRepo.save(savedRecipe);
 		chef.getRecipes().add(savedRecipe);
 		chefRepo.save(chef);
@@ -260,6 +285,22 @@ public class RecipeController {
 
 		return "chefs/ingredient.html";
 
+	}
+
+	private ChannelSftp setupJsch() throws JSchException {
+
+		String remoteHost = "dev.fast.sheridanc.on.ca";
+		String username = "ocranp";
+		String password = "8NEQmQ*!un6";
+
+		JSch jsch = new JSch();
+		Session jschSession = jsch.getSession(username, remoteHost);
+		java.util.Properties config = new java.util.Properties();
+		config.put("StrictHostKeyChecking", "no");
+		jschSession.setConfig(config);
+		jschSession.setPassword(password);
+		jschSession.connect();
+		return (ChannelSftp) jschSession.openChannel("sftp");
 	}
 
 	@GetMapping("/chefs/addInstructions/{recipeId}")
@@ -308,143 +349,142 @@ public class RecipeController {
 		model.addAttribute("instructions", instruct);
 		model.addAttribute("rating", ratingAve);
 		model.addAttribute("reviews", listRatings);
-		
-		//check if in recent recipe
+
+		// check if in recent recipe
 		boolean isPresent = false;
 		Recent present = null;
-		for (Recent r : user.getRecent()){
-			if(r.getRecipe().getId() == recipe.getId()) {
+		for (Recent r : user.getRecent()) {
+			if (r.getRecipe().getId() == recipe.getId()) {
 				isPresent = true;
 				present = r;
 			}
 		}
-		
-		//Gets current date  
-		long millis = System.currentTimeMillis(); 
+
+		// Gets current date
+		long millis = System.currentTimeMillis();
 		Date now = new Date(millis);
-		
+
 		if (!isPresent) {
 			Recent recent = Recent.builder().recipe(recipe).date(now).build();
-			
-			//adds recent to user list
-			if(user.getRecent().size() <= 15) {
+
+			// adds recent to user list
+			if (user.getRecent().size() <= 15) {
 				Recent saved = recentRepo.save(recent);
 				user.getRecent().add(saved);
 				endUserRepo.save(user);
-			}else {
-				
-				//will remove the first item from the list and add new one to the end
+			} else {
+
+				// will remove the first item from the list and add new one to the end
 				Long remRec = user.getRecent().get(0).getId();
 				user.getRecent().remove(0);
 				recentRepo.deleteById(remRec);
-		
-				//adds to list
+
+				// adds to list
 				Recent saved = recentRepo.save(recent);
 				user.getRecent().add(saved);
 				endUserRepo.save(user);
-			}		
+			}
 		} else {
-			
-			//update date on recent
+
+			// update date on recent
 			present.setDate(now);
-			recentRepo.save(present);	
-			
+			recentRepo.save(present);
+
 			user.getRecent().sort(Comparator.comparing(r -> r.getDate()));
 			endUserRepo.save(user);
 		}
-		
-		//checks if is saved
+
+		// checks if is saved
 		boolean isSaved = false;
 		for (Recipe r : user.getRecipe()) {
-			if (r.getId() == recipe.getId()){
+			if (r.getId() == recipe.getId()) {
 				isSaved = true;
 			}
 		}
 		model.addAttribute("saved", isSaved);
-		
+
 		return "users/viewRecipe.html";
 	}
-	
-	
-	//view recent recipe page
+
+	// view recent recipe page
 	@GetMapping("/users/viewRecent")
 	public String viewRecent(Model model, Authentication auth) {
-		
+
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		int emailCount = mssgRepo.emailCount(user.getId());
 
 		model.addAttribute("user", user);
 		model.addAttribute("emails", emailCount);
-		
+
 		return "users/recent.html";
 	}
-	
-	//save recipe
+
+	// save recipe
 	@GetMapping("/users/saveRecipe/{recipeId}")
 	public String saveRecipe(Model model, Authentication auth, @PathVariable int recipeId) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
-		
+
 		boolean isPresent = false;
-		for(Recipe r : user.getRecipe()) {
-			if(r.getId() == recipe.getId()) {
+		for (Recipe r : user.getRecipe()) {
+			if (r.getId() == recipe.getId()) {
 				isPresent = true;
 			}
 		}
-		
+
 		if (!isPresent) {
 			user.getRecipe().add(recipe);
 			endUserRepo.save(user);
 		}
-		
+
 		return "redirect:/users/viewRecipe/" + recipeId;
 	}
-	
-	//un-saved recipe
+
+	// un-saved recipe
 	@GetMapping("/users/removeRecipe/{recipeId}")
 	public String unsaveRecipe(Model model, Authentication auth, @PathVariable int recipeId) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
-		
+
 		boolean isPresent = false;
 		Recipe remove = null;
-		for(Recipe r : user.getRecipe()) {
-			if(r.getId() == recipe.getId()) {
+		for (Recipe r : user.getRecipe()) {
+			if (r.getId() == recipe.getId()) {
 				isPresent = true;
 				remove = r;
 			}
 		}
-		
+
 		if (!isPresent) {
 			user.getRecipe().remove(remove);
 		}
-		
+
 		return "redirect:/users/viewRecipe/" + recipeId;
 	}
-	
-	//view saved recipe 
+
+	// view saved recipe
 	@GetMapping("/users/viewSaved")
 	public String viewSaved(Model model, Authentication auth) {
-		
+
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		int emailCount = mssgRepo.emailCount(user.getId());
 
 		model.addAttribute("user", user);
 		model.addAttribute("emails", emailCount);
-		
+
 		return "users/saved.html";
 	}
 
-	//delete a recipe from a chefs portal
+	// delete a recipe from a chefs portal
 	@GetMapping("/users/deleteRecipe/{recipeId}")
-		public String deleteRecipe1(@PathVariable int recipeId, Model model, Authentication auth) {
+	public String deleteRecipe1(@PathVariable int recipeId, Model model, Authentication auth) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
 		recipeRepo.deleteRecipe(Long.valueOf(recipeId));
 		return "redirect:/chefs/chefIndex";
 	}
-	
+
 	@GetMapping("/users/editRecipePartOne/{recipeId}")
 	public String editRecipe1(@PathVariable int recipeId, Model model, Authentication auth) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
@@ -453,7 +493,8 @@ public class RecipeController {
 		model.addAttribute("emails", emailCount);
 
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
-		// List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
+		// List<Instruction> instruct =
+		// recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		// instruct.sort(Comparator.comparing(Instruction::getStepNumber));
 		// model.addAttribute("instructions", instruct);
 		// model.addAttribute("recipe", new Recipe());
@@ -491,8 +532,9 @@ public class RecipeController {
 	}
 
 	@PostMapping("/chefs/editRecipe")
-	public String editRecipe(@ModelAttribute Recipe recipe, @RequestParam("image") MultipartFile multipartFile, @RequestParam String prep,
-			@RequestParam String cook, Model model, Authentication auth, @RequestParam int chefId, @RequestParam int recipeId) {
+	public String editRecipe(@ModelAttribute Recipe recipe, @RequestParam("image") MultipartFile multipartFile,
+			@RequestParam String prep, @RequestParam String cook, Model model, Authentication auth,
+			@RequestParam int chefId, @RequestParam int recipeId) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		int emailCount = mssgRepo.emailCount(user.getId());
 
@@ -543,9 +585,9 @@ public class RecipeController {
 			}
 			return "chefs/editRecipePartOne.html";
 		}
-		
+
 		System.out.println(multipartFile.getOriginalFilename());
-		
+
 		if (!multipartFile.getOriginalFilename().isEmpty()) {
 			String fileName = recipeUpdated.getId() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			// user.setPhotos(fileName);
@@ -568,7 +610,7 @@ public class RecipeController {
 		recipeUpdated.setDescription(recipe.getDescription());
 		recipeUpdated.setServingSize(recipe.getServingSize());
 		recipeUpdated.setTitle(recipe.getTitle());
-		
+
 		recipeRepo.save(recipeUpdated);
 
 		model.addAttribute("recipeIngredients", recipeUpdated.getIngredients());
@@ -579,9 +621,10 @@ public class RecipeController {
 		return "chefs/editRecipePartTwo.html";
 
 	}
-	
+
 	@GetMapping("/users/searchRecipes")
-	public String searchRecipesAll(Model model, Authentication auth, @RequestParam String search, @RequestParam int searchBy) {
+	public String searchRecipesAll(Model model, Authentication auth, @RequestParam String search,
+			@RequestParam int searchBy) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		int emailCount = mssgRepo.emailCount(user.getId());
 
@@ -598,11 +641,13 @@ public class RecipeController {
 			model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(search));
 			break;
 		case 2:
-			model.addAttribute("recipes", recipeRepo.findByIngredients_Ingredient_IngredientNameContainingIgnoreCase(search));
+			model.addAttribute("recipes",
+					recipeRepo.findByIngredients_Ingredient_IngredientNameContainingIgnoreCase(search));
 			break;
 
 		default:
-			model.addAttribute("recipes", recipeRepo.findByTitleContainingIgnoreCaseOrCountry_nameContainingIgnoreCase(search, search));
+			model.addAttribute("recipes",
+					recipeRepo.findByTitleContainingIgnoreCaseOrCountry_nameContainingIgnoreCase(search, search));
 		}
 
 		model.addAttribute("searchVal", search);
@@ -611,7 +656,8 @@ public class RecipeController {
 	}
 
 	@PostMapping("/users/searchRecipes")
-	public String searchRecipes(Model model, Authentication auth, @RequestParam String search, @RequestParam int searchBy) {
+	public String searchRecipes(Model model, Authentication auth, @RequestParam String search,
+			@RequestParam int searchBy) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		int emailCount = mssgRepo.emailCount(user.getId());
 
@@ -628,11 +674,13 @@ public class RecipeController {
 			model.addAttribute("recipes", recipeRepo.findByCountry_nameContainingIgnoreCase(search));
 			break;
 		case 2:
-			model.addAttribute("recipes", recipeRepo.findByIngredients_Ingredient_IngredientNameContainingIgnoreCase(search));
+			model.addAttribute("recipes",
+					recipeRepo.findByIngredients_Ingredient_IngredientNameContainingIgnoreCase(search));
 			break;
 
 		default:
-			model.addAttribute("recipes", recipeRepo.findByTitleContainingIgnoreCaseOrCountry_nameContainingIgnoreCase(search, search));
+			model.addAttribute("recipes",
+					recipeRepo.findByTitleContainingIgnoreCaseOrCountry_nameContainingIgnoreCase(search, search));
 		}
 
 		model.addAttribute("searchVal", search);
@@ -722,7 +770,6 @@ public class RecipeController {
 		return "users/map.html";
 	}
 
-	
 	@GetMapping("/awaitApproval/{recipeId}")
 	public String awaitApproval(@PathVariable int recipeId, Model model, Authentication auth) {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
@@ -753,8 +800,9 @@ public class RecipeController {
 	}
 
 	@PostMapping("/viewRecipeAfterRating")
-	public String veiwRecipeRating(Model model, Authentication auth, @RequestParam float rating, @RequestParam String commentText,
-			@RequestParam long userId, @RequestParam long recipeId, @RequestParam(value = "anonymous", required = false) String anonymous) {
+	public String veiwRecipeRating(Model model, Authentication auth, @RequestParam float rating,
+			@RequestParam String commentText, @RequestParam long userId, @RequestParam long recipeId,
+			@RequestParam(value = "anonymous", required = false) String anonymous) {
 
 		EndUser user = endUserRepo.findById(userId).get();
 		Recipe recipe = recipeRepo.findById(recipeId).get();

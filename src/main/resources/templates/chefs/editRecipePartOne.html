@@ -97,7 +97,7 @@
 					         			 </div>
 				        			</div>
 				      			</div>
-								<img id="output" th:src="@{${'/images/recipes/' + recipe.recipeImg}}"/>
+								<img id="output" th:src="@{${'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/' + recipe.recipeImg}}"/>
 								<div class="row">
 									<div class="input-field col s12">
 										<textarea th:field="*{description}" id="textarea1"
