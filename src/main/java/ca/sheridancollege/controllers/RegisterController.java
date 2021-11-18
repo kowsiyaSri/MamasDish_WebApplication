@@ -62,8 +62,8 @@ public class RegisterController {
 			@RequestParam String password, @RequestParam String password2,
 			@RequestParam(required = false) boolean isChef, @RequestParam(required = false) String description,
 			@RequestParam(value = "countries[]") String[] countries,
-			@RequestParam(value = "proteins[]") String[] proteins, @RequestParam(value = "diets[]") String[] diets,
-			@RequestParam(value = "cuisines[]") String[] cuisines, Model model) {
+			@RequestParam(required = false, value = "proteins[]") String[] proteins, @RequestParam(required = false, value = "diets[]") String[] diets,
+			@RequestParam(required = false, value = "cuisines[]") String[] cuisines, Model model) {
 
 		// checks if passwords match
 		if (!password.equals(password2)) {
@@ -100,27 +100,27 @@ public class RegisterController {
 					.build();
 			User user = new User(email, encodePassword(password));
 
-			if (proteins.length != 0) {
+			if (proteins != null) {
 				for (String p : proteins) {
 					endUser.getProtein().add(proteinRepo.findByProteinType(p));
 				}
 			}
 
-			if (cuisines.length != 0) {
+			if (cuisines != null) {
 
 				for (String cuisine : cuisines) {
 					endUser.getCuisine().add(cuisineRepo.findByCuisineName(cuisine));
 				}
 			}
 
-			if (countries.length != 0) {
+			if (countries != null) {
 
 				for (String country : countries) {
 					endUser.getCountry().add(countryRepo.findByName(country));
 				}
 			}
 			
-			if (diets.length != 0) {
+			if (diets != null) {
 
 				for (String diet : diets) {
 					endUser.getDiet().add(dietRepo.findByDietType(diet));
