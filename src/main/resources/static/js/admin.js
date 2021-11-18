@@ -17,7 +17,7 @@ $(document).ready(function() {
 
 
 function approveRecipe(id) {
-	fetch('http://localhost:8080/mamasdish/admin/approveRecipe/' + id)
+	fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/admin/approveRecipe/' + id)
 		.then(data => data.json())
 		.then(function(data) {
 			console.log(data);
@@ -25,7 +25,7 @@ function approveRecipe(id) {
 			$("#approveText").css("display", "block");
 		});
 
-	fetch('http://localhost:8080/mamasdish/admin/RecipeApproval/' + id)
+	fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/admin/RecipeApproval/' + id)
 		.then(data => data.json())
 		.then(function(data) {
 			console.log(data);
