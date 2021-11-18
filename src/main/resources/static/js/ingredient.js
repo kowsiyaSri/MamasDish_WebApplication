@@ -63,7 +63,7 @@ function saveRecipe() {
 			console.log("protein:" + protein);
 
 
-			fetch('http://localhost:8080/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
+			fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
 				.then(data => data.json())
 				.then(function(data) {
 					console.log(data);
@@ -100,7 +100,7 @@ function editRecipe() {
 
 	if (ingredientCheck) {		
 
-		fetch('http://localhost:8080/mamasdish/deleteIngredients/' + recipeId )
+		fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/deleteIngredients/' + recipeId )
 			.then(data => data.json())
 			.then(function(data) {
 			console.log(data);
@@ -148,7 +148,7 @@ function editRecipe() {
 			console.log("protein:" + protein);
 
 
-			fetch('http://localhost:8080/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
+			fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
 				.then(data => data.json())
 				.then(function(data) {
 					console.log(data);

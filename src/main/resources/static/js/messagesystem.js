@@ -8,7 +8,7 @@ function check(id) {
 	var urlPath = window.location.pathname;
 	const myArr = urlPath.split("/");
 	
-	fetch('http://localhost:8080/mamasdish/checkEmail/' + id)
+	fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/checkEmail/' + id)
 					.then(data => data.json())
 					.then(function(data) {
 						$("#mailCount").text(data);
@@ -43,10 +43,10 @@ function check(id) {
 	$('#recipeLink').text("View Recipe");
 	
 	if(receiver == "Mama's Dish Admin"){
-			$("#recipeLink").attr("href", "http://localhost:8080/admin/authRecipe/" + recipe);
+			$("#recipeLink").attr("href", "http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/admin/authRecipe/" + recipe);
 
 	}else {
-			$("#recipeLink").attr("href", "http://localhost:8080/chefs/viewRecipe/" + recipe);
+			$("#recipeLink").attr("href", "http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/chefs/viewRecipe/" + recipe);
 
 	}
 	
@@ -61,7 +61,7 @@ function check(id) {
 	}
 	
 	$( "#deleteBtn" ).click(function() {
-  fetch('http://localhost:8080/mamasdish/deleteEmail/' + id)
+  fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/deleteEmail/' + id)
 				.then(data => data.json())
 				.then(function(data) {
 					$("#deletedNum").text(data);

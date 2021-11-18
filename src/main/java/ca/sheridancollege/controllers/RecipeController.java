@@ -493,11 +493,6 @@ public class RecipeController {
 		model.addAttribute("emails", emailCount);
 
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
-		// List<Instruction> instruct =
-		// recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
-		// instruct.sort(Comparator.comparing(Instruction::getStepNumber));
-		// model.addAttribute("instructions", instruct);
-		// model.addAttribute("recipe", new Recipe());
 		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
 		recipe.setAuth(false);
 
@@ -534,7 +529,7 @@ public class RecipeController {
 	@PostMapping("/chefs/editRecipe")
 	public String editRecipe(@ModelAttribute Recipe recipe, @RequestParam("image") MultipartFile multipartFile,
 			@RequestParam String prep, @RequestParam String cook, Model model, Authentication auth,
-			@RequestParam int chefId, @RequestParam int recipeId) {
+			@RequestParam int chefId, @RequestParam int recipeId) throws IOException {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		int emailCount = mssgRepo.emailCount(user.getId());
 
@@ -590,16 +585,30 @@ public class RecipeController {
 
 		if (!multipartFile.getOriginalFilename().isEmpty()) {
 			String fileName = recipeUpdated.getId() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			// user.setPhotos(fileName);
+			
+			String remoteDir = "public_html/images/recipes/";
+			InputStream inputStream = new BufferedInputStream(multipartFile.getInputStream());
 
-			recipeUpdated.setRecipeImg(fileName);
-			String uploadDir = "src\\main\\resources\\static\\images\\recipes";
+			ChannelSftp channelSftp = null;
 			try {
-				FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				channelSftp = setupJsch();
+			} catch (JSchException e) {
+				System.out.println(e);
 			}
+			try {
+				channelSftp.connect();
+			} catch (JSchException e) {
+				System.out.println(e);
+			}
+			try {
+				channelSftp.put(inputStream, remoteDir + fileName);
+				System.out.println("Upload Complete");
+			} catch (SftpException e) {
+				System.out.println(e);
+			}
+			channelSftp.exit();
+			
+			recipeUpdated.setRecipeImg(fileName);
 		}
 
 		// recipe.setChef(chef);
