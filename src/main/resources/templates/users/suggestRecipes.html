@@ -64,7 +64,7 @@
 			      <div style="border-radius:20px" class="card">
 			        <a th:href="@{'/users/viewRecipe/' + ${s.id}}">
 				         <div class="card-image">
-				          	<img id="userHomeImage" style="border-radius:20px" th:if="${s.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.cahttp://ocranp.dev.fast.sheridanc.on.ca/images/recipes/'+ ${s.recipeImg}}">
+				          	<img id="userHomeImage" style="border-radius:20px" th:if="${s.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/'+ ${s.recipeImg}}">
 
 							<img id="userHomeImage" style="border-radius:20px" th:unless="${s.recipeImg != null}" th:src="@{/images/shakshuka.png}">
 				          <span class="card-title"  id="userHomeTitle" th:text="${s.title}"></span>
@@ -83,7 +83,7 @@
 			      <div style="border-radius:20px" class="card">
 			        <a th:href="@{'/users/viewRecipe/' + ${c.id}}">
 				         <div class="card-image">
-				          	<img id="userHomeImage" style="border-radius:20px" th:if="${c.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.cahttp://ocranp.dev.fast.sheridanc.on.ca/images/recipes/'+ ${c.recipeImg}}">
+				          	<img id="userHomeImage" style="border-radius:20px" th:if="${c.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/'+ ${c.recipeImg}}">
 
 							<img id="userHomeImage" style="border-radius:20px" th:unless="${c.recipeImg != null}" th:src="@{/images/shakshuka.png}">
 				          <span class="card-title"  id="userHomeTitle" th:text="${c.title}"></span>
