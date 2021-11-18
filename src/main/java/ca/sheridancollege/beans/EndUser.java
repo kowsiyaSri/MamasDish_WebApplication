@@ -2,13 +2,15 @@ package ca.sheridancollege.beans;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -40,24 +42,23 @@ public class EndUser {
 	@OneToMany
 	private List<Recent> recent;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Recipe> recipe;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Cuisine> cuisine;
 
-	@OneToMany
+	@ManyToMany
 	private List<Country> country;
 
-	@OneToMany
+	@ManyToMany
 	private List<Diet> diet;
 
-	@OneToMany
+	@ManyToMany
 	private List<Protein> protein;
 	
-	@OneToMany
+	@ManyToMany
 	private List<MessageSystem> messages;
-	
 	
 		
 }
