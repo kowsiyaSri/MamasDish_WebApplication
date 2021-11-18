@@ -116,7 +116,7 @@ function editInstruction() {
 			console.log(instructDivs)
 			console.log($("#"+instructDivs.id).find('textarea[id^="instructionValue"]'));
 			var instruction = $("#"+instructDivs.id).find('textarea[id^="instructionValue"]').get(0).value;
-			fetch('http://localhost:8080/mamasdish/addInstructions/' + recipeId, {
+			fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/addInstructions/' + recipeId, {
 				method: 'post',
 				headers: {
 					'Accept': 'application/json',

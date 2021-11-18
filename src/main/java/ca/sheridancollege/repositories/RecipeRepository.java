@@ -24,6 +24,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	public List<Recipe> findTop5ByOrderByIdDesc();
 		
 	public List<Recipe> findByAuthFalse();
+	
+	public List<Recipe> findByAuthFalseAndCompleteTrue();
 
 	public List<Recipe> findByAuthTrue();
 

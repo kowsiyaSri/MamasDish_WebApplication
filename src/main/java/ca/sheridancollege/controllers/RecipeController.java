@@ -790,6 +790,7 @@ public class RecipeController {
 		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(recipeId)).get());
 		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
 		recipe.setAuth(false);
+		recipe.setComplete(true);
 		recipeRepo.save(recipe);
 		model.addAttribute("ingredients", recipe.getIngredients());
 
