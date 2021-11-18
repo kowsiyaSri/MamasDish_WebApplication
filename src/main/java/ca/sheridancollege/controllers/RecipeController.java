@@ -455,8 +455,9 @@ public class RecipeController {
 			}
 		}
 
-		if (!isPresent) {
+		if (isPresent) {
 			user.getRecipe().remove(remove);
+			endUserRepo.save(user);
 		}
 
 		return "redirect:/users/viewRecipe/" + recipeId;
