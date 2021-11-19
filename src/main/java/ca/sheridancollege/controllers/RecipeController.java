@@ -320,7 +320,50 @@ public class RecipeController {
 
 		model.addAttribute("emails", emailCount);
 		model.addAttribute("recipes", recipeRepo.findByAuthTrue());
-		model.addAttribute("countries", countryRepo.getCountryTest());
+		model.addAttribute("countries", countryRepo.getCountryNames());
+		model.addAttribute("proteins", proteinRepo.getProteinNames());
+		model.addAttribute("diets", dietRepo.getDietNames());
+		return "users/viewAllRecipes.html";
+	}
+	
+	@PostMapping("/users/filterResults")
+	public String viewFilterResults(Model model, Authentication auth, @RequestParam(required=false, value = "countries[]") String[] countries,
+	@RequestParam(required=false, value = "diets[]") String[] diets, @RequestParam(required=false, value = "proteins[]") String[] proteins,
+	@RequestParam(required=false)int cal1, @RequestParam(required=false)int cal2) {
+
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
+		model.addAttribute("emails", emailCount);
+		
+		String countryString = "";
+		String dietString = "";
+		String proteinString = "";
+		
+		if(countries != null) {
+			for(int i= 0; i < countries.length - 1; i++) {
+				countryString += "\'"+ countries[i] + "\',";	
+			}
+			countryString += "\'"+ countries[countries.length-1] + "\'";	
+		
+		}
+		
+		if(diets != null) {
+			for(int i=0 ; i < diets.length - 1; i++) {
+				dietString += "\'"+ diets[i] + "\',";	
+			}
+			dietString += "\'"+ diets[diets.length-1] + "\'";	
+		}
+		
+		if(proteins != null) {
+			for(int i=0 ; i < proteins.length - 1; i++) {
+				proteinString += "\'"+ proteins[i] + "\',";	
+			}
+			proteinString += "\'"+ proteins[proteins.length-1] + "\'";	
+		}
+		
+		
+		model.addAttribute("recipes", recipeRepo.getFilterRecipes(countryString, dietString, proteinString, cal1, cal2));
+		
 		return "users/viewAllRecipes.html";
 	}
 

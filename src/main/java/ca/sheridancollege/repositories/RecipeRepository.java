@@ -40,6 +40,11 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	public List<Recipe> suggestRecipes(@Param("user_id") long user_id);
 	
 	@Query
+	(value = "CALL get_filters(:countries, :diets, :proteins, :cal1, :cal2)" , nativeQuery = true)
+	public List<Recipe> getFilterRecipes(@Param("countries") String countries, @Param("diets") String diets,
+			@Param("proteins") String proteins, @Param("cal1") float cal1,  @Param("cal2") float cal2);
+	
+	@Query
 	(value = "CALL BasicSearch(:searchInput)" , nativeQuery = true)
 	public List<Recipe> basicSearch(@Param("searchInput") String searchInput);
 	
