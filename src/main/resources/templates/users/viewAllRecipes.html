@@ -8,9 +8,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">	
+<link href="css/nouislider.css" th:href="@{/css/nouislider.css}" rel="stylesheet" type="text/css">
+<script src="../static/js/nouislider.js" th:src="@{/js/nouislider.js}"></script>
 
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
-
+<script src="../static/js/viewAllRecipes.js" th:src="@{/js/viewAllRecipes.js}"></script>
 <title>View All Recipes</title>
 </head>
 <body>
@@ -55,16 +57,35 @@
 	  </ul>
 		
 	</header>
+			<form th:action="@{/users/filterResults}" method="post">
 	
-		<ul id="slide-out" class="sidenav sidenav-fixed collection with-header" style="top:68px; height:100%">
-        <li class="collection-header"><h6>Filter by:</h6></li>
-		      <li><a href="#" class="link" onclick="showCountries()">Country</a></li>
-		      <div style="display:none;padding:0px 32px;" id="countryBoxes">
-		      	
-		      </div>
-		      
-		      <li><a href="/messages/deleted">Diet<span class="badge" id="deletedNum" th:text="${deleted}"></span></a></li>
-		</ul>
+				<ul id="slide-out" class="sidenav sidenav-fixed collection with-header" style="top:68px; height:100%">
+		        	<li class="collection-header"><h6>Filter by:</h6></li>
+				      <li><a href="#" class="link" onclick="showCountries()">Country</a></li>
+				      <div style="display:none;padding:0px 32px;" id="countryBoxes">
+				      	
+				      </div>
+				      
+				      <li><a href="#" class="link" onclick="showDiets()">Diet</a></li>
+				      <div style="display:none;padding:0px 32px;" id="dietBoxes">
+				      	
+				      </div>
+				      
+				      <li><a href="#" class="link" onclick="showProteins()">Protein</a></li>
+				      <div style="display:none;padding:0px 32px;" id="proteinBoxes">
+				      	
+				      </div>
+				      
+				      <li><a href="#" class="link" onclick="showSlider()">Calories</a></li>
+				      <div style="display:none;padding:40px 32px;" id="sliderDiv">
+				      	  <div id="slider"></div>
+				      </div>
+				      <li><input type="submit" value="Apply Filter"  class="blue darken-4 btn"/></li>
+				      <input type="hidden" id="cal1" name="cal1"/>
+				      <input type="hidden" id="cal2" name="cal2"/>
+				</ul>	
+			</form>
+		
 		<a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons cyan-text text-darken-4">menu</i></a>
 	
 	<main>
@@ -121,6 +142,8 @@
  
 	<script th:inline="javascript">
 			var countries = /*[[${countries}]]*/{};
+			var diets = /*[[${diets}]]*/{};
+			var proteins = /*[[${proteins}]]*/{};
 	</script>
 </body>
 </html>

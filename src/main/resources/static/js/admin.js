@@ -1,4 +1,5 @@
-	var mySellect;
+var mySellect;
+var calories;
 $(document).ready(function() {
 
 	$('#textarea1').val('');
@@ -12,9 +13,85 @@ $(document).ready(function() {
 	});
 
 	mySellect.init();
+	
+	// Getting the ingredients from HTML side
+	var ingredientListFromHTML = $('.js-ingredientList');
+	var x = $(ingredientListFromHTML).children();
+	
+	// Getting the serving size from HTML side
+	var servingSizeFromHTML = $('.js-servingSize');
+	var y = $(servingSizeFromHTML).children();
+	var servingSize = $(y[2]).data('servingsize');
+	
+	var query = "";
+
+	// Looping through each child of ingredientListFromHTML to get the ingredients
+	for (var i = 0; i <= x.length; i++) {
+		var food = x[i];
+		var quantity = $(food).data('quantity');
+		var type = $(food).data('type');
+		var name = $(food).data('name');
+		if (quantity && name) {
+			query += `${quantity} ${type} ${name}\n`
+		}
+	}
+	
+	// Nutritionx API Call
+	var myHeaders = new Headers();
+	myHeaders.append("x-app-id", "52c550ac");
+	myHeaders.append("x-app-key", "c9873f02bd95c74d5de0934edd09ff7a");
+	myHeaders.append("Content-Type", "application/json");
+
+	var raw = JSON.stringify({
+		"query": query,
+		"num_servings": servingSize,
+		"line_delimited": true,
+		"use_raw_foods": true
+	});
+	
+	var requestOptions = {
+		method: 'POST',
+		headers: myHeaders,
+		body: raw,
+		redirect: 'follow'
+	};
+	
+	fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', requestOptions)
+		.then(data => data.json())
+		.then(function(data) {
+			var nutritionTotal = {
+				nf_calories: data.foods.sum('nf_calories')
+
+			};
+
+				calories = Math.round(nutritionTotal.nf_calories * 100) / 100;
+				console.log(calories);
+		}).then(function(data){
+			addCalories();	
+		}
+		);
 
 });
 
+// Function that calculates the sum
+Array.prototype.sum = function(prop) {
+	var total = 0
+	for (var i = 0, _len = this.length; i < _len; i++) {
+		total += this[i][prop]
+	}
+	return total
+}
+
+function addCalories(){
+	var path = (window.location.pathname).split('/');
+	var recipeId = path[3];
+
+	fetch('http://localhost:8080/mamasdish/addCalorie/' + calories + '/' + recipeId)
+		.then(data => data.json())
+		.then(function(data) {
+			console.log(data);
+		});
+}
 
 function approveRecipe(id) {
 	fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/admin/approveRecipe/' + id)
@@ -31,9 +108,8 @@ function approveRecipe(id) {
 			console.log(data);
 		});
 		
-				window.open('/admin', '_self');
-
-
+				var adminPage = window.open('/admin', '_self');
+				adminPage.location.reload;
 }
 
 function rejectRecipe(id) {

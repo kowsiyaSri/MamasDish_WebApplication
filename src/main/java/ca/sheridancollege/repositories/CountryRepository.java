@@ -22,6 +22,6 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
 
 	
 	@Query
-	(value = "SELECT name FROM country WHERE id IN (SELECT country_id FROM recipe)" , nativeQuery = true)
-	public List<String> getCountryTest();
+	(value = "CALL return_search_countries()" , nativeQuery = true)
+	public List<String> getCountryNames();
 }
