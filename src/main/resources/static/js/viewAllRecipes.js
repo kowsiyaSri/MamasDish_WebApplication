@@ -14,11 +14,43 @@ $(document).ready(function() {
 	$.each(proteins, function(key, value) {
 		$("#proteinBoxes").append("<p><label><input name='proteins[]' class='protein' value='" + value + "' type='checkbox'/><span>" + value + "</span></label></p>");
 	});
-
+    
+	//checking the boxes for countries
+	if(countriesChecked != null){	
+		$.each(countriesChecked, function(key, value) {
+			$(".country[value='"+ value +"']").attr("checked", "checked");
+		});
+	}
+	
+	//checking boxes for proteins
+	if(proteinsChecked != null){	
+		$.each(proteinsChecked, function(key, value) {
+			$(".protein[value='"+ value +"']").attr("checked", "checked");
+		});
+	}
+	
+	//checking boxes for proteins
+	if(dietsChecked != null){	
+		$.each(dietsChecked, function(key, value) {
+			$(".diet[value='"+ value +"']").attr("checked", "checked");
+		});
+	}
+	
+	//checking the calories
+	var startCal = 0;
+	var endCal = 0;
+	
+	if(cal1 != null && cal1 != 0){
+		startCal = cal1;
+	}
+	if(cal2 != null && cal2 != 0){
+		endCal = cal2;
+	}
+	
 	//set up slider
 	var slider = document.getElementById('slider');
 	noUiSlider.create(slider, {
-		start: [0, 0],
+		start: [startCal, endCal],
 		connect: true,
 		step: 100,
 		range: {
