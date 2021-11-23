@@ -325,45 +325,56 @@ public class RecipeController {
 		model.addAttribute("diets", dietRepo.getDietNames());
 		return "users/viewAllRecipes.html";
 	}
-	
+
 	@PostMapping("/users/filterResults")
-	public String viewFilterResults(Model model, Authentication auth, @RequestParam(required=false, value = "countries[]") String[] countries,
-	@RequestParam(required=false, value = "diets[]") String[] diets, @RequestParam(required=false, value = "proteins[]") String[] proteins,
-	@RequestParam(required=false)int cal1, @RequestParam(required=false)int cal2) {
+	public String viewFilterResults(Model model, Authentication auth,
+			@RequestParam(required = false, value = "countries[]") String[] countries,
+			@RequestParam(required = false, value = "diets[]") String[] diets,
+			@RequestParam(required = false, value = "proteins[]") String[] proteins,
+			@RequestParam(required = false) int cal1, @RequestParam(required = false) int cal2) {
 
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		int emailCount = mssgRepo.emailCount(user.getId());
 		model.addAttribute("emails", emailCount);
-		
+
 		String countryString = "";
 		String dietString = "";
 		String proteinString = "";
-		
-		if(countries != null) {
-			for(int i= 0; i < countries.length - 1; i++) {
-				countryString += "\'"+ countries[i] + "\',";	
+
+		if (countries != null) {
+			for (int i = 0; i < countries.length - 1; i++) {
+				countryString += "\'" + countries[i] + "\',";
 			}
-			countryString += "\'"+ countries[countries.length-1] + "\'";	
-		
+			countryString += "\'" + countries[countries.length - 1] + "\'";
+
 		}
-		
-		if(diets != null) {
-			for(int i=0 ; i < diets.length - 1; i++) {
-				dietString += "\'"+ diets[i] + "\',";	
+
+		if (diets != null) {
+			for (int i = 0; i < diets.length - 1; i++) {
+				dietString += "\'" + diets[i] + "\',";
 			}
-			dietString += "\'"+ diets[diets.length-1] + "\'";	
+			dietString += "\'" + diets[diets.length - 1] + "\'";
 		}
-		
-		if(proteins != null) {
-			for(int i=0 ; i < proteins.length - 1; i++) {
-				proteinString += "\'"+ proteins[i] + "\',";	
+
+		if (proteins != null) {
+			for (int i = 0; i < proteins.length - 1; i++) {
+				proteinString += "\'" + proteins[i] + "\',";
 			}
-			proteinString += "\'"+ proteins[proteins.length-1] + "\'";	
+			proteinString += "\'" + proteins[proteins.length - 1] + "\'";
 		}
+
+		model.addAttribute("recipes", recipeRepo.getFilterRecipes(countryString, dietString, proteinString, 0, 0));
 		
-		
-		model.addAttribute("recipes", recipeRepo.getFilterRecipes(countryString, dietString, proteinString, cal1, cal2));
-		
+		model.addAttribute("countries", countryRepo.getCountryNames());
+		model.addAttribute("proteins", proteinRepo.getProteinNames());
+		model.addAttribute("diets", dietRepo.getDietNames());
+		model.addAttribute("countriesChecked", countries);
+		model.addAttribute("dietsChecked", diets);
+		model.addAttribute("proteinsChecked", proteins);
+		model.addAttribute("cal1", cal1);
+		model.addAttribute("cal2", cal2);
+		 
+
 		return "users/viewAllRecipes.html";
 	}
 
@@ -629,7 +640,7 @@ public class RecipeController {
 
 		if (!multipartFile.getOriginalFilename().isEmpty()) {
 			String fileName = recipeUpdated.getId() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			
+
 			String remoteDir = "public_html/images/recipes/";
 			InputStream inputStream = new BufferedInputStream(multipartFile.getInputStream());
 
@@ -651,7 +662,7 @@ public class RecipeController {
 				System.out.println(e);
 			}
 			channelSftp.exit();
-			
+
 			recipeUpdated.setRecipeImg(fileName);
 		}
 
