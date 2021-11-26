@@ -95,7 +95,7 @@
 		 <div class="row" style="padding-top:25px;">
 		 
 			  <div th:each="r: ${recipes}">
-			    <div class="col s4">
+			    <div class="col s6">
 				    <a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
 				      <div class="card" th:id="recipe + ${r.id}" style="height:500px; margin:15px; border-radius:15px">
 				        <div class="card-image">

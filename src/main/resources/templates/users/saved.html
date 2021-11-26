@@ -51,13 +51,12 @@
 	  </ul>
 		
 	</header>
-	<div class="content">
+	<div class="container">
 		<h3 id="recipeHeader" style="font-size: 20px">Saved Recipes:</h3>
 
-		<div class="row">
-			<div th:if="${!user.recipe.empty and user.recipe !=null}">
-				<div th:each="r: ${user.recipe}">
-					<div class="col s4">
+			<div class="row" th:if="${!user.recipe.empty and user.recipe !=null}">
+				<div class="col s4 m6 l6 xl6" th:each="r: ${user.recipe}">
+					<div class="col s12">
 						<a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
 							<div class="card" style="height: 300px; margin: 15px; border-radius: 15px;">
 								<div class="card-image">
@@ -70,7 +69,6 @@
 							</div>
 						</a>
 					</div>
-				</div>
 			</div>
 
 		</div>
