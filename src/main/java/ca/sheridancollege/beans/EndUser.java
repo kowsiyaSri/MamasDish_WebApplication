@@ -59,7 +59,7 @@ public class EndUser {
 	
 	@ManyToMany
 	private List<MessageSystem> messages;
-	
+
 	@OneToMany
 	private List<Continent> continents;
 	

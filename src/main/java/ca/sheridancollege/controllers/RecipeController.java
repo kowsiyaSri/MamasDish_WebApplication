@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.text.DecimalFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,8 +33,8 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
-import ca.sheridancollege.FileUploadUtil;
 import ca.sheridancollege.beans.Chef;
+import ca.sheridancollege.beans.Continent;
 import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.MessageSystem;
@@ -251,10 +250,6 @@ public class RecipeController {
 
 		String fileName = savedRecipe.getId() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
-		
-		
-		
-		
 		savedRecipe.setRecipeImg(fileName);
 
 		String remoteDir = "public_html/images/recipes/";
@@ -417,7 +412,19 @@ public class RecipeController {
 				present = r;
 			}
 		}
+		List<Continent> continents = user.getContinents();
+	
+		
+		
+		boolean inCont = false;
+		for(Continent cont : continents) {
+			if (recipe.getCountry().getContinent() == cont) {
+				inCont = true;
+			}
+		}
+		
 
+			model.addAttribute("canAuthenticate", inCont);
 		// Gets current date
 		long millis = System.currentTimeMillis();
 		Date now = new Date(millis);
@@ -459,8 +466,10 @@ public class RecipeController {
 				isSaved = true;
 			}
 		}
+		
+	
 		model.addAttribute("saved", isSaved);
-
+			
 		return "users/viewRecipe.html";
 	}
 
