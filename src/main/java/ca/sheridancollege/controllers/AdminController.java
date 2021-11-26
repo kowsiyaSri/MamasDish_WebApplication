@@ -43,7 +43,7 @@ public class AdminController {
 	@GetMapping("/admin")
 	public String index(Model model) {
 
-		model.addAttribute("recipes", recipeRepo.findByAuthFalse());
+		model.addAttribute("recipes", recipeRepo.findByAuthFalseAndCompleteTrue());
 
 		return "admin/index.html";
 	}

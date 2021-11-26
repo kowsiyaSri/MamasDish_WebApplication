@@ -8,13 +8,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">	
+<link href="css/nouislider.css" th:href="@{/css/nouislider.css}" rel="stylesheet" type="text/css">
+<script src="../static/js/nouislider.js" th:src="@{/js/nouislider.js}"></script>
 
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
-
+<script src="../static/js/viewAllRecipes.js" th:src="@{/js/viewAllRecipes.js}"></script>
 <title>View All Recipes</title>
 </head>
 <body>
-		<header>
+	<header>
 		<div class="navbar-fixed">
 			<nav>
 			    <div class="nav-wrapper" style="background-color:white">
@@ -29,9 +31,10 @@
 							<li>
   								<a class='dropdown-trigger' href='#' data-target='dropdown1'><i class="material-icons cyan-text text-darken-4">menu</i></a>
 								<ul id='dropdown1' class='dropdown-content'>
-									<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
-								   	<li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
+									<li><a th:href="@{/users/suggest}" id="homeNavTxt">Suggested Recipes</a></li>
+									<li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
 								   	<li><a th:href="@{/users/viewRecent}" id="homeNavTxt">Recent Recipes</a></li>
+									<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
 									<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
 								</ul>
 							</li>
@@ -45,24 +48,44 @@
 		<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
 		<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
 		<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-	    <li><a href="" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
-	    <li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
-	    <li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
+		<li><a th:href="@{/users/suggest}" id="homeNavTxt">Suggested Recipes</a></li>
+		<li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
 	    <li><a th:href="@{/users/Recent}" id="homeNavTxt">Recent Recipes</a></li>
+	    <li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+	    <li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
 		<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
 	  </ul>
 		
 	</header>
+			<form th:action="@{/users/filterResults}" method="post">
 	
-		<ul id="slide-out" class="sidenav sidenav-fixed collection with-header" style="top:68px; height:100%">
-        <li class="collection-header"><h6>Filter by:</h6></li>
-		      <li><a href="#" class="link" onclick="showCountries()">Country</a></li>
-		      <div style="display:none;padding:0px 32px;" id="countryBoxes">
-		      	
-		      </div>
-		      
-		      <li><a href="/messages/deleted">Diet<span class="badge" id="deletedNum" th:text="${deleted}"></span></a></li>
-		</ul>
+				<ul id="slide-out" class="sidenav sidenav-fixed collection with-header" style="top:68px; height:100%">
+		        	<li class="collection-header"><h6>Filter by:</h6></li>
+				      <li><a href="#" class="link" onclick="showCountries()">Country</a></li>
+				      <div style="display:none;padding:0px 32px;" id="countryBoxes">
+				      	
+				      </div>
+				      
+				      <li><a href="#" class="link" onclick="showDiets()">Diet</a></li>
+				      <div style="display:none;padding:0px 32px;" id="dietBoxes">
+				      	
+				      </div>
+				      
+				      <li><a href="#" class="link" onclick="showProteins()">Protein</a></li>
+				      <div style="display:none;padding:0px 32px;" id="proteinBoxes">
+				      	
+				      </div>
+				      
+				      <li><a href="#" class="link" onclick="showSlider()">Calories</a></li>
+				      <div style="display:none;padding:40px 32px;" id="sliderDiv">
+				      	  <div id="slider"></div>
+				      </div>
+				      <li style="padding-top:25px; padding-left:75px;"><input type="submit" value="Apply Filter"  class="blue darken-4 btn"/></li>
+				      <input type="hidden" id="cal1" name="cal1"/>
+				      <input type="hidden" id="cal2" name="cal2"/>
+				</ul>	
+			</form>
+		
 		<a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons cyan-text text-darken-4">menu</i></a>
 	
 	<main>
@@ -99,7 +122,7 @@
 				    <a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
 				      <div class="card" th:id="recipe + ${r.id}" style="height:500px; margin:15px; border-radius:15px">
 				        <div class="card-image">
-					          <img id="recipeImg" style="height:200px" th:if="${r.recipeImg != null}" th:src="@{'/images/recipes/' + ${r.recipeImg}}">
+					          <img id="recipeImg" style="height:200px" th:if="${r.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/' + ${r.recipeImg}}">
 					          <img id="recipeImg" th:unless="${r.recipeImg != null}" style="opacity:0.6; height:200px" th:src="@{/images/shakshuka.png}">
 				        </div>
 				        <div class="card-content">
@@ -119,6 +142,13 @@
  
 	<script th:inline="javascript">
 			var countries = /*[[${countries}]]*/{};
+			var diets = /*[[${diets}]]*/{};
+			var proteins = /*[[${proteins}]]*/{};
+			var countriesChecked = /*[[${countriesChecked}]]*/{};
+			var dietsChecked = /*[[${dietsChecked}]]*/{};
+			var proteinsChecked = /*[[${proteinsChecked}]]*/{};
+			var cal1= /*[[${cal1}]]*/{};
+			var cal2= /*[[${cal2}]]*/{};
 	</script>
 </body>
 </html>

@@ -15,7 +15,7 @@
 <title>Suggest Recipes</title>
 </head>
 <body>
-		<header>
+	<header>
 		<div class="navbar-fixed">
 			<nav>
 			    <div class="nav-wrapper" style="background-color:white">
@@ -30,9 +30,10 @@
 							<li>
   								<a class='dropdown-trigger' href='#' data-target='dropdown1'><i class="material-icons cyan-text text-darken-4">menu</i></a>
 								<ul id='dropdown1' class='dropdown-content'>
-									<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
-								   	<li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
+									<li><a th:href="@{/users/suggest}" id="homeNavTxt">Suggested Recipes</a></li>
+									<li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
 								   	<li><a th:href="@{/users/viewRecent}" id="homeNavTxt">Recent Recipes</a></li>
+									<li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
 									<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
 								</ul>
 							</li>
@@ -46,10 +47,11 @@
 		<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
 		<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
 		<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-	    <li><a href="" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
-	    <li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
-	    <li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
+		<li><a th:href="@{/users/suggest}" id="homeNavTxt">Suggested Recipes</a></li>
+		<li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
 	    <li><a th:href="@{/users/Recent}" id="homeNavTxt">Recent Recipes</a></li>
+	    <li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+	    <li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
 		<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
 	  </ul>
 		
@@ -62,7 +64,7 @@
 			      <div style="border-radius:20px" class="card">
 			        <a th:href="@{'/users/viewRecipe/' + ${s.id}}">
 				         <div class="card-image">
-				          	<img id="userHomeImage" style="border-radius:20px" th:if="${s.recipeImg != null}" th:src="@{'/images/recipes/'+ ${s.recipeImg}}">
+				          	<img id="userHomeImage" style="border-radius:20px" th:if="${s.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/'+ ${s.recipeImg}}">
 
 							<img id="userHomeImage" style="border-radius:20px" th:unless="${s.recipeImg != null}" th:src="@{/images/shakshuka.png}">
 				          <span class="card-title"  id="userHomeTitle" th:text="${s.title}"></span>
@@ -81,7 +83,7 @@
 			      <div style="border-radius:20px" class="card">
 			        <a th:href="@{'/users/viewRecipe/' + ${c.id}}">
 				         <div class="card-image">
-				          	<img id="userHomeImage" style="border-radius:20px" th:if="${c.recipeImg != null}" th:src="@{'/images/recipes/'+ ${c.recipeImg}}">
+				          	<img id="userHomeImage" style="border-radius:20px" th:if="${c.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/'+ ${c.recipeImg}}">
 
 							<img id="userHomeImage" style="border-radius:20px" th:unless="${c.recipeImg != null}" th:src="@{/images/shakshuka.png}">
 				          <span class="card-title"  id="userHomeTitle" th:text="${c.title}"></span>
@@ -100,7 +102,7 @@
 			      <div style="border-radius:20px" class="card">
 			        <a th:href="@{'/users/viewRecipe/' + ${c.id}}">
 				         <div class="card-image">
-				          	<img id="userHomeImage" style="border-radius:20px" th:if="${c.recipeImg != null}" th:src="@{'/images/recipes/'+ ${c.recipeImg}}">
+				          	<img id="userHomeImage" style="border-radius:20px" th:if="${c.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/'+ ${c.recipeImg}}">
 
 							<img id="userHomeImage" style="border-radius:20px" th:unless="${c.recipeImg != null}" th:src="@{/images/shakshuka.png}">
 				          <span class="card-title"  id="userHomeTitle" th:text="${c.title}"></span>
@@ -119,7 +121,7 @@
 			      <div style="border-radius:20px" class="card">
 			        <a th:href="@{'/users/viewRecipe/' + ${p.id}}">
 				         <div class="card-image">
-				          	<img id="userHomeImage" style="border-radius:20px" th:if="${p.recipeImg != null}" th:src="@{'/images/recipes/'+ ${p.recipeImg}}">
+				          	<img id="userHomeImage" style="border-radius:20px" th:if="${p.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/'+ ${p.recipeImg}}">
 
 							<img id="userHomeImage" style="border-radius:20px" th:unless="${p.recipeImg != null}" th:src="@{/images/shakshuka.png}">
 				          <span class="card-title"  id="userHomeTitle" th:text="${p.title}"></span>
@@ -138,7 +140,7 @@
 			      <div style="border-radius:20px" class="card">
 			        <a th:href="@{'/users/viewRecipe/' + ${d.id}}">
 				         <div class="card-image">
-				          	<img id="userHomeImage" style="border-radius:20px" th:if="${d.recipeImg != null}" th:src="@{'/images/recipes/'+ ${d.recipeImg}}">
+				          	<img id="userHomeImage" style="border-radius:20px" th:if="${d.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/'+ ${d.recipeImg}}">
 
 							<img id="userHomeImage" style="border-radius:20px" th:unless="${d.recipeImg != null}" th:src="@{/images/shakshuka.png}">
 				          <span class="card-title"  id="userHomeTitle" th:text="${d.title}"></span>

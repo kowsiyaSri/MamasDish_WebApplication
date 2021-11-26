@@ -37,7 +37,7 @@
 			<div class="row" style="margin: auto; align-items: center; width: 100%;">
 				<div class="card" style="margin-top: 5%; border-radius:15px">
 					<div class="card-image">
-						<img id="recipeImg" style="height:350px" th:if="${recipe.recipeImg != null}" th:src="@{'/images/recipes/' + ${recipe.recipeImg}}">
+						<img id="recipeImg" style="height:350px" th:if="${recipe.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/' + ${recipe.recipeImg}}">
 						<img id="recipeImg" th:unless="${recipe.recipeImg != null}" style="opacity:0.6; height:350px " th:src="@{/images/shakshuka.png}">
 					</div>
 					<div class="card-content">
@@ -48,9 +48,6 @@
 							th:text="${recipe.title}">Pizza</h2>
 						<span> 
 							<span id="chefFont" th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span> 
-							<span style="float: right">
-								<img style="height: 20px" th:src="@{/images/threestars.png}" />
-							</span>
 						</span>
 						<hr>
 						<div style="padding: 20px 0px">
@@ -62,10 +59,10 @@
 						<div
 							style="margin-top: 5px; border: 1px dashed lightgrey; height: 100px;"
 							class="row s12">
-							<div id="srvDiv" class="col s4">
+							<div id="srvDiv" class="col s4 js-servingSize">
 								<img class="icon" th:src="@{/images/serving.png}" id="center">
 								<p id="iconlbl">Serving Size:</p>
-								<p th:text="${recipe.servingSize}">1</p>
+								<p th:text="${recipe.servingSize}" th:attr="data-servingsize=${recipe.servingSize}">1</p>
 							</div>
 							<div id="srvDiv" class="col s4">
 								<img class="icon" th:src="@{/images/time.png}">
@@ -83,17 +80,30 @@
 							</div>
 						</div>
 						<div class="yellow lighten-5">
-							<ul class="collection with-header" id="centerUl" style="border: 0px; width:92%">
-								<li class="collection-header yellow lighten-5" id="ulHeader">
-									<h6 id="listLbl"><strong>INGREDIENTS</strong></h6>
-								</li>
-								<li class="collection-item yellow lighten-5"
-									style="padding: 20px 0px" th:each="r: ${recipe.ingredients}">
-									<div id="ingredLi" th:if="${r.measurement}" th:text="${r.quantity} + ' ' + ${r.measurement.measurementType} + ' ' + ${r.ingredient.ingredientName}"></div>
-									<div id="ingredLi" th:unless="${r.measurement}" th:text="${r.quantity} + ' ' + ${r.ingredient.ingredientName}"></div>
-								</li>
-							</ul>
-						</div>
+                            <ul class="collection with-header js-ingredientList" id="centerUl"
+                                style="border: 0px; width: 92%">
+                                <li class="collection-header yellow lighten-5" id="ulHeader">
+                                    <h6 id="listLbl">
+                                        <strong>INGREDIENTS</strong>
+                                    </h6>
+                                </li>
+                                <!-- If measurement type exists -->
+                                <li th:each="r: ${recipe.ingredients}"
+                                	th:if="${r.measurement}"
+                                    th:attr="data-quantity=${r.quantity},data-type=${r.measurement.measurementType},data-name=${r.ingredient.ingredientName}"
+                                    class="collection-item yellow lighten-5" style="padding: 20px 0px">
+	                                <div id="ingredLi" th:text="${r.quantity} + ' ' + ${r.measurement.measurementType} + ' ' + ${r.ingredient.ingredientName}">
+	                                </div>
+                                </li>
+                                <!-- If measurement type dosen't exist -->
+                                <li th:each="r: ${recipe.ingredients}"
+                                	th:unless="${r.measurement}"
+                                    th:attr="data-quantity=${r.quantity},data-name=${r.ingredient.ingredientName}"
+                                    class="collection-item yellow lighten-5" style="padding: 20px 0px">
+	                                <div id="ingredLi" th:text="${r.quantity} + ' ' + ${r.ingredient.ingredientName}"></div>
+                                </li>
+                            </ul>
+                        </div>
 						<div>
 							<ul class="collection with-header" style="border: 0px">
 							

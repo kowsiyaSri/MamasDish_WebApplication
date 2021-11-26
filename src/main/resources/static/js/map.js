@@ -87,7 +87,7 @@ var options = {
    }
 var map = new google.maps.Map(document.getElementById('map'), options);
 
-fetch('http://localhost:8080/mamasdish/countryRecipes')
+fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/countryRecipes')
 	.then(data => data.json())
 	.then(function(data){
 		var markers = [];

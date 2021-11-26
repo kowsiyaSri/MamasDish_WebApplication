@@ -145,6 +145,18 @@ public class APIController {
 		nutritionInformationRepo.save(nutritionInformation);
         return 1;
     }
+	
+	// Add calorie info
+	@GetMapping(value = "/addCalorie/{calories}/{recipeId}")
+    public int addCalorie( @PathVariable String calories, @PathVariable int recipeId){
+        Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+        float caloriesFlt = Float.parseFloat(calories);
+		recipe.setCalories(caloriesFlt);
+		recipeRepo.save(recipe);
+        return 1;
+    }
+
+	
 
 	@Transactional
 	@GetMapping(value = "/deleteIngredients/{recipeId}")

@@ -35,6 +35,7 @@ public class Recipe {
 	
 	public Recipe() {
 		this.auth = false;
+		this.complete = false;
 	}
 
 	@Id
@@ -62,6 +63,8 @@ public class Recipe {
 	private float prepTime;
 	
 	private boolean auth;
+	
+	private boolean complete;
 
 	@NotNull(message = "Summary is Mandatory.")
 	@Size(min = 1, max = 100, message = "Summary must be at least 1 character in length.")
