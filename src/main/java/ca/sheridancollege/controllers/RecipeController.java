@@ -564,6 +564,7 @@ public class RecipeController {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
+		
 		List<Rating> ratings = ratingRepo.findByRecipeId(Long.valueOf(recipeId));
 		if(!ratings.isEmpty()) {
 			for(Rating rate : ratings) {
@@ -577,29 +578,6 @@ public class RecipeController {
 				recipesAuthRepo.deleteById(rec.getId());
 			}
 		}
-		
-//		List<EndUser> endUser = endUserRepo.findByRecent_Recipe_Id(Long.valueOf(recipeId));
-//		if(!endUser.isEmpty()) {
-//			for(EndUser end: endUser) {
-//				if(!end.getRecent().isEmpty() && end.getRecent() != null) {
-//					for(Recent rec : end.getRecent()) {
-//						if(rec.getRecipe().getId() == Long.valueOf(recipeId)) {
-//							end.getRecent().remove(end.getRecent().indexOf(rec));
-//						}
-//					}
-//				}
-//			
-//				endUserRepo.save(end);
-//			}
-//		}
-		
-		List<Recent> recRecipes = recentRepo.findByRecipeId(Long.valueOf(recipeId));
-		if(!recRecipes.isEmpty()) {
-			for(Recent rec : recRecipes) {
-				recentRepo.delete(rec);
-			}
-		}
-		
 		
 		recipeRepo.deleteRecipe(Long.valueOf(recipeId));
 		return "redirect:/chefs/chefIndex";
