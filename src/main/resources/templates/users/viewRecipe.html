@@ -122,7 +122,7 @@
   							<i class="small material-icons green-text">check</i><span id="authFont" th:text="'This recipe has been authenticated by  ' + ${authCount} + ' users.'"></span> 
 						</div>
 						<div th:unless="${authCount > 0}">
-  							<i class="small material-icons green-text">check</i><span id="authFont" th:text="'This recipe has been not been authenticated."></span> 
+  							<i class="small material-icons red-text">clear</i><span id="authFont">This recipe has been not been authenticated.</span> 
 						</div>
 						<hr>
 						<div style="padding: 20px 0px">
