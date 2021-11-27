@@ -562,6 +562,10 @@ public class RecipeController {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
+		List<Rating> ratings = ratingRepo.findByRecipeId(Long.valueOf(recipeId));
+		for(Rating rate : ratings) {
+			ratingRepo.delete(rate);
+		}
 		recipeRepo.deleteRecipe(Long.valueOf(recipeId));
 		return "redirect:/chefs/chefIndex";
 	}
