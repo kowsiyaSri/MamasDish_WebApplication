@@ -9,9 +9,12 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="../static/js/script.js" th:src="@{/js/startRating.js}"></script>
+    <script src="../static/js/startRating.js" th:src="@{/js/startRating.js}"></script>
     <script src="../static/js/nutrition.js" th:src="@{/js/nutrition.js}"></script>
 	<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+	<script src="../static/js/recipe.js" th:src="@{/js/recipe.js}"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
 <title>View Recipe</title>
 <style>
@@ -98,8 +101,7 @@
              				<a th:unless="${saved}" th:href="@{/users/saveRecipe/{id}(id=${recipe.id})}" style="background-color: #5085A5" class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">add</i></a>
 					</div>
 					<div class="card-content">
-						
-						
+
 						<span> 
 							<span id="chefFont" th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span> 
 	
@@ -111,9 +113,14 @@
 							</span>
 						</span>
 						<br><br>
-						<button th:if="${canAuthenticate}" class="btn waves-effect waves-light" style="background-color: #5085A5" type="submit" name="action">Authenticate Recipe
+						
+						<a th:if="${canAuthenticate}" href="#" th:href="@{/authenticateRecipe/{id}(id=${recipe.id})}" class="btn waves-effect waves-light" style="background-color: #5085A5">Authenticate Recipe
     						<i class="material-icons right">star</i>
-  						</button>
+  						</a>
+  						
+  						<div th:if="${authCount > 0}">
+  							<i class="small material-icons green-text">check</i><span id="authFont" th:text="'This recipe has been authenticated by  ' + ${authCount} + ' users.'"></span> 
+						</div>
 						<hr>
 						<div style="padding: 20px 0px">
 							Course: <strong th:text="${recipe.mealtype.mealName.toLowerCase()}">main</strong>
@@ -267,13 +274,13 @@
 										<div class="row">
 										<h6 class="col s9" th:text="${r.userName}"></h6>
 										
-										<p class="col s3"><div class="stars-outer">
+										<p class="col s3">
+										<div class="stars-outer">
 											<div id="stars-inner" th:style="'width:'+(${r.rating} * 100)/5 +'%'"></div>
-									<span class="number-rating"></span>
-								</div>
-								</p>
+											<span class="number-rating"></span>
+										</p>
 									
-								</div>
+									</div>
 								<div class="row">
 										<p class="col s12" th:text="${r.comment}" style="font-size:15px;"></p>
 										</div>
@@ -289,9 +296,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div>
+	
 </body>
 <script th:inline="javascript">
 

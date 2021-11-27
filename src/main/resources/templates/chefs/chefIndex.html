@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">	
 
 <title>View All Recipes</title>
 </head>
@@ -68,7 +69,7 @@
 	 
 	 <div th:if="${!chef.recipes.empty and chef.recipes !=null}">
 	  <div th:each="r: ${chef.recipes}">
-	    <div class="col s4">
+	    <div class="col s12 m4 l4 xl4">
 	    <a class="link" th:href="@{/chefs/viewRecipe/{id}(id=${r.id})}">
 	      <div class="card" style="height:300px; margin:15px; border-radius:15px; ">
 	        <div class="card-image">

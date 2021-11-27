@@ -2,6 +2,7 @@ package ca.sheridancollege.beans;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -59,9 +60,5 @@ public class EndUser {
 	
 	@ManyToMany
 	private List<MessageSystem> messages;
-
-	@OneToMany
-	private List<Continent> continents;
-	
 
 }

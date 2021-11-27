@@ -64,6 +64,8 @@ public class Recipe {
 	
 	private boolean auth;
 	
+	private int authCount;
+	
 	private boolean complete;
 
 	@NotNull(message = "Summary is Mandatory.")

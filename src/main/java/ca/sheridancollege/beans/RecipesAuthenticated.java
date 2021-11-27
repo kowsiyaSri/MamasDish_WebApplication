@@ -5,6 +5,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AllArgsConstructor;
@@ -18,13 +20,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-
-public class Continent {
+public class RecipesAuthenticated {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	private String code;
-	private String name;
+	
+	 @OneToOne
+    private EndUser authUser;
+
+    private boolean didAuth;
+    
+    @OneToOne
+    private Recipe recipe;
 	
 }

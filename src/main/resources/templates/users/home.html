@@ -7,14 +7,22 @@
 <link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
 <script type="text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>Mama's Dish</title>
-</head>
+<style>
+.tabs .indicator {
+	background-color: #0d47a1;
+}
+
+</style>
 <body style="background-color:#BECEDD">
-	<header>
-		<div class="navbar-fixed">
+
+<header>
+	<div class="navbar-fixed">
 			<nav>
 			    <div class="nav-wrapper" style="background-color:white">
-				      <span><a th:href="@{/users/userHome}"  class="brand-logo center"  style="color:grey">Mama's Dish <img style="height:40px; margin-top:10px;" th:src="@{/images/mamasdish_logo.png}"/></a></span>
+				      <a th:href="@{/users/userHome}"  class="brand-logo center"  style="color:grey">Mama's Dish</a>
 				      	
 	    		</div>
 	  		</nav>
@@ -22,7 +30,7 @@
 	</header>
 	<main style="margin-top:40px;" >
 	<div id="center">
-		<img style="height:440px" th:src="@{/images/shakshuka.png}"/>
+		<img class="responsive-img" style="height:220px" th:src="@{/images/shakshuka.png}"/>
 			<p id="homeHeader">Welcome to Mama's Dish</p>
 			<p id="homeP">Mama's Dish is a recipe platform the features recipes from all over the world.</p>
 			<p id="homeP">Mama's Dish also allows chefs to upload their recipes and share them with the world.</p>

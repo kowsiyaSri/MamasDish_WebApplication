@@ -10,9 +10,10 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">	
 <link href="css/nouislider.css" th:href="@{/css/nouislider.css}" rel="stylesheet" type="text/css">
 <script src="../static/js/nouislider.js" th:src="@{/js/nouislider.js}"></script>
-
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
 <script src="../static/js/viewAllRecipes.js" th:src="@{/js/viewAllRecipes.js}"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>View All Recipes</title>
 </head>
 <body>
@@ -27,7 +28,7 @@
 							<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
 							<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
 							<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge light-blue darken-3" th:text="${emails}" id="mailCount"></span></a></li>
 							<li>
   								<a class='dropdown-trigger' href='#' data-target='dropdown1'><i class="material-icons cyan-text text-darken-4">menu</i></a>
 								<ul id='dropdown1' class='dropdown-content'>
@@ -118,7 +119,7 @@
 		 <div class="row" style="padding-top:25px;">
 		 
 			  <div th:each="r: ${recipes}">
-			    <div class="col s6">
+			    <div class="col s12 m6 l6 xl4">
 				    <a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
 				      <div class="card" th:id="recipe + ${r.id}" style="height:500px; margin:15px; border-radius:15px">
 				        <div class="card-image">

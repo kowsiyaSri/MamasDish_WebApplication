@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.sheridancollege.beans.AuthUserContinent;
 import ca.sheridancollege.beans.Country;
 import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Ingredient;
@@ -36,7 +37,9 @@ import ca.sheridancollege.beans.Recipe;
 import ca.sheridancollege.beans.RecipeDescription;
 import ca.sheridancollege.beans.RecipeIngredient;
 import ca.sheridancollege.beans.RecipeMarker;
+import ca.sheridancollege.beans.RecipesAuthenticated;
 import ca.sheridancollege.email.Email;
+import ca.sheridancollege.repositories.AuthUserContinentRepository;
 import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.EndUserRepository;
 import ca.sheridancollege.repositories.IngredientRepository;
@@ -47,6 +50,7 @@ import ca.sheridancollege.repositories.NutritionInformationRepository;
 import ca.sheridancollege.repositories.ProteinRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
+import ca.sheridancollege.repositories.RecipesAuthenticatedRepository;
 import ca.sheridancollege.repositories.UserRepository;
 
 @RestController
@@ -96,6 +100,10 @@ public class APIController {
 	
 	@Autowired
 	private NutritionInformationRepository nutritionInformationRepo;
+	
+	@Autowired
+	private AuthUserContinentRepository authContRepo;
+	
 
 	@GetMapping(value = "/addIngredient/{ingredient}/{quantity}/{measurement}/{recipeId}/{proteinId}")
 	public int addIngredient(@PathVariable String ingredient, @PathVariable int quantity, @PathVariable int measurement,
@@ -213,13 +221,37 @@ public class APIController {
 	public int sendAuthEmail(Model model, @PathVariable int id) {
 
 		Recipe recipe = recipeRepo.findById(Long.valueOf(id)).get();
+		List <Integer> authCont = authContRepo.getAuthUser((int) (long) recipe.getCountry().getContinent().getId());
+		
+		for(Integer authUser : authCont) {
+			System.out.println("USER " + authUser);
+			MessageSystem mssg = new MessageSystem();
+			EndUser user = endUserRepo.findById(Long.valueOf(authUser)).get();
+			String userEmail = user.getEmail();
+			String subject = "Recipe Requiring Authentication";
+			String body = "Recipe from " + recipe.getCountry().getContinent().getName() + " requires authentication";
+			
+			mssg.setSubject(subject);
+			mssg.setSender(user.getFirstName() + " " + user.getLastName());
+			mssg.setDateSent(LocalDateTime.now());
+			mssg.setReceiver("Mama's Dish Authenticators");
+			mssg.setNew(true);
+			mssg.setMessage(body);
+			mssg.setRecipeId(recipe.getId());
+			mssgRepo.save(mssg);
+			user.getMessages().add(mssg);
+			endUserRepo.save(user);
+			email.sendEmail(userEmail, subject, body);
+		}
+		
+		
 		MessageSystem mssg = new MessageSystem();
 		EndUser chef = recipe.getChef().getEnduser();
 		String chefEmail = chef.getEmail();
 		String subject = "Thank You from Mamas Dish";
 		String body = "Thank you for adding your authentic recipe to Mamas Dish.";
 		body += "Please allow 24-48 hrs for approval from our authentication team.";
-
+		
 		email.sendEmail(chefEmail, subject, body);
 		mssg.setSubject("Approval Needed for new Recipe");
 		mssg.setSender(chef.getFirstName() + " " + chef.getLastName());
