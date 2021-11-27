@@ -121,6 +121,9 @@
   						<div th:if="${authCount > 0}">
   							<i class="small material-icons green-text">check</i><span id="authFont" th:text="'This recipe has been authenticated by  ' + ${authCount} + ' users.'"></span> 
 						</div>
+						<div th:unless="${authCount > 0}">
+  							<i class="small material-icons green-text">check</i><span id="authFont" th:text="'This recipe has been not been authenticated."></span> 
+						</div>
 						<hr>
 						<div style="padding: 20px 0px">
 							Course: <strong th:text="${recipe.mealtype.mealName.toLowerCase()}">main</strong>

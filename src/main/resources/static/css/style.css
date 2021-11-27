@@ -113,6 +113,13 @@ select#search::-ms-expand {
 	color: grey;
 }
 
+#filterTxt {
+	font-size: 16px;
+	font-variant: small-caps;
+	font-weight: 400;
+	color: #5085A5;
+}
+
 #landNav {
 	font-size: 60px;
 	font-variant: small-caps;

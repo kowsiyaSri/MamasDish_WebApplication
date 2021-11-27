@@ -415,9 +415,11 @@ public class RecipeController {
 				present = r;
 			}
 		}
+		
 		// Checks to see if current user is also recipe authenticator for recipe's
 		// continent
 		List<AuthUserContinent> continents = authUserRepo.findByAuthUserId(Long.valueOf(user.getId()));
+		
 		// Check to see if recipe has already been authenticated by this user
 		List<RecipesAuthenticated> authRecipes = recipesAuthRepo.findByRecipeIdAndAuthUserId(recipe.getId(),
 				user.getId());
@@ -563,9 +565,42 @@ public class RecipeController {
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
 		List<Rating> ratings = ratingRepo.findByRecipeId(Long.valueOf(recipeId));
-		for(Rating rate : ratings) {
-			ratingRepo.delete(rate);
+		if(!ratings.isEmpty()) {
+			for(Rating rate : ratings) {
+				ratingRepo.delete(rate);
+			}
 		}
+		
+		List<RecipesAuthenticated> recipeAuth = recipesAuthRepo.findByRecipeId(Long.valueOf(recipeId));
+		if(!recipeAuth.isEmpty()) {
+			for(RecipesAuthenticated rec : recipeAuth) {
+				recipesAuthRepo.deleteById(rec.getId());
+			}
+		}
+		
+//		List<EndUser> endUser = endUserRepo.findByRecent_Recipe_Id(Long.valueOf(recipeId));
+//		if(!endUser.isEmpty()) {
+//			for(EndUser end: endUser) {
+//				if(!end.getRecent().isEmpty() && end.getRecent() != null) {
+//					for(Recent rec : end.getRecent()) {
+//						if(rec.getRecipe().getId() == Long.valueOf(recipeId)) {
+//							end.getRecent().remove(end.getRecent().indexOf(rec));
+//						}
+//					}
+//				}
+//			
+//				endUserRepo.save(end);
+//			}
+//		}
+		
+		List<Recent> recRecipes = recentRepo.findByRecipeId(Long.valueOf(recipeId));
+		if(!recRecipes.isEmpty()) {
+			for(Recent rec : recRecipes) {
+				recentRepo.delete(rec);
+			}
+		}
+		
+		
 		recipeRepo.deleteRecipe(Long.valueOf(recipeId));
 		return "redirect:/chefs/chefIndex";
 	}

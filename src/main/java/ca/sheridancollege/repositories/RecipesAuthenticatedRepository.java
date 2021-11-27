@@ -10,4 +10,6 @@ public interface RecipesAuthenticatedRepository extends JpaRepository<RecipesAut
 
 	public List<RecipesAuthenticated> findByRecipeIdAndAuthUserId(Long recipeId, Long authUserId);
 	
+	public List<RecipesAuthenticated> findByRecipeId(Long recipeId);
+	
 }
