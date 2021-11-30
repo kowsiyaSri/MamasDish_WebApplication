@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.text.DecimalFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,17 +33,20 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
-import ca.sheridancollege.FileUploadUtil;
+import ca.sheridancollege.beans.AuthUserContinent;
 import ca.sheridancollege.beans.Chef;
+import ca.sheridancollege.beans.Continent;
 import ca.sheridancollege.beans.EndUser;
 import ca.sheridancollege.beans.Instruction;
 import ca.sheridancollege.beans.MessageSystem;
 import ca.sheridancollege.beans.Rating;
 import ca.sheridancollege.beans.Recent;
 import ca.sheridancollege.beans.Recipe;
+import ca.sheridancollege.beans.RecipesAuthenticated;
 import ca.sheridancollege.beans.Role;
 import ca.sheridancollege.beans.User;
 import ca.sheridancollege.email.Email;
+import ca.sheridancollege.repositories.AuthUserContinentRepository;
 import ca.sheridancollege.repositories.ChefRepository;
 import ca.sheridancollege.repositories.CountryRepository;
 import ca.sheridancollege.repositories.CuisineRepository;
@@ -58,6 +60,7 @@ import ca.sheridancollege.repositories.RatingRepository;
 import ca.sheridancollege.repositories.RecentRepository;
 import ca.sheridancollege.repositories.RecipeIngredientRepository;
 import ca.sheridancollege.repositories.RecipeRepository;
+import ca.sheridancollege.repositories.RecipesAuthenticatedRepository;
 import ca.sheridancollege.repositories.RoleRepository;
 import ca.sheridancollege.repositories.UserRepository;
 
@@ -111,6 +114,12 @@ public class RecipeController {
 
 	@Autowired
 	private RatingRepository ratingRepo;
+
+	@Autowired
+	private RecipesAuthenticatedRepository recipesAuthRepo;
+
+	@Autowired
+	private AuthUserContinentRepository authUserRepo;
 
 	@GetMapping("/")
 	public String home(Model model) {
@@ -364,7 +373,7 @@ public class RecipeController {
 		}
 
 		model.addAttribute("recipes", recipeRepo.getFilterRecipes(countryString, dietString, proteinString, 0, 0));
-		
+
 		model.addAttribute("countries", countryRepo.getCountryNames());
 		model.addAttribute("proteins", proteinRepo.getProteinNames());
 		model.addAttribute("diets", dietRepo.getDietNames());
@@ -373,7 +382,6 @@ public class RecipeController {
 		model.addAttribute("proteinsChecked", proteins);
 		model.addAttribute("cal1", cal1);
 		model.addAttribute("cal2", cal2);
-		 
 
 		return "users/viewAllRecipes.html";
 	}
@@ -383,8 +391,6 @@ public class RecipeController {
 
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		int emailCount = mssgRepo.emailCount(user.getId());
-
-		model.addAttribute("emails", emailCount);
 
 		double ratingSum = 0;
 		double ratingAve = 0;
@@ -397,12 +403,8 @@ public class RecipeController {
 		}
 
 		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
-		model.addAttribute("recipe", recipe);
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(recipeId)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
-		model.addAttribute("instructions", instruct);
-		model.addAttribute("rating", ratingAve);
-		model.addAttribute("reviews", listRatings);
 
 		// check if in recent recipe
 		boolean isPresent = false;
@@ -411,6 +413,24 @@ public class RecipeController {
 			if (r.getRecipe().getId() == recipe.getId()) {
 				isPresent = true;
 				present = r;
+			}
+		}
+		
+		// Checks to see if current user is also recipe authenticator for recipe's
+		// continent
+		List<AuthUserContinent> continents = authUserRepo.findByAuthUserId(Long.valueOf(user.getId()));
+		
+		// Check to see if recipe has already been authenticated by this user
+		List<RecipesAuthenticated> authRecipes = recipesAuthRepo.findByRecipeIdAndAuthUserId(recipe.getId(),
+				user.getId());
+
+		// If user is an authenticator for this continent, and they haven't already
+		// authenticated this recipe, then user is able
+		// to authenticate recipe
+		boolean inCont = false;
+		for (AuthUserContinent cont : continents) {
+			if (recipe.getCountry().getContinent() == cont.getContinent() && authRecipes.isEmpty()) {
+				inCont = true;
 			}
 		}
 
@@ -455,7 +475,15 @@ public class RecipeController {
 				isSaved = true;
 			}
 		}
+
+		model.addAttribute("recipe", recipe);
 		model.addAttribute("saved", isSaved);
+		model.addAttribute("canAuthenticate", inCont);
+		model.addAttribute("authCount", recipe.getAuthCount());
+		model.addAttribute("instructions", instruct);
+		model.addAttribute("rating", ratingAve);
+		model.addAttribute("reviews", listRatings);
+		model.addAttribute("emails", emailCount);
 
 		return "users/viewRecipe.html";
 	}
@@ -536,6 +564,21 @@ public class RecipeController {
 		EndUser user = endUserRepo.findByEmail(auth.getName());
 		Chef chef = chefRepo.findByEnduser_Email(auth.getName());
 		model.addAttribute("chef", chef);
+		
+		List<Rating> ratings = ratingRepo.findByRecipeId(Long.valueOf(recipeId));
+		if(!ratings.isEmpty()) {
+			for(Rating rate : ratings) {
+				ratingRepo.delete(rate);
+			}
+		}
+		
+		List<RecipesAuthenticated> recipeAuth = recipesAuthRepo.findByRecipeId(Long.valueOf(recipeId));
+		if(!recipeAuth.isEmpty()) {
+			for(RecipesAuthenticated rec : recipeAuth) {
+				recipesAuthRepo.deleteById(rec.getId());
+			}
+		}
+		
 		recipeRepo.deleteRecipe(Long.valueOf(recipeId));
 		return "redirect:/chefs/chefIndex";
 	}
@@ -851,6 +894,23 @@ public class RecipeController {
 		return "chefs/awaitApproval";
 	}
 
+	@GetMapping("/authenticateRecipe/{id}")
+	public String authenticateRecipe(@PathVariable int id, Authentication auth) {
+
+		Recipe recipe = recipeRepo.findById(Long.valueOf(id)).get();
+		int authCount = recipe.getAuthCount();
+		recipe.setAuthCount(authCount + 1);
+		RecipesAuthenticated recipeAuth = RecipesAuthenticated.builder()
+				.authUser(endUserRepo.findByEmail(auth.getName())).didAuth(true).recipe(recipe).build();
+
+		recipesAuthRepo.save(recipeAuth);
+
+		recipeRepo.save(recipe);
+
+		return "redirect:/users/viewRecipe/" + id;
+
+	}
+
 	@GetMapping("/reviewRecipe/{id}")
 	public String reviewRecipe(@PathVariable long id, Model model, Authentication auth) {
 		EndUser userEmail = endUserRepo.findByEmail(auth.getName());
@@ -887,9 +947,6 @@ public class RecipeController {
 
 		ratingRepo.save(ratingEntity);
 
-		System.out.println("Rating is " + rating);
-		System.out.println("Review is " + commentText);
-		System.out.println("anonymous " + anonymous);
 		model.addAttribute("recipes", recipeRepo.findByAuthTrue());
 		return "redirect:/users/viewRecipe/" + recipeId;
 	}

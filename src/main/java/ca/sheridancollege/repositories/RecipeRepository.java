@@ -65,7 +65,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	public List<Recipe> suggestProtein(@Param("user_id") long user_id);
 	
 	@Transactional
-	@Procedure (procedureName = "deleteRecipe")
+	@Procedure (procedureName = "deleteRecipeUpdate")
 	public void deleteRecipe(@Param("recipeId") Long recipeId);
 
 }

@@ -2,17 +2,17 @@ $(document).ready(function() {
 
 	//add country names for filter
 	$.each(countries, function(key, value) {
-		$("#countryBoxes").append("<p><label><input name='countries[]' class='country' value='" + value + "' type='checkbox'/><span>" + value + "</span></label></p>");
+		$("#countryBoxes").append("<p><label><input name='countries[]'  class='country' value='" + value + "' type='checkbox'/><span id='filterTxt'>" + value + "</span></label></p>");
 	});
 
 	//adds diet names for filter
 	$.each(diets, function(key, value) {
-		$("#dietBoxes").append("<p><label><input name='diets[]' class='diet' value='" + value + "' type='checkbox'/><span>" + value + "</span></label></p>");
+		$("#dietBoxes").append("<p><label><input name='diets[]' class='diet' value='" + value + "' type='checkbox'/><span id='filterTxt'>" + value + "</span></label></p>");
 	});
 
 	//adds protein names for filter
 	$.each(proteins, function(key, value) {
-		$("#proteinBoxes").append("<p><label><input name='proteins[]' class='protein' value='" + value + "' type='checkbox'/><span>" + value + "</span></label></p>");
+		$("#proteinBoxes").append("<p><label><input name='proteins[]' class='protein' value='" + value + "' type='checkbox'/><span id='filterTxt'>" + value + "</span></label></p>");
 	});
     
 	//checking the boxes for countries

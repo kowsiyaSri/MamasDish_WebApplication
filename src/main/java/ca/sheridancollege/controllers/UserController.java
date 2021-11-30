@@ -1,5 +1,6 @@
 package ca.sheridancollege.controllers;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -219,10 +220,14 @@ public class UserController {
 		}
 		
 		if(isAdmin) {
-			model.addAttribute("messages", mssgRepo.getAdminEmailList());
+			List<MessageSystem> mssg = mssgRepo.getAdminEmailList();
+			mssg.addAll(mssgRepo.getEmails(user.getId()));
+			Collections.sort(mssg, (o1, o2) -> o1.getDateSent().compareTo(o2.getDateSent()));
+			Collections.reverse(mssg);
+			model.addAttribute("messages", mssg);
 			model.addAttribute("emails", mssgRepo.getAdminEmailCount());
-			model.addAttribute("deleted", mssgRepo.getAdminDeletedEmails().size());
-
+			model.addAttribute("deleted", mssgRepo.getAdminDeletedEmails().size() + mssgRepo.getDeletedEmails(user.getId()).size());
+ 
 		} else {
 			model.addAttribute("messages", mssgRepo.getEmails(user.getId()));
 			model.addAttribute("emails", emailCount);
@@ -250,9 +255,13 @@ public class UserController {
 		}
 		
 		if(isAdmin) {
-			model.addAttribute("messages", mssgRepo.getAdminDeletedEmails());
+			List<MessageSystem> mssg = mssgRepo.getAdminDeletedEmails();
+			mssg.addAll(mssgRepo.getDeletedEmails(user.getId()));
+			Collections.sort(mssg, (o1, o2) -> o1.getDateSent().compareTo(o2.getDateSent()));
+			Collections.reverse(mssg);
+			model.addAttribute("messages", mssg);
 			model.addAttribute("emails", mssgRepo.getAdminEmailCount());
-			model.addAttribute("deleted", mssgRepo.getAdminDeletedEmails().size());
+			model.addAttribute("deleted", mssgRepo.getAdminDeletedEmails().size() +  mssgRepo.getDeletedEmails(user.getId()).size());
 
 		} else {
 			model.addAttribute("messages", mssgRepo.getDeletedEmails(user.getId()));

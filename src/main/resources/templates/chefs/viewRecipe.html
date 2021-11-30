@@ -11,6 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script type="text/javascript" src="../../js/nutrition.js"></script>
     <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
     <title>View Recipe</title>
 </head>
@@ -66,19 +68,18 @@
                             th:src="@{'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/' + ${recipe.recipeImg}}">
                         <img id="recipeImg" th:unless="${recipe.recipeImg != null}" style="opacity: 0.6; height: 350px"
                             th:src="@{/images/shakshuka.png}">
+                              <span class="card-title" id="recipeTitle" th:text="${recipe.title}">Card Title</span>
+          					<a th:href="@{/users/deleteRecipe/{id}(id=${recipe.id})}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">delete</i></a>
                     </div>
+                    
                     <div class="card-content">
-                        <!-- Edit Recipe button only shown for chefs --> <a
-                            class="waves-effect waves-light btn blue lighten-4 black-text"
-                            th:href="@{/users/editRecipePartOne/{id}(id=${recipe.id})}" style="float: right;">Edit
-                            Recipe</a>
-                        <h2 id="recipeTitle" th:text="${recipe.title}">Pizza</h2> <span>
+                        <!-- Edit Recipe button only shown for chefs -->
+                           
                             <span id="chefFont"
                                 th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span>
-                            <span style="float: right">
-                             
-					<!-- Edit Recipe button only shown for chefs -->
-					 <a class="waves-effect waves-light btn red lighten-6 black-text" th:href="@{/users/deleteRecipe/{id}(id=${recipe.id})}" style="float: right; width:100%;">Delete Recipe</a>
+                            <span>
+                                     <a class="btn-flat btn-medium waves-effect waves-light"  th:href="@{/users/editRecipePartOne/{id}(id=${recipe.id})}"><i class="material-icons blue-text">edit</i></a>
+                    
                             </span>
                         </span>
 
@@ -111,9 +112,6 @@
                                 <div class="collapsible-header">Nutrition Facts</div>
                                 <div class="collapsible-body">
                                     <section class="performance-facts" id="centerTable">
-                                        <header class="performance-facts__header">
-                                            <h1 class="performance-facts__title">Nutrition Facts</h1>
-                                        </header>
                                         <table class="performance-facts__table">
                                             <thead>
                                                 <tr>

@@ -9,6 +9,8 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<title>View Recent Recipes</title>
 </head>
 <body>
@@ -60,7 +62,7 @@
 		<div class="row">
 			<div th:if="${!user.recent.empty and user.recent !=null}">
 				<div th:each="r: ${user.recent}">
-					<div class="col s4">
+					<div class="col s12 m4 l4">
 						<a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.recipe.id})}">
 							<div class="card" style="height: 300px; margin: 15px; border-radius: 15px;">
 								<div class="card-image">

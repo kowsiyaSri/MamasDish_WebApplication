@@ -9,9 +9,12 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="../static/js/script.js" th:src="@{/js/startRating.js}"></script>
+    <script src="../static/js/startRating.js" th:src="@{/js/startRating.js}"></script>
     <script src="../static/js/nutrition.js" th:src="@{/js/nutrition.js}"></script>
 	<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+	<script src="../static/js/recipe.js" th:src="@{/js/recipe.js}"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
 <title>View Recipe</title>
 <style>
@@ -56,7 +59,7 @@
 							<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
 							<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
 							<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge light-blue darken-3" th:text="${emails}" id="mailCount"></span></a></li>
 							<li>
   								<a class='dropdown-trigger' href='#' data-target='dropdown1'><i class="material-icons cyan-text text-darken-4">menu</i></a>
 								<ul id='dropdown1' class='dropdown-content'>
@@ -80,7 +83,7 @@
 		<li><a th:href="@{/users/suggest}" id="homeNavTxt">Suggested Recipes</a></li>
 		<li><a th:href="@{/users/viewSaved}" id="homeNavTxt">Saved Recipes</a></li>
 	    <li><a th:href="@{/users/Recent}" id="homeNavTxt">Recent Recipes</a></li>
-	    <li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+	    <li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge"  th:text="${emails}" id="mailCount"></span></a></li>
 	    <li><a th:href="@{/viewProfile}"  id="homeNavTxt">Profile</a></li>
 		<li><a th:href="@{/logout}" id="homeNavTxt">Logout</a></li>
 	  </ul>
@@ -93,15 +96,15 @@
 
 						<img id="recipeImg" style="height:350px" th:if="${recipe.recipeImg != null}" th:src="@{'http://ocranp.dev.fast.sheridanc.on.ca/images/recipes/' + ${recipe.recipeImg}}">
 						<img id="recipeImg" th:unless="${recipe.recipeImg != null}" style="opacity:0.6; height:350px " th:src="@{/images/shakshuka.png}">
+					      <span class="card-title" id="recipeTitle" th:text="${recipe.title}">Card Title</span>
+          					<a th:if="${saved}"  th:href="@{/users/removeRecipe/{id}(id=${recipe.id})}" style="background-color: #5085A5" class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">remove</i></a>
+             				<a th:unless="${saved}" th:href="@{/users/saveRecipe/{id}(id=${recipe.id})}" style="background-color: #5085A5" class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">add</i></a>
 					</div>
 					<div class="card-content">
-						<a th:if="${saved}" class="waves-effect waves-light btn blue lighten-4 black-text"
-                            th:href="@{/users/removeRecipe/{id}(id=${recipe.id})}" style="float: right;">Remove from Saved</a>
-                        <a th:unless="${saved}" class="waves-effect waves-light btn blue lighten-4 black-text"
-                            th:href="@{/users/saveRecipe/{id}(id=${recipe.id})}" style="float: right;">Save Recipe</a>
-						<h2 id="recipeTitle" th:text="${recipe.title}">Pizza</h2>
+
 						<span> 
 							<span id="chefFont" th:text="'Recipe By:  ' + ${recipe.chef.enduser.firstName} + ' ' + ${recipe.chef.enduser.lastName}"></span> 
+	
 							<span style="float: right">
 								<div class="stars-outer">
 									<div id="stars-inner"></div>
@@ -109,6 +112,18 @@
 								</div>
 							</span>
 						</span>
+						<br><br>
+						
+						<a th:if="${canAuthenticate}" href="#" th:href="@{/authenticateRecipe/{id}(id=${recipe.id})}" class="btn waves-effect waves-light" style="background-color: #5085A5">Authenticate Recipe
+    						<i class="material-icons right">star</i>
+  						</a>
+  						
+  						<div th:if="${authCount > 0}">
+  							<i class="small material-icons green-text">check</i><span id="authFont" th:text="'This recipe has been authenticated by  ' + ${authCount} + ' users.'"></span> 
+						</div>
+						<div th:unless="${authCount > 0}">
+  							<i class="small material-icons red-text">clear</i><span id="authFont">This recipe has been not been authenticated.</span> 
+						</div>
 						<hr>
 						<div style="padding: 20px 0px">
 							Course: <strong th:text="${recipe.mealtype.mealName.toLowerCase()}">main</strong>
@@ -140,11 +155,9 @@
 						<ul class="collapsible expandable">
                             <li>
                                 <div class="collapsible-header">Nutrition Facts</div>
-                                <div class="collapsible-body">
+                                <div class="collapsible-body" style="margin-top:0px">
                                     <section class="performance-facts" id="centerTable">
-                                        <header class="performance-facts__header">
-                                            <h1 class="performance-facts__title">Nutrition Facts</h1>
-                                        </header>
+                                      
                                         <table class="performance-facts__table">
                                             <thead>
                                                 <tr>
@@ -264,29 +277,29 @@
 										<div class="row">
 										<h6 class="col s9" th:text="${r.userName}"></h6>
 										
-										<p class="col s3"><div class="stars-outer">
+										<p class="col s3">
+										<div class="stars-outer">
 											<div id="stars-inner" th:style="'width:'+(${r.rating} * 100)/5 +'%'"></div>
-									<span class="number-rating"></span>
-								</div>
-								</p>
+											<span class="number-rating"></span>
+										</p>
 									
-								</div>
+									</div>
 								<div class="row">
-										<p class="col s12" th:text="${r.comment}" style="font-size:25px;"></p>
+										<p class="col s12" th:text="${r.comment}" style="font-size:15px;"></p>
 										</div>
 										</li>
 										</ul>
 										
 									</div>
+									
+									  
 									</div>
 								</div> 
 
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div>
+	
 </body>
 <script th:inline="javascript">
 

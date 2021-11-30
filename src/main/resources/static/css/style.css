@@ -113,6 +113,13 @@ select#search::-ms-expand {
 	color: grey;
 }
 
+#filterTxt {
+	font-size: 16px;
+	font-variant: small-caps;
+	font-weight: 400;
+	color: #5085A5;
+}
+
 #landNav {
 	font-size: 60px;
 	font-variant: small-caps;
@@ -332,6 +339,15 @@ h3 {
 	font-variant: normal;
 	font-weight: 300;
 	line-height: 15.4px;
+}
+
+#authFont {
+	font-family: Mulish;
+	font-size: 16px;
+	font-style: italic;
+	font-variant: normal;
+	font-weight: 600;  
+	color: grey;
 }
 
 #iconlbl {
@@ -611,6 +627,8 @@ input[type="file"] {
 	color:#9dbc0c;
 	line-height:30px;
 }
+
+
 
   @media only screen and (min-width : 992px) {
   .invisible-top {

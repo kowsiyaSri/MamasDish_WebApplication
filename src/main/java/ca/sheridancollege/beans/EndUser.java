@@ -2,6 +2,7 @@ package ca.sheridancollege.beans;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -10,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.JoinColumn;
+
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -59,6 +60,5 @@ public class EndUser {
 	
 	@ManyToMany
 	private List<MessageSystem> messages;
-	
-		
+
 }

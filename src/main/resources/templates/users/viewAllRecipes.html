@@ -10,9 +10,10 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">	
 <link href="css/nouislider.css" th:href="@{/css/nouislider.css}" rel="stylesheet" type="text/css">
 <script src="../static/js/nouislider.js" th:src="@{/js/nouislider.js}"></script>
-
 <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
 <script src="../static/js/viewAllRecipes.js" th:src="@{/js/viewAllRecipes.js}"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>View All Recipes</title>
 </head>
 <body>
@@ -27,7 +28,7 @@
 							<li><a th:href="@{/users/discover}"  id="homeNavTxt">Discover Recipes</a></li>
 							<li><a th:href="@{/chefs/chefIndex}"  id="homeNavTxt">Chef's Portal</a></li>
 							<li><a th:href="@{/chefs/uploadRecipe}"  id="homeNavTxt">Upload Recipe</a></li>
-		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge" th:text="${emails}" id="mailCount"></span></a></li>
+		      				<li><a th:href="@{/messages/inbox}" id="homeNavTxt">Inbox<span class="new badge light-blue darken-3" th:text="${emails}" id="mailCount"></span></a></li>
 							<li>
   								<a class='dropdown-trigger' href='#' data-target='dropdown1'><i class="material-icons cyan-text text-darken-4">menu</i></a>
 								<ul id='dropdown1' class='dropdown-content'>
@@ -60,27 +61,27 @@
 			<form th:action="@{/users/filterResults}" method="post">
 	
 				<ul id="slide-out" class="sidenav sidenav-fixed collection with-header" style="top:68px; height:100%">
-		        	<li class="collection-header"><h6>Filter by:</h6></li>
-				      <li><a href="#" class="link" onclick="showCountries()">Country</a></li>
+		        	<li class="collection-header"><h6 id="homeNavTxt">Filter by:</h6></li>
+				      <li><a href="#" class="link" id="homeNavTxt" onclick="showCountries()">Country</a></li>
 				      <div style="display:none;padding:0px 32px;" id="countryBoxes">
 				      	
 				      </div>
 				      
-				      <li><a href="#" class="link" onclick="showDiets()">Diet</a></li>
+				      <li><a href="#" id="homeNavTxt" class="link" onclick="showDiets()">Diet</a></li>
 				      <div style="display:none;padding:0px 32px;" id="dietBoxes">
 				      	
 				      </div>
 				      
-				      <li><a href="#" class="link" onclick="showProteins()">Protein</a></li>
+				      <li><a href="#" id="homeNavTxt" class="link" onclick="showProteins()">Protein</a></li>
 				      <div style="display:none;padding:0px 32px;" id="proteinBoxes">
 				      	
 				      </div>
 				      
-				      <li><a href="#" class="link" onclick="showSlider()">Calories</a></li>
+				      <li><a id="homeNavTxt" href="#" class="link" onclick="showSlider()">Calories</a></li>
 				      <div style="display:none;padding:40px 32px;" id="sliderDiv">
 				      	  <div id="slider"></div>
 				      </div>
-				      <li style="padding-top:25px; padding-left:75px;"><input type="submit" value="Apply Filter"  class="blue darken-4 btn"/></li>
+				      <li style="padding-top:25px; padding-left:75px; width:100%"><input type="submit" value="Apply Filter"  class="blue darken-4 btn"/></li>
 				      <input type="hidden" id="cal1" name="cal1"/>
 				      <input type="hidden" id="cal2" name="cal2"/>
 				</ul>	
@@ -118,7 +119,7 @@
 		 <div class="row" style="padding-top:25px;">
 		 
 			  <div th:each="r: ${recipes}">
-			    <div class="col s4">
+			    <div class="col s12 m6 l6 xl4">
 				    <a class="link" th:href="@{/users/viewRecipe/{id}(id=${r.id})}">
 				      <div class="card" th:id="recipe + ${r.id}" style="height:500px; margin:15px; border-radius:15px">
 				        <div class="card-image">

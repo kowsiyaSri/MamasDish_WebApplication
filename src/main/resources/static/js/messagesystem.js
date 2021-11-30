@@ -45,6 +45,9 @@ function check(id) {
 	if(receiver == "Mama's Dish Admin"){
 			$("#recipeLink").attr("href", "http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/admin/authRecipe/" + recipe);
 
+	}else if(receiver == "Mama's Dish Authenticators") {
+			$("#recipeLink").attr("href", "http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/users/viewRecipe/" + recipe);
+
 	}else {
 			$("#recipeLink").attr("href", "http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/chefs/viewRecipe/" + recipe);
 
