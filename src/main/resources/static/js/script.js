@@ -1,9 +1,5 @@
 $(document).ready(function() {
-	 $('select').formSelect();
-	     $('.sidenav').sidenav();
-  $('.dropdown-trigger').dropdown();
-  
+	$('select').formSelect();
+	$('.sidenav').sidenav();
+	$('.dropdown-trigger').dropdown();
 });
-
-
-
