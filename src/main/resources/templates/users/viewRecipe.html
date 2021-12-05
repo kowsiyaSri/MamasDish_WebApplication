@@ -60,7 +60,7 @@
 						<img id="recipeImg" th:unless="${recipe.recipeImg != null}" style="opacity:0.6; height:350px " th:src="@{/images/shakshuka.png}">
 					      <span class="card-title" id="recipeTitle" th:text="${recipe.title}">Card Title</span>
           					<a onclick="M.toast({html: 'Removed From Saved', classes: 'rounded'})" th:if="${saved}"  th:href="@{/users/removeRecipe/{id}(id=${recipe.id})}" style="background-color: #5085A5" class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">remove</i></a>
-             				<a onclick="M.toast({html: 'Addded To Saved', classes: 'rounded'})" th:unless="${saved}" th:href="@{/users/saveRecipe/{id}(id=${recipe.id})}" style="background-color: #5085A5" class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">add</i></a>
+             				<a onclick="M.toast({html: 'Added To Saved', classes: 'rounded'})" th:unless="${saved}" th:href="@{/users/saveRecipe/{id}(id=${recipe.id})}" style="background-color: #5085A5" class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">add</i></a>
 					</div>
 					<div class="card-content">
 
