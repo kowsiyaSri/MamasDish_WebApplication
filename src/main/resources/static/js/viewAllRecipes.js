@@ -1,3 +1,7 @@
+/*
+* Sets up the filter checkboxes for all the options
+*/
+
 $(document).ready(function() {
 
 	//add country names for filter
@@ -68,6 +72,7 @@ $(document).ready(function() {
 	});
 });
 
+//clears the search bar
 function clearText() {
 
 	console.log("VALUE: " + document.getElementById('searchBar').value);
@@ -78,21 +83,24 @@ function clearText() {
 
 	}
 
-
 }
 
+// toggles the countries to filter by
 function showCountries() {
 	$("#countryBoxes").toggle();
 }
 
+//toggles the diets to filter by
 function showDiets() {
 	$("#dietBoxes").toggle();
 }
 
+//toggles the proteins to filter by
 function showProteins() {
 	$("#proteinBoxes").toggle();
 }
 
+//toggles the calorie slider
 function showSlider() {
 	$("#sliderDiv").toggle();
 }

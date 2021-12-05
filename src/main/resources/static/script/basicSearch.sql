@@ -34,9 +34,3 @@ LIMIT 10;
 DROP TABLE recipe_tbl;
 END$$
 DELIMITER ;
-
-
-SELECT protein_type FROM protein WHERE id IN (SELECT protein_id FROM ingredient 
-		INNER JOIN recipe_ingredient ON recipe_ingredient.ingredient_id = ingredient.id
-        INNER JOIN recipe on recipe.id = recipe_ingredient.recipe_id
-        WHERE recipe.auth = 1);

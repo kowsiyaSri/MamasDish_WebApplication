@@ -1,3 +1,7 @@
+/*
+* Purpose: Gathering the nutrition information for each ingredient for the recipe that is given using Nutritionx's API.
+*/
+
 $(document).ready(function() {
 	$('.collapsible').collapsible();
 	
@@ -71,11 +75,6 @@ $(document).ready(function() {
 			$('.js-totalDietaryFiber').text(Math.round(nutritionTotal.nf_dietary_fiber * 100) / 100);
 			$('.js-totalSugars').text(Math.round(nutritionTotal.nf_sugars * 100) / 100);
 			$('.js-totalProtein').text(Math.round(nutritionTotal.nf_protein * 100) / 100);
-			
-/*			for (var food of data.foods) {
-				$(nutritionList).append(`<li>${food.food_name} ${food.nf_calories}</li>`);
-			}
-			$(nutritionList).css('display', 'block');*/
 		});
 });
 
@@ -87,10 +86,4 @@ Array.prototype.sum = function(prop) {
 	}
 	return total
 }
-
-/*fetch('http://localhost:8080/mamasdish/addNutritionInformation/' + nftotalFat + '/' + nfsaturatedFat + '/' + nfcholesterol + '/' + nfsodium + '/' + nftotalCarbohydrate + '/' + nfdietaryFiber + '/' + nfsugars + '/' + nfprotein + '/' + nfcalories + '/' + recipeId)
-.then(data => data.json())
-.then(function(data) {
-console.log(data);
-});*/
 
