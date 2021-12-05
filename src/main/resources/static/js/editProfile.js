@@ -1,3 +1,8 @@
+/*
+* Updates the array of selected proteins, country, cuisine and diet types in edit profile.
+*/
+
+//variables for selected options
 var selectProtein;
 var selectCountry;
 var selectCuisine;
@@ -5,6 +10,7 @@ var selectDiet;
 
 $(document).ready(function() {
 
+	//creates the selection options for the proteins
 	selectProtein = sellect("#my-protein", {
 		originList: listProtein,
 		destinationList: userProtein,
@@ -14,6 +20,7 @@ $(document).ready(function() {
 
 	selectProtein.init();
 
+	//creates the selection options for the diets
 	selectDiet = sellect("#my-diet", {
 		originList: listDiet,
 		destinationList: userDiet,
@@ -23,6 +30,7 @@ $(document).ready(function() {
 
 	selectDiet.init();
 
+	//creates the selection options for cuisines
 	selectCuisine = sellect("#my-cuisine", {
 		originList: listCuisine,
 		destinationList: userCuisine,
@@ -32,6 +40,7 @@ $(document).ready(function() {
 
 	selectCuisine.init();
 
+	//creates the selections options for Countries
 	selectCountry = sellect("#my-country", {
 		originList: listCountry,
 		destinationList: userCountry,
@@ -42,7 +51,7 @@ $(document).ready(function() {
 	selectCountry.init();
 });
 
-//to return lists that were selected
+//to return list of proteins that were selected
 function updateProteinLists(event, item) {
 	var selectedList = document.getElementById('selected-protein');
 	var selectedArr;
@@ -65,7 +74,7 @@ function updateProteinLists(event, item) {
 
 }
 
-//to return lists that were selected
+//to return list of diets that were selected
 function updateDietLists(event, item) {
 	var selectedList = document.getElementById('selected-diet');
 	var selectedArr;
@@ -88,7 +97,7 @@ function updateDietLists(event, item) {
 	});
 }
 
-//to return lists that were selected
+//to return list of cuisines that were selected
 function updateCuisineLists(event, item) {
 	var selectedList = document.getElementById('selected-cuisine');
 	var selectedArr;
@@ -112,7 +121,7 @@ function updateCuisineLists(event, item) {
 
 }
 
-//to return lists that were selected
+//to return list of countries that were selected
 function updateCountryLists(event, item) {
 	var selectedList = document.getElementById('selected-country');
 	var selectedArr;

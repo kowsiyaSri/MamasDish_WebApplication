@@ -1,3 +1,7 @@
+/*
+* Sets up the multiple selection options for the preferences 
+*/
+
 var selectProtein;
 var selectCountry;
 var selectCuisine;
@@ -5,6 +9,7 @@ var selectDiet;
 
 $(document).ready(function() {
 
+	//sets up the protein selection
 	selectProtein = sellect("#my-protein", {
 		originList: listProtein,
 		destinationList: [],
@@ -14,6 +19,7 @@ $(document).ready(function() {
 
 	selectProtein.init();
 
+	//sets up the diet selection
 	selectDiet = sellect("#my-diet", {
 		originList: listDiet,
 		destinationList: [],
@@ -23,6 +29,7 @@ $(document).ready(function() {
 
 	selectDiet.init();
 
+	//sets up the cuisine selection
 	selectCuisine = sellect("#my-cuisine", {
 		originList: listCuisine,
 		destinationList: [],
@@ -32,6 +39,7 @@ $(document).ready(function() {
 
 	selectCuisine.init();
 
+	//sets up the countru selection
 	selectCountry = sellect("#my-country", {
 		originList: listCountry,
 		destinationList: [],
@@ -51,7 +59,7 @@ function showDescription(el) {
 	}
 }
 
-//to return lists that were selected
+//to return list of proteins that were selected
 function updateProteinLists(event, item) {
 	var selectedList = document.getElementById('selected-protein');
 	var selectedArr;
@@ -74,7 +82,7 @@ function updateProteinLists(event, item) {
 
 }
 
-//to return lists that were selected
+//to return list of diets that were selected
 function updateDietLists(event, item) {
 	var selectedList = document.getElementById('selected-diet');
 	var selectedArr;
@@ -97,7 +105,7 @@ function updateDietLists(event, item) {
 	});
 }
 
-//to return lists that were selected
+//to return list of cuisines that were selected
 function updateCuisineLists(event, item) {
 	var selectedList = document.getElementById('selected-cuisine');
 	var selectedArr;
@@ -121,7 +129,7 @@ function updateCuisineLists(event, item) {
 
 }
 
-//to return lists that were selected
+//to return list of countries that were selected
 function updateCountryLists(event, item) {
 	var selectedList = document.getElementById('selected-country');
 	var selectedArr;

@@ -1,9 +1,15 @@
+/**
+* Creates the map with the markers using the google maps API
+*/
+
   document.addEventListener('DOMContentLoaded', function() {
 	 $('.dropdown-trigger').dropdown();
   });
 
+//initializes the map
 function initMap() {
 	
+//options for the map created in the google console
 var options = {
       zoom:3,
       center: { lat:43.478563, lng:-35.182627},
@@ -87,6 +93,7 @@ var options = {
    }
 var map = new google.maps.Map(document.getElementById('map'), options);
 
+//adds the country marker with a few recipes displayed when selected
 fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/countryRecipes')
 	.then(data => data.json())
 	.then(function(data){
