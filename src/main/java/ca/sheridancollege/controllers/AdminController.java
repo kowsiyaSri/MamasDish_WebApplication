@@ -1,5 +1,8 @@
 package ca.sheridancollege.controllers;
 
+/*This class is for administrative purposes and contains functionality for
+admin staff to accept and reject recipes*/
+
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -40,47 +43,57 @@ public class AdminController {
 	@Autowired
 	private EndUserRepository endUserRepo;
 
+//	Maps to index page for admin
 	@GetMapping("/admin")
 	public String index(Model model) {
 
+		//Displays only recipes that are completed and require authentication
 		model.addAttribute("recipes", recipeRepo.findByAuthFalseAndCompleteTrue());
 
 		return "admin/index.html";
 	}
 
+	//Single recipe displayed that require authentication
 	@GetMapping("/admin/authRecipe/{id}")
 	public String authRecipe(Model model, @PathVariable int id) {
 
-		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(id)).get());
+		//Gets recipe instructions and sorts them 
 		List<Instruction> instruct = recipeRepo.findById(Long.valueOf(id)).get().getInstructions();
 		instruct.sort(Comparator.comparing(Instruction::getStepNumber));
+		
+		//Adding recipe as attribute to page
+		model.addAttribute("recipe", recipeRepo.findById(Long.valueOf(id)).get());
+		//Adding instructions to page
 		model.addAttribute("instructions", instruct);
 
 		return "admin/authRecipe.html";
 	}
 
+	//Function to reject recipe
 	@PostMapping("/reject")
 	public String rejectRecipt(@RequestParam(value = "reason[]") String[] reasons, @RequestParam String expl,
 			@RequestParam int recipeId, Model model) {
 
 		Recipe recipe = recipeRepo.findById(Long.valueOf(recipeId)).get();
+		//Setting authentication to false b/c it's being rejected
 		recipe.setAuth(false);
+		//Getting chef information to send external email
 		String chefEmail = recipe.getChef().getEnduser().getEmail();
 		String recipeTitle = recipe.getTitle();
 		String subject = recipeTitle + " has been rejected.";
 		String body = "Reasons for rejection: \n ";
-
+		
+		//Gets lists of reason for rejection, and attaches it to email body
 		for (String reas : reasons) {
 
 			body += reas + " | ";
 		}
 
 		body += "\n"+ expl;
-
+		//Send external rejection email with description
 		email.sendEmail(chefEmail, subject, body);
 
-		model.addAttribute("recipes", recipeRepo.findByAuthFalse());
-		
+		//Sending internal email to user
 		MessageSystem mssg = new MessageSystem();
 		mssg.setSubject(recipeTitle + " has been rejected.");
 		mssg.setSender("Mamas Dish Admin");
@@ -95,6 +108,7 @@ public class AdminController {
 		EndUser endUser = recipe.getChef().getEnduser();
 		endUser.getMessages().add(mssg);
 		endUserRepo.save(endUser);
+		model.addAttribute("recipes", recipeRepo.findByAuthFalse());
 
 		return "admin/index.html";
 	}

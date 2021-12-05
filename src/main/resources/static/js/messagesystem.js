@@ -1,3 +1,4 @@
+//Functionality to view, delete and update emails
 $( document ).ready(function() {
     $('.sidenav').sidenav();
     	
@@ -8,14 +9,14 @@ function check(id) {
 	var urlPath = window.location.pathname;
 	const myArr = urlPath.split("/");
 	
+	//Once user selects an email, it is not longer considered new. API call will update email as read
 	fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/checkEmail/' + id)
 					.then(data => data.json())
 					.then(function(data) {
 						$("#mailCount").text(data);
-						console.log(data);
 						
 					});
-				
+	//Adding email info to box			
 	$("#emailSender").css("font-weight", "regular");
 	$('#emailSender' + id).removeClass("emailSender");
 	$('#emailSender' + id).addClass("emailSender2");
@@ -42,6 +43,7 @@ function check(id) {
 	$('#mssgRec').text("To:" + receiver)
 	$('#recipeLink').text("View Recipe");
 	
+	//Redirects user based on roles
 	if(receiver == "Mama's Dish Admin"){
 			$("#recipeLink").attr("href", "http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/admin/authRecipe/" + recipe);
 
@@ -63,7 +65,9 @@ function check(id) {
 
 	}
 	
+	//Delete function for email
 	$( "#deleteBtn" ).click(function() {
+		//API call takes email id and removes from ider inbox and adds to deleted emails
   fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/deleteEmail/' + id)
 				.then(data => data.json())
 				.then(function(data) {
@@ -72,6 +76,7 @@ function check(id) {
 					
 					$('#mssgBox' + id).remove();
 					
+				//Clearing email box
 				$("#mssgSub").text("");
 				$("#mssgBody").text("");
 				$('#mssgSndr').text("");
