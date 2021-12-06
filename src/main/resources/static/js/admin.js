@@ -1,3 +1,6 @@
+/*
+Functionality for approving recipes and getting nutritition information
+ */
 var mySellect;
 var calories;
 $(document).ready(function() {
@@ -5,6 +8,7 @@ $(document).ready(function() {
 	$('#textarea1').val('');
 	M.textareaAutoResize($('#textarea1'));
 
+	//Setting values for rejection reason 
 	mySellect = sellect("#my-element", {
 		originList: ['Description', 'Ingredients', 'Instructions'],
 		destinationList: [],
@@ -12,6 +16,7 @@ $(document).ready(function() {
 		onRemove: updateDemoLists
 	});
 
+	//Initializing select box
 	mySellect.init();
 	
 	// Getting the ingredients from HTML side
@@ -22,6 +27,7 @@ $(document).ready(function() {
 	var servingSizeFromHTML = $('.js-servingSize');
 	var y = $(servingSizeFromHTML).children();
 	var servingSize = $(y[2]).data('servingsize');
+	
 	
 	var query = "";
 
@@ -56,6 +62,7 @@ $(document).ready(function() {
 		redirect: 'follow'
 	};
 	
+	//Gets nutrition information which will be saved to database using Javascript
 	fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', requestOptions)
 		.then(data => data.json())
 		.then(function(data) {
@@ -73,7 +80,7 @@ $(document).ready(function() {
 
 });
 
-// Function that calculates the sum
+// Function that calculates the sum of calories
 Array.prototype.sum = function(prop) {
 	var total = 0
 	for (var i = 0, _len = this.length; i < _len; i++) {
@@ -82,6 +89,7 @@ Array.prototype.sum = function(prop) {
 	return total
 }
 
+//API call used to add sum of calories to database
 function addCalories(){
 	var path = (window.location.pathname).split('/');
 	var recipeId = path[3];
@@ -89,15 +97,15 @@ function addCalories(){
 	fetch('http://localhost:8080/mamasdish/addCalorie/' + calories + '/' + recipeId)
 		.then(data => data.json())
 		.then(function(data) {
-			console.log(data);
 		});
 }
 
+//API call to approve recipe
 function approveRecipe(id) {
 	fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/admin/approveRecipe/' + id)
 		.then(data => data.json())
 		.then(function(data) {
-			console.log(data);
+			//Authentication button is disabled once the recipe has been approved
 			$("#authBtn").removeClass("waves-effect waves-teal").addClass('disabled');
 			$("#approveText").css("display", "block");
 		});
@@ -112,12 +120,10 @@ function approveRecipe(id) {
 				adminPage.location.reload;
 }
 
+//Once user selects reject recipe, rejection options are displayed.
+//Admin staff can also write a message
 function rejectRecipe(id) {
-
 	$("#rejectionBox").toggle();
-
-
-
 }
 
 

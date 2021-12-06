@@ -1,38 +1,40 @@
+//Functionality for users to add ingredients to recipe
+
 function saveRecipe() {
 
 	var recipeId = $("#recipeId").html();
 
+	//Adding all ingredient divs to an array
 	var ingredientNames = $('[id^="ingredientName"]');
 	var ingredientCheck = true;
 
+	//Filtering through array and checking all ingredient information
 	for (let ingrName of ingredientNames) {
-
-			if (ingrName.value == "") {
 	
+			if (ingrName.value == "") {
+	//If ingredient information is incorrect then the user cannot go to next step
 				ingredientCheck = false;
 				$("#errId").show();
 				
 				break;
-				
 			}
 
 	}
 
+	//If all ingredients are valid they will be saved to database
 	if (ingredientCheck) {		
 
 		for(let ingrDivs of $('[id^="ingredientDiv"]').children()){
 
-
+			//Getting values for ingredients, measurement, quantity and protein
 			var ingredient = $("#"+ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
 			var measurement = $("#"+ingrDivs.id).find('select[id^="measurement"]').get(0).value;
 			var quantity = $("#"+ingrDivs.id).find('input[id^="quantity"]').get(0).value;
-			//console.log($("#"+ingrDivs.id).find('input[id^="quantity"]').get());
-			console.log($("#"+ingrDivs.id).find('select[id^="proteinType"]').get());
 			var protein = $("#"+ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
 			
+			//If ingredient is protein, protein type will be retrieced and saved to database
 			var el = $("#"+ingrDivs.id).find('input[id^="protein"]').get(0);
 			if (el.checked) {
-				console.log(protein)
 				if (protein == null) {
 					protein = 0;
 				} else {
@@ -42,14 +44,11 @@ function saveRecipe() {
 				protein = 0;
 			}
 
-
-
 			if (measurement == "") {
 				measurement = 0;
 			} else {
 				measurement = parseInt(measurement)
 			}
-
 
 			if (quantity == "") {
 				quantity = 0;
@@ -57,16 +56,10 @@ function saveRecipe() {
 				quantity = parseInt(quantity)
 			}
 
-			console.log(ingredient);
-			console.log("measurement: " + measurement);
-			console.log("quantity:" + quantity);
-			console.log("protein:" + protein);
-
-
+			//API call to save ingredients to database
 			fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
 				.then(data => data.json())
 				.then(function(data) {
-					console.log(data);
 				});
 
 
@@ -78,6 +71,7 @@ function saveRecipe() {
 	}
 }
 
+//Same process as add ingredient
 function editRecipe() {
 
 	var recipeId = $("#recipeId").html();
@@ -103,7 +97,6 @@ function editRecipe() {
 		fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/deleteIngredients/' + recipeId )
 			.then(data => data.json())
 			.then(function(data) {
-			console.log(data);
 		});
 		
 		for(let ingrDivs of $('[id^="ingredientDiv"]').children()){
@@ -111,13 +104,10 @@ function editRecipe() {
 			var ingredient = $("#"+ingrDivs.id).find('input[id^="ingredientName"]').get(0).value;
 			var measurement = $("#"+ingrDivs.id).find('select[id^="measurement"]').get(0).value;
 			var quantity = $("#"+ingrDivs.id).find('input[id^="quantity"]').get(0).value;
-			//console.log($("#"+ingrDivs.id).find('input[id^="quantity"]').get());
-			console.log($("#"+ingrDivs.id).find('select[id^="proteinType"]').get());
 			var protein = $("#"+ingrDivs.id).find('select[id^="proteinType"]').get(0).value;
 			
 			var el = $("#"+ingrDivs.id).find('input[id^="protein"]').get(0);
 			if (el.checked) {
-				console.log(protein)
 				if (protein == null) {
 					protein = 0;
 				} else {
@@ -142,19 +132,10 @@ function editRecipe() {
 				quantity = parseInt(quantity)
 			}
 
-			console.log(ingredient);
-			console.log("measurement: " + measurement);
-			console.log("quantity:" + quantity);
-			console.log("protein:" + protein);
-
-
 			fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/addIngredient/' + ingredient + '/' + quantity + '/' + measurement + '/' + recipeId + '/' + protein)
 				.then(data => data.json())
 				.then(function(data) {
-					console.log(data);
 				});
-
-
 		}
 
 		//go to instruction page
@@ -163,11 +144,13 @@ function editRecipe() {
 	}
 }
 
+//Functionality for displaying protein
 function showProtein(el) {
 	var str = el.name;
 
 	var divId = str.split("protein");
 
+	//If protein box is checked, protein options will be displayed
 	if (el.checked) {
 		$("#proteinDiv" + divId[1]).css("display", "block")
 	}
@@ -177,13 +160,12 @@ function showProtein(el) {
 }
 
 
+//Creates a new random id for each div created
 function getNewId(){
-
 	
 	var newDivId = true;
 	
 	var divID = Math.floor(Math.random() * 100);
-	
 
 	while(checkId(divID) == false){
 	
@@ -194,7 +176,7 @@ function getNewId(){
 	
 }
 
-
+//Checking if id already exists
 function checkId(id){
 
 	for(let ingrDivs of $('[id^="ingredientBox"]')){
@@ -215,14 +197,13 @@ function checkId(id){
 }
 
 
+//Creates new ingredient div box and returns it each time user selects add ingredient
 function newIngredient() {
 
 	var measurements = getMeasurements();
 	
 	var divID = getNewId();
-	
 
-	console.log(divID);
 	var proteinTypes = getProteins();
 
 	$("#ingredientDiv").append("<div class='row' id='ingredientBox" + divID + "'> <div class='col s11'> <div class='card' style='border-radius:15px'>" +
@@ -247,6 +228,7 @@ function newIngredient() {
 		"</a></div></div></div>");
 
 
+	//Adding measurement options to new ingredient div
 	for (let measurement of measurements) {
 
 		$("#measurement" + divID).append($('<option>', {
@@ -254,7 +236,8 @@ function newIngredient() {
 			text: measurement.measurementType
 		}));
 	}
-
+	
+	//Adding protein options to new ingredient div
 	for (let protein of proteinTypes) {
 
 		$("#proteinType" + divID).append($('<option>', {
@@ -262,19 +245,14 @@ function newIngredient() {
 			text: protein.proteinType
 		}));
 	}
-
-
-
 }
 
+//Function to delete ingredients
 function deleteIngredient(id){
-		
 	
 	if(($('[id^="ingredientDiv"]').children()).length >1){
-	
+	//takes div id and removes it
 		$("#ingredientBox"+id).remove();
-	
 	}
-
 	
 }
