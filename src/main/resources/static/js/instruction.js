@@ -1,3 +1,5 @@
+
+//creates new Id that doesn't matche the other divs's ids'
 function getNewId() {
 
 
@@ -16,6 +18,7 @@ function getNewId() {
 }
 
 
+//checks if the id is maches any of the div's id that starts with instructionBox
 function checkId(id) {
 
 	for (let instructDivs of $('[id^="instructionBox"]')) {
@@ -35,6 +38,7 @@ function checkId(id) {
 
 }
 
+//extracts the instructions from divs start with instructionValue and call API that responsible for adding the instructions
 function saveInstruction() {
 
 	var recipeId = $("#recipeId").html();
@@ -58,7 +62,6 @@ function saveInstruction() {
 		let counter = 1;
 		
 		for(let instructDivs of $('[id^="instructionDiv"]').children()){
-			console.log(instructDivs)
 			var instruction = $("#"+instructDivs.id).find('textarea[id^="instructionValue"]').get(0).value;
 			fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/addInstructions/' + recipeId, {
 				method: 'post',
@@ -68,15 +71,13 @@ function saveInstruction() {
 				},
 				body: JSON.stringify({ stepNumber: counter, description: instruction })
 			}).then(res => res.json())
-				.then(
-				res => console.log(res));
+				.then();
 			counter++;
 		}
 		
 		fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/admin/approvalRequest/' + recipeId)
 				.then(data => data.json())
 				.then(function(data) {
-					console.log(data);
 				});
 		
 				window.open('/awaitApproval/' + recipeId ,  '_self');
@@ -84,6 +85,7 @@ function saveInstruction() {
 	}
 }
 
+//deletes the old instructions for the recipe and add the updated instructions by calling coresponding APIs
 function editInstruction() {
 
 	var recipeId = $("#recipeId").html();
@@ -109,12 +111,10 @@ function editInstruction() {
 		fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/deleteInstructions/' + recipeId )
 			.then(data => data.json())
 			.then(function(data) {
-			console.log(data);
+			
 		});
 		
 		for(let instructDivs of $('[id^="instructionDiv"]').children()){
-			console.log(instructDivs)
-			console.log($("#"+instructDivs.id).find('textarea[id^="instructionValue"]'));
 			var instruction = $("#"+instructDivs.id).find('textarea[id^="instructionValue"]').get(0).value;
 			fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/addInstructions/' + recipeId, {
 				method: 'post',
@@ -125,14 +125,13 @@ function editInstruction() {
 				body: JSON.stringify({ stepNumber: counter, description: instruction })
 			}).then(res => res.json())
 				.then(
-				res => console.log(res));
+				);
 			counter++;
 		}
 		
 		fetch('http://mamasdish-env.eba-k9gt2v97.us-east-1.elasticbeanstalk.com/mamasdish/admin/approvalRequest/' + recipeId)
 				.then(data => data.json())
 				.then(function(data) {
-					console.log(data);
 				});
 		
 				window.open('/awaitApproval/' + recipeId ,  '_self');
@@ -140,6 +139,7 @@ function editInstruction() {
 	}
 }
 
+//addes new instruction dive when click on add button
 function addInstruction() {
 	var divID = getNewId();
 	$("#instructionDiv").append("<div class='row' id='instructionBox" + divID + "'> <div class='col s11' > <div class='card' style='border-radius: 15px'>" +
@@ -152,6 +152,7 @@ function addInstruction() {
 		"</div></div>");
 }
 
+//deletes div with specific id 
 function deleteInstruction(id) {
 
 	if (($('[id^="instructionDiv"]').children()).length > 1) {

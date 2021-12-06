@@ -11,6 +11,7 @@ public interface ProteinRepository extends JpaRepository<Protein, Long> {
 	
 	public Protein findByProteinType(String protein);
 	
+	//returns list of protein names for authenticated recipes 
 	@Query
 	(value = "CALL get_protein_name()" , nativeQuery = true)
 	public List<String> getProteinNames();

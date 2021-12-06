@@ -8,6 +8,7 @@ import ca.sheridancollege.beans.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
 	
+	//returns user object that its name field equals to the string parameter
 	public User findByUsername(String username);
 	
 	

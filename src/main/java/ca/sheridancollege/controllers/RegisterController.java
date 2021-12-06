@@ -146,6 +146,7 @@ public class RegisterController {
 
 	}
 
+	//returns the register page
 	@GetMapping("/register")
 	public String Register(Model model) {
 
@@ -156,6 +157,7 @@ public class RegisterController {
 		return "register.html";
 	}
 
+	//returns encoded password
 	private String encodePassword(String password) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder.encode(password);

@@ -11,6 +11,7 @@ import ca.sheridancollege.beans.MealType;
 @Repository 
 public interface MealTypeRepository extends JpaRepository<MealType, Long> {
 	
+	//returns a list of the MealType objects where the first values is the MealType object with the name that equals to the passed parameter  
 	@Query(value = "select * from meal_type ORDER BY CASE WHEN meal_name = ?1 THEN 0 ELSE 1 END", nativeQuery = true)
 	public List<MealType> findByMealName(String mealName);
 }

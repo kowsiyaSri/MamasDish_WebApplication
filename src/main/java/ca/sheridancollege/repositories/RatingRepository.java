@@ -13,7 +13,7 @@ import ca.sheridancollege.beans.Recipe;
 
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 	
-	
+	// returns all rating for specific recipe 
 	@Query(value = "SELECT * FROM rating where recipe_id= ?1 ", nativeQuery = true)
 	public List<Rating> findByRecipeId(Long id);
 
