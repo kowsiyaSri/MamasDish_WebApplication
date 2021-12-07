@@ -40,7 +40,7 @@ public class EndUser {
     
     private String password;
 
-	@OneToMany
+	@ManyToMany
 	private List<Recent> recent;
 	
 	@ManyToMany

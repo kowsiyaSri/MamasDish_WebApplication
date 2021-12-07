@@ -797,6 +797,9 @@ public class RecipeController {
 		}
 
 		model.addAttribute("searchVal", search);
+		model.addAttribute("countries", countryRepo.getCountryNames());
+		model.addAttribute("proteins", proteinRepo.getProteinNames());
+		model.addAttribute("diets", dietRepo.getDietNames());
 
 		return "users/viewAllRecipes.html";
 	}
@@ -831,6 +834,9 @@ public class RecipeController {
 		}
 
 		model.addAttribute("searchVal", search);
+		model.addAttribute("countries", countryRepo.getCountryNames());
+		model.addAttribute("proteins", proteinRepo.getProteinNames());
+		model.addAttribute("diets", dietRepo.getDietNames());
 
 		return "users/viewAllRecipes.html";
 	}

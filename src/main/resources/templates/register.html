@@ -57,7 +57,7 @@ body {
 			</div>
 		</div>
 		<div class="col m6 offset-m3 s12 z-depth-1"  id="formLogin">
-		<form th:action="@{/register}" method="post">
+		<form th:action="@{/register}" method="post" autocomplete="off">
 			
 				<p id="errId" style="text-align:center" th:text="${errMssg}"></p>
 			
@@ -89,7 +89,7 @@ body {
 					<label>Country*</label><br>
 				</div>			
 				<div class="input-field col s12">
-			    	<input type="text" id="my-country" autocomplete="off">
+			    	<input type="text" id="my-country">
 					<div id="selected-country" class="demo-list selected-list"></div>
 				</div>
 								
