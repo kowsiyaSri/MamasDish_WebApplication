@@ -61,7 +61,7 @@ public class RegisterController {
 	public String processRegister(@RequestParam String email, @RequestParam String fname, @RequestParam String lname,
 			@RequestParam String password, @RequestParam String password2,
 			@RequestParam(required = false) boolean isChef, @RequestParam(required = false) String description,
-			@RequestParam(value = "countries[]") String[] countries,
+			@RequestParam(required = false, value = "countries[]") String[] countries,
 			@RequestParam(required = false, value = "proteins[]") String[] proteins, @RequestParam(required = false, value = "diets[]") String[] diets,
 			@RequestParam(required = false, value = "cuisines[]") String[] cuisines, Model model) {
 
