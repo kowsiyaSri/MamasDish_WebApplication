@@ -986,11 +986,10 @@ public class RecipeController {
 			@RequestParam String commentText, @RequestParam long userId, @RequestParam long recipeId,
 			@RequestParam(value = "anonymous", required = false) String anonymous) {
 
-		EndUser user = endUserRepo.findById(userId).get();
 		Recipe recipe = recipeRepo.findById(recipeId).get();
 
-		EndUser userEmail = endUserRepo.findByEmail(auth.getName());
-		int emailCount = mssgRepo.emailCount(userEmail.getId());
+		EndUser user = endUserRepo.findByEmail(auth.getName());
+		int emailCount = mssgRepo.emailCount(user.getId());
 
 		model.addAttribute("emails", emailCount);
 
